@@ -2,17 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-double getFontSize(int index, context,) {
-  // if (getDeviceType(context) == DeviceType.large) {
-  //     return 33;
-  //   }  else if (getDeviceType(context) == DeviceType.small) {
-  //     return 20;
-  //   }else
+double getFontSize(int index, BuildContext context) {
+  final double screenWidth = MediaQuery.of(context).size.width;
   if( MediaQuery.of(context).orientation != Orientation.portrait){
-    return 35;
+    return screenWidth > 800 ? 55 : 35; // Larger font on Web/Desktop landscape
   }
  else if (getScreenType(context) == ScreenType.large) {
-      return 15;
+      return 45; // Was 15, which makes text extremely tiny on Web!
     } else if (getScreenType(context) == ScreenType.small) {
       return 20;
     }else
