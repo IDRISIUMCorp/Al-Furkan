@@ -450,6 +450,7 @@ class AudioPlayerManager {
     ReciterInfoModel reciterInfoModel,
     String startAyahKey,
   ) async {
+    if (kIsWeb) return true; // Force stream on Web
     log("Checking existing Download");
     bool useAudioStream = context.read<QuranViewCubit>().state.useAudioStream;
     if (useAudioStream == false) {
