@@ -250,7 +250,7 @@ class QcfPage extends StatelessWidget {
             child: Text.rich(
               TextSpan(children: verseSpans),
               locale: const Locale("ar"),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
               textDirection: TextDirection.rtl,
               style: TextStyle(
                 fontFamily: pageFont,
@@ -258,16 +258,16 @@ class QcfPage extends StatelessWidget {
                 fontSize: isPortrait
                     ? baseFontSize
                     : (pageNumber == 1 || pageNumber == 2)
-                        ? 20 * sp
-                        : baseFontSize - (17 * sp),
+                        ? 22 * sp
+                        : baseFontSize,
                 color: theme.verseTextColor,
                 height: isPortrait
                     ? (pageNumber == 1 || pageNumber == 2)
                         ? 2.2 * h
                         : theme.verseHeight * h
                     : (pageNumber == 1 || pageNumber == 2)
-                        ? 4 * h
-                        : 4 * h,
+                        ? 2.2 * h
+                        : 2.0 * h,
                 letterSpacing: theme.letterSpacing,
                 wordSpacing: theme.wordSpacing,
               ),

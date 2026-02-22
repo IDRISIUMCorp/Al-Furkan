@@ -307,6 +307,8 @@ class AyahImagePreview extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           translationText!,
+          textAlign: TextAlign.justify,
+          textDirection: TextDirection.rtl,
           style: TextStyle(
             fontSize: settings.translationFontSize,
             height: settings.translationLineHeight,
@@ -320,6 +322,8 @@ class AyahImagePreview extends StatelessWidget {
   Widget _buildFootnotes(AppLocalizations l10n, Color textColor) {
     final footnotesBody = Text(
       footnotesText!,
+      textAlign: TextAlign.justify,
+      textDirection: TextDirection.rtl,
       style: TextStyle(
         fontSize: settings.footnotesFontSize,
         height: settings.footnotesLineHeight,
@@ -391,6 +395,7 @@ class AyahImagePreview extends StatelessWidget {
         Text(
           tafsirText!,
           textDirection: TextDirection.rtl,
+          textAlign: TextAlign.justify,
           style: TextStyle(
             fontSize: settings.tafsirFontSize,
             height: settings.tafsirLineHeight,
