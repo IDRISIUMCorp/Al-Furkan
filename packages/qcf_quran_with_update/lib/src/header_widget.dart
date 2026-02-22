@@ -40,7 +40,7 @@ class HeaderWidget extends StatelessWidget {
                       ? (getScreenType(context) == ScreenType.large
                           ? effectiveTheme.headerWidthLarge
                           : effectiveTheme.headerWidthSmall)
-                      : MediaQuery.of(context).size.width * 0.8) *
+                      : (MediaQuery.of(context).size.width * 0.6).clamp(0.0, 700.0)) *
                   effectiveTheme.headerScale,
             ),
             RichText(
@@ -50,9 +50,11 @@ class HeaderWidget extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: "arsura",
                   package: 'qcf_quran',
-                  fontSize:isPortrait?  getScreenType(context) == ScreenType.large
-                      ? effectiveTheme.headerFontSizeLarge
-                      : effectiveTheme.headerFontSizeSmall:MediaQuery.of(context).size.width * 0.05,
+                  fontSize: isPortrait
+                      ? (getScreenType(context) == ScreenType.large
+                          ? effectiveTheme.headerFontSizeLarge
+                          : effectiveTheme.headerFontSizeSmall)
+                      : (MediaQuery.of(context).size.width * 0.04).clamp(0.0, 50.0),
                   color: effectiveTheme.headerTextColor,
                 ),
               ),
