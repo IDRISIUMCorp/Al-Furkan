@@ -17,6 +17,8 @@
 
 > **Note**: This package includes ~600 font files (one for each page), which increases the package size but guarantees 100% accurate rendering without internet dependency.
 
+---
+
 ## 📑 Table of Contents
 
 - [Features](#-features)

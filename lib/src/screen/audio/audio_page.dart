@@ -260,30 +260,32 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          return Column(
-            children: [
-              const Gap(8),
-              // ── Album Art ──
-              _buildAlbumArt(themeState, ayahKeyState, currentIndex),
-              const Gap(16),
-              // ── Surah Info ──
-              _buildSurahInfo(ayahKeyState, themeState),
-              const Gap(16),
-              // ── Ayah Display (Scrollable & Expanded) ──
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: _buildAyahDisplay(ayahKeyState, themeState, surahNum, ayahNum),
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+          const Spacer(flex: 1),
+          // ── Album Art ──
+          _buildAlbumArt(themeState, ayahKeyState, currentIndex),
+          const Gap(24),
+          // ── Surah Info ──
+          _buildSurahInfo(ayahKeyState, themeState),
+          const Gap(20),
+          // ── Ayah Display (glassmorphic card) ──
+          _buildAyahDisplay(ayahKeyState, themeState, surahNum, ayahNum),
+          const Spacer(flex: 2),
+          // ── Progress Bar ──
+          _buildProgressBar(themeState),
+          const Gap(16),
+          // ── Controls ──
+          _buildControls(currentIndex, ayahKeyState, l10n, themeState),
+                    const Gap(16),
+                  ],
                 ),
               ),
-              const Gap(12),
-              // ── Progress Bar ──
-              _buildProgressBar(themeState),
-              const Gap(12),
-              // ── Controls ──
-              _buildControls(currentIndex, ayahKeyState, l10n, themeState),
-              const Gap(16),
-            ],
+            ),
           );
         },
       ),
@@ -298,7 +300,7 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
     AyahKeyManagement ayahKeyState,
     int currentIndex,
   ) {
-    final size = MediaQuery.of(context).size.width * 0.35;
+    final size = MediaQuery.of(context).size.width * 0.65;
     return BlocBuilder<AudioTabReciterCubit, ReciterInfoModel>(
       builder: (context, reciter) {
         return GestureDetector(
