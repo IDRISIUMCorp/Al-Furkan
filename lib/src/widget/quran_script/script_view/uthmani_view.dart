@@ -75,7 +75,7 @@ class NonTajweedScriptView extends StatelessWidget {
       return Text.rich(
         style: quranStyle,
         textDirection: TextDirection.rtl,
-        textAlign: scriptInfo.textAlign ?? TextAlign.justify,
+        textAlign: scriptInfo.textAlign,
         TextSpan(
           children: [TextSpan(text: words[scriptInfo.wordIndex!] + " ")],
         ),
@@ -89,7 +89,7 @@ class NonTajweedScriptView extends StatelessWidget {
       return Text.rich(
         style: quranStyle,
         textDirection: TextDirection.rtl,
-        textAlign: scriptInfo.textAlign ?? TextAlign.justify,
+        textAlign: scriptInfo.textAlign,
         TextSpan(
           children: List<InlineSpan>.generate(words.length, (index) {
             return TextSpan(
@@ -173,7 +173,7 @@ class NonTajweedScriptView extends StatelessWidget {
             return Text.rich(
               style: quranStyle,
               textDirection: TextDirection.rtl,
-              textAlign: scriptInfo.textAlign ?? TextAlign.justify,
+              textAlign: scriptInfo.textAlign,
               TextSpan(
                 children: List<InlineSpan>.generate(words.length, (index) {
                   String word = words[index];

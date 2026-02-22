@@ -2,8 +2,6 @@ import "dart:async";
 import "dart:developer";
 import "dart:io";
 
-import "package:flutter/foundation.dart";
-
 import "package:al_quran_v3/l10n/app_localizations.dart";
 import "package:al_quran_v3/main.dart";
 import "package:al_quran_v3/src/resources/quran_resources/meta/meta_data_surah.dart";
@@ -260,7 +258,6 @@ class AudioPlayerManager {
     required ReciterInfoModel reciterInfoModel,
     required AudioDownloadCubit audioDownloadCubit,
   }) async {
-    if (kIsWeb) return;
     audioDownloadCubit.updateIsDownloading(true);
     audioDownloadCubit.updateProgress(0.0);
     _downloadCancelToken = CancelToken();
@@ -322,7 +319,6 @@ class AudioPlayerManager {
     ReciterInfoModel reciter,
     SurahInfoModel surah,
   ) async {
-    if (kIsWeb) return 0;
     String? path = AudioPlayerManager.getExpectedSurahDirectoryLocation(
       surahInfoModel: surah,
       reciterInfoModel: reciter,
@@ -380,7 +376,7 @@ class AudioPlayerManager {
       ayahNumber: ayahNumber,
       reciterInfoModel: reciterInfoModel,
     );
-    if (!kIsWeb && expectedPath != null && await File(expectedPath).exists()) {
+    if (expectedPath != null && await File(expectedPath).exists()) {
       return expectedPath;
     } else {
       return null;

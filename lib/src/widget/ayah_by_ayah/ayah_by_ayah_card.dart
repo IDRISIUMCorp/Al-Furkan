@@ -429,7 +429,7 @@ Widget getAyahByAyahTafsirCard({
                           quranScriptType: quranViewState.quranScriptType,
                           showWordHighlights: false,
                           skipWordTap: false,
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.center,
                           textStyle: TextStyle(
                             fontSize: (quranViewState.fontSize - 2).clamp(18, 32),
                             height: 2.05,
@@ -1209,7 +1209,6 @@ Align quranAyahWidget(
         ayahNumber: ayahNumber,
         quranScriptType: quranViewState.quranScriptType,
         showWordHighlights: quranViewState.enableWordByWordHighlight == true,
-        textAlign: TextAlign.justify,
         textStyle: TextStyle(
           fontSize: quranViewState.fontSize,
           height: quranViewState.lineHeight,

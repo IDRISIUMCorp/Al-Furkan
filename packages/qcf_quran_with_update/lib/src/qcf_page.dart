@@ -247,36 +247,29 @@ class QcfPage extends StatelessWidget {
         children: [
           Align(
             alignment: const Alignment(0, -0.40),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text.rich(
-                  TextSpan(children: verseSpans),
-                  locale: const Locale("ar"),
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.rtl,
-                  softWrap: false,
-                  style: TextStyle(
-                    fontFamily: pageFont,
-                    package: 'qcf_quran',
-                    fontSize: isPortrait
-                        ? baseFontSize
-                        : (pageNumber == 1 || pageNumber == 2)
-                            ? 22 * sp
-                            : baseFontSize,
-                    color: theme.verseTextColor,
-                    height: isPortrait
-                        ? (pageNumber == 1 || pageNumber == 2)
-                            ? 2.2 * h
-                            : theme.verseHeight * h
-                        : (pageNumber == 1 || pageNumber == 2)
-                            ? 2.2 * h
-                            : 2.0 * h,
-                    letterSpacing: theme.letterSpacing,
-                    wordSpacing: theme.wordSpacing,
-                  ),
-                ),
+            child: Text.rich(
+              TextSpan(children: verseSpans),
+              locale: const Locale("ar"),
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                fontFamily: pageFont,
+                package: 'qcf_quran',
+                fontSize: isPortrait
+                    ? baseFontSize
+                    : (pageNumber == 1 || pageNumber == 2)
+                        ? 20 * sp
+                        : baseFontSize - (17 * sp),
+                color: theme.verseTextColor,
+                height: isPortrait
+                    ? (pageNumber == 1 || pageNumber == 2)
+                        ? 2.2 * h
+                        : theme.verseHeight * h
+                    : (pageNumber == 1 || pageNumber == 2)
+                        ? 4 * h
+                        : 4 * h,
+                letterSpacing: theme.letterSpacing,
+                wordSpacing: theme.wordSpacing,
               ),
             ),
           ),

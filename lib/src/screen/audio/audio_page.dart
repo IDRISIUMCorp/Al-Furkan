@@ -647,7 +647,7 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
                     : "";
                 return Text(
                   translation,
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
                     height: 1.8,
