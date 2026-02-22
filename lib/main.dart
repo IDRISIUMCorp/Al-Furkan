@@ -37,6 +37,7 @@ import "package:al_quran_v3/src/widget/history/cubit/quran_history_cubit.dart";
 import "package:al_quran_v3/src/widget/quran_script/model/script_info.dart";
 import "package:al_quran_v3/src/widget/quran_script_words/cubit/word_playing_state_cubit.dart";
 import "package:al_quran_v3/src/screen/quran_reader/cubit/reader_ui_cubit.dart";
+import "dart:ui";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -312,6 +313,7 @@ class MyApp extends StatelessWidget {
                     textTheme: getTextTheme(languageState.locale, true),
                   ),
                   themeMode: themeState.themeMode,
+                  scrollBehavior: AppScrollBehavior(),
                   home: const QuranBootstrapPage(),
                 );
               },
@@ -380,4 +382,14 @@ class _UsageTimeTrackerState extends State<_UsageTimeTracker>
 
   @override
   Widget build(BuildContext context) => widget.child;
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+        PointerDeviceKind.stylus,
+      };
 }

@@ -192,10 +192,8 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#ffffff"
   image: assets/img/Quran_Logo_v3.png
-  branding: assets/img/Quran_Logo_v3.png
   color_dark: "#121212"
   image_dark: assets/img/Quran_Logo_v3.png
-  branding_dark: assets/img/Quran_Logo_v3.png
 
   android_12:
     image: assets/img/Quran_Logo_v3.png
