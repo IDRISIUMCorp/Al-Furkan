@@ -1,0 +1,606 @@
+{
+  "@@locale": "tr",
+  "tafsirAppBarTitle": "{nameSimple} ( {nameArabic} ) - {ayahKey}",
+  "@tafsirAppBarTitle": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      },
+      "nameArabic": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirNotAvailable": "{ayahKey} için tefsir mevcut değil",
+  "@tafsirNotAvailable": {
+    "placeholders": {
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirFoundAt": "Tefsir şu ayette bulunur: {anotherAyahLinkKey}",
+  "@tafsirFoundAt": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirJumpTo": "{anotherAyahLinkKey}'ye git",
+  "@tafsirJumpTo": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "hizb": "Hizb",
+  "juz": "Cüz",
+  "page": "Sayfa",
+  "ruku": "Rükû",
+  "languageSettings": "Dil Ayarları",
+  "surahAyah": "{surahName} {ayahKey}",
+  "@surahAyah": {
+    "placeholders": {
+      "surahName": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsCount": "{count} Ayet",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAndDownload": "Kaydet ve İndir",
+  "appLanguage": "Uygulama Dili",
+  "selectAppLanguage": "Uygulama dilini seçin...",
+  "pleaseSelectOne": "Lütfen birini seçin",
+  "quranTranslationLanguage": "Kur'an Tercüme Dili",
+  "selectTranslationLanguage": "Tercüme dilini seçin...",
+  "quranTranslationBook": "Kur'an Tercüme Kitabı",
+  "selectTranslationBook": "Tercüme kitabını seçin...",
+  "quranTafsirLanguage": "Kur'an Tefsir Dili",
+  "selectTafsirLanguage": "Tefsir dilini seçin...",
+  "quranTafsirBook": "Kur'an Tefsir Kitabı",
+  "selectTafsirBook": "Tefsir kitabını seçin...",
+  "quranScriptAndStyle": "Kur'an Yazısı & Stili",
+  "justAMoment": "Bir saniye...",
+  "processProgress": "{processName} {percentage}",
+  "@processProgress": {
+    "placeholders": {
+      "processName": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "Başarılı",
+  "retry": "Tekrar Dene",
+  "unableToDownloadResources": "Kaynaklar indirilemedi...\nBir şeyler ters gitti",
+  "downloadingSegmentedQuranRecitation": "Bölümlü Kur'an Okuması İndiriliyor",
+  "processingSegmentedQuranRecitation": "Bölümlü Kur'an Okuması İşleniyor",
+  "footnote": "Dipnot",
+  "tafsir": "Tefsir",
+  "wordByWord": "Kelime Kelime",
+  "pleaseSelectRequiredOption": "Lütfen gerekli seçeneği seçin",
+  "rememberHomeTab": "Ana Sekmeyi Hatırla",
+  "rememberHomeTabSubtitle": "Uygulama, ana ekranda en son açılan sekmeyi hatırlar.",
+  "wakeLock": "Ekran Kilidi",
+  "wakeLockSubtitle": "Ekranın otomatik kapanmasını önle.",
+  "settings": "Ayarlar",
+  "appTheme": "Uygulama Teması",
+  "quranStyle": "Kur'an Stili",
+  "changeTheme": "Temayı Değiştir",
+  "verseCount": "Ayet Sayısı: ",
+  "translation": "Tercüme",
+  "tafsirNotFound": "Bulunamadı",
+  "moreInfo": "daha fazla bilgi",
+  "playAudio": "Ses Çal",
+  "preview": "Önizleme",
+  "loading": "Yükleniyor...",
+  "errorFetchingAddress": "Adres getirilirken hata",
+  "addressNotAvailable": "Adres mevcut değil",
+  "latitude": "Enlem: ",
+  "longitude": "Boylam: ",
+  "name": "İsim: ",
+  "location": "Konum: ",
+  "parameters": "Parametreler: ",
+  "selectCalculationMethod": "Hesaplama Yöntemini Seçin",
+  "shareSelectAyahs": "Seçili Ayetleri Paylaş",
+  "selectionEmpty": "Seçim Boş",
+  "generatingImagePleaseWait": "Görüntü Oluşturuluyor... Lütfen Bekleyin",
+  "asImage": "Görüntü Olarak",
+  "asText": "Metin Olarak",
+  "playFromSelectedAyah": "Seçili Ayetten Çal",
+  "toTafsir": "Tefsire Git",
+  "selectAyah": "Ayet Seç",
+  "toAyah": "Ayet'e",
+  "searchForASurah": "Bir sure ara",
+  "bugReportTitle": "Hata Raporu",
+  "audioCached": "Ses Önbelleğe Alındı",
+  "others": "Diğerleri",
+  "quranTranslationAyahOneMustEnabled": "Kur'an|Tercüme|Ayet, Biri Etkin Olmalı",
+  "quranFontSize": "Kur'an Yazı Boyutu",
+  "quranLineHeight": "Kur'an Satır Yüksekliği",
+  "translationAndTafsirFontSize": "Tercüme & Tefsir Yazı Boyutu",
+  "quranAyah": "Kur'an Ayeti",
+  "topToolbar": "Üst Araç Çubuğu",
+  "keepOpenWordByWord": "Kelime Kelime Açık Tut",
+  "wordByWordHighlight": "Kelime Kelime Vurgu",
+  "quranScriptSettings": "Kur'an Yazı Ayarları",
+  "surahName": "{nameSimple}",
+  "@surahName": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNumber": "Sayfa: ",
+  "quranResources": "Kur'an Kaynakları",
+  "alreadySelected": "'{name}' dili zaten seçili.",
+  "@alreadySelected": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToGetCompassData": "Pusula verisi alınamadı",
+  "deviceDoesNotHaveSensors": "Cihazda sensör yok!",
+  "north": "K",
+  "east": "D",
+  "south": "G",
+  "west": "B",
+  "address": "Adres: ",
+  "change": "Değiştir",
+  "calculationMethod": "Hesaplama Yöntemi: ",
+  "downloadPrayerTime": "Namaz Vakitlerini İndir",
+  "calculationMethodsListEmpty": "Hesaplama yöntemleri listesi boş.",
+  "noCalculationMethodWithLocationData": "Konum verisiyle hiçbir hesaplama yöntemi bulunamadı.",
+  "prayerSettings": "Namaz Ayarları",
+  "reminderSettings": "Hatırlatma Ayarları",
+  "adjustReminderTime": "Hatırlatma Zamanını Ayarla",
+  "enforceAlarmSound": "Alarm Sesini Zorla",
+  "enforceAlarmSoundDescription": "Etkinleştirilirse, bu özellik alarmı burada ayarlanan ses seviyesinde çalar, telefonunuzun sesi düşük olsa bile. Bu, düşük telefon sesi nedeniyle alarmı kaçırmamanızı sağlar.",
+  "volume": "Ses Seviyesi",
+  "atPrayerTime": "Namaz vaktinde",
+  "minBefore": "{minutes} dakika önce",
+  "@minBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minAfter": "{minutes} dakika sonra",
+  "@minAfter": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeIsAt": "{prayerName} vakti {prayerTime}'de",
+  "@prayerTimeIsAt": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      },
+      "prayerTime": {
+        "type": "String"
+      }
+    }
+  },
+  "itsTimeOf": "{prayerName} vakti geldi",
+  "@itsTimeOf": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "stopTheAdhan": "Ezanı Durdur",
+  "dateFoundEmpty": "{date} Boş Bulundu",
+  "@dateFoundEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "Bugün",
+  "left": "Kalan",
+  "reminderAdded": "{prayerName} için hatırlatma eklendi",
+  "@reminderAdded": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "allowNotificationPermission": "Bu özelliği kullanmak için bildirim iznine izin verin",
+  "reminderRemoved": "{prayerName} için hatırlatma kaldırıldı",
+  "@reminderRemoved": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "getPrayerTimesAndQibla": "Namaz Vakitleri ve Kıble Al",
+  "getPrayerTimesAndQiblaDescription": "Herhangi Bir Konum İçin Namaz Vakitlerini ve Kıbleyi Hesapla.",
+  "getFromGPS": "GPS'ten Al",
+  "or": "Veya",
+  "selectYourCity": "Şehrinizi Seçin",
+  "noteAboutGPS": "Not: GPS kullanmak istemiyorsanız veya güvensiz hissediyorsanız, şehrinizi seçebilirsiniz.",
+  "downloadingLocationResources": "Konum kaynakları indiriliyor...",
+  "somethingWentWrong": "Bir şeyler ters gitti",
+  "selectYourCountry": "Ülkenizi Seçin",
+  "searchForACountry": "Bir ülke ara",
+  "selectYourAdministrator": "Yönetici Alanınızı Seçin",
+  "searchForAnAdministrator": "Bir yönetici ara",
+  "searchForACity": "Bir şehir ara",
+  "pleaseEnableLocationService": "Lütfen konum servisini etkinleştirin",
+  "donateUs": "Bize Bağış Yapın",
+  "underDevelopment": "Geliştirme aşamasında",
+  "versionLoading": "Yükleniyor...",
+  "alQuran": "Kur'an",
+  "mainMenu": "Ana Menü",
+  "notes": "Notlar",
+  "pinned": "Sabitlenmiş",
+  "jumpToAyah": "Ayete Git",
+  "shareMultipleAyah": "Birden Fazla Ayeti Paylaş",
+  "shareThisApp": "Bu Uygulamayı Paylaş",
+  "giveRating": "Puan Ver",
+  "bugReport": "Hata Raporu",
+  "privacyPolicy": "Gizlilik Politikası",
+  "aboutTheApp": "Uygulama Hakkında",
+  "resetTheApp": "Uygulamayı Sıfırla",
+  "resetAppWarningTitle": "Uygulama Verilerini Sıfırla",
+  "resetAppWarningMessage": "Uygulamayı sıfırlamak istediğinize emin misiniz? Tüm verileriniz silinecek ve uygulamayı baştan kurmanız gerekecek.",
+  "cancel": "İptal",
+  "reset": "Sıfırla",
+  "shareAppSubject": "Bu Kur'an Uygulamasını İnceleyin!",
+  "shareAppBody": "Assalamualaikum! Günlük okuma ve tefekkür için bu Kur'an uygulamasını inceleyin. Allah'ın kelamıyla bağlantı kurmanıza yardımcı olur. Buradan indirin: {appLink}",
+  "@shareAppBody": {
+    "placeholders": {
+      "appLink": {
+        "type": "String"
+      }
+    }
+  },
+  "openDrawerTooltip": "Çekmeceyi Aç",
+  "quran": "Kur'an",
+  "prayer": "Namaz",
+  "qibla": "Kıble",
+  "audio": "Ses",
+  "surah": "Sure",
+  "pages": "Sayfalar",
+  "note": "Not:",
+  "linkedAyahs": "Bağlı Ayetler:",
+  "emptyNoteCollection": "Bu not koleksiyonu boş.\nBurada görmek için bazı notlar ekleyin.",
+  "emptyPinnedCollection": "Bu koleksiyona henüz ayet sabitlenmemiş.\nGörmek için ayetleri sabitleyin.",
+  "noContentAvailable": "İçerik mevcut değil.",
+  "failedToLoadCollections": "Koleksiyonlar yüklenemedi: {error}",
+  "@failedToLoadCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByCollectionName": "{collectionType} Adına Göre Ara...",
+  "@searchByCollectionName": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "Sırala",
+  "noCollectionAddedYet": "Henüz {collectionType} eklenmemiş",
+  "@noCollectionAddedYet": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedItemsCount": "{count} sabitlenmiş öğe",
+  "@pinnedItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesCount": "{count} not",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyNameNotAllowed": "Boş isim izin verilmez",
+  "updatedTo": "{collectionName}'e güncellendi",
+  "@updatedTo": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "changeName": "İsmi Değiştir",
+  "changeColor": "Rengi Değiştir",
+  "colorUpdated": "Renk güncellendi",
+  "collectionDeleted": "{collectionName} Silindi",
+  "@collectionDeleted": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "Sil",
+  "save": "Kaydet",
+  "collectionNameCannotBeEmpty": "Koleksiyon adı boş olamaz.",
+  "addedNewCollection": "Yeni Koleksiyon Eklendi",
+  "ayahCount": "{count} Ayet",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byNameAtoZ": "İsime Göre A-Z",
+  "byNameZtoA": "İsime Göre Z-A",
+  "byElementNumberAscending": "Öğe Numarasına Göre Artan",
+  "byElementNumberDescending": "Öğe Numarasına Göre Azalan",
+  "byUpdateDateAscending": "Güncelleme Tarihine Göre Artan",
+  "byUpdateDateDescending": "Güncelleme Tarihine Göre Azalan",
+  "byCreateDateAscending": "Oluşturma Tarihine Göre Artan",
+  "byCreateDateDescending": "Oluşturma Tarihine Göre Azalan",
+  "translationNotFound": "Tercüme Bulunamadı",
+  "translationTitle": "Tercüme:",
+  "footNoteTitle": "Dipnot:",
+  "wordByWordTranslation": "Kelime Kelime Tercüme:",
+  "tafsirButton": "Tefsir",
+  "shareButton": "Paylaş",
+  "addNoteButton": "Not Ekle",
+  "pinToCollectionButton": "Koleksiyona Sabitle",
+  "shareAsText": "Metin Olarak Paylaş",
+  "copiedWithTafsir": "Tefsirle Kopyalandı",
+  "shareAsImage": "Görüntü Olarak Paylaş",
+  "shareWithTafsir": "Tefsirle Paylaş",
+  "notFound": "Bulunamadı",
+  "noteContentCannotBeEmpty": "Not içeriği boş olamaz.",
+  "noteSavedSuccessfully": "Not başarıyla kaydedildi!",
+  "selectCollections": "Koleksiyonları Seç",
+  "addNote": "Not Ekle",
+  "writeCollectionName": "Koleksiyon adını yazın...",
+  "noCollectionsYetAddANewOne": "Henüz koleksiyon yok. Yeni bir tane ekleyin!",
+  "pleaseWriteYourNoteFirst": "Lütfen önce notunuzu yazın.",
+  "noCollectionSelected": "Koleksiyon seçilmedi",
+  "saveNote": "Notu Kaydet",
+  "nextSelectCollections": "Sonraki: Koleksiyonları Seç",
+  "addToPinned": "Sabitlenmişlere Ekle",
+  "pinnedSavedSuccessfully": "Sabitleme başarıyla kaydedildi!",
+  "savePinned": "Sabitlemeyi Kaydet",
+  "closeAudioController": "Ses Denetleyicisini Kapat",
+  "previous": "Önceki",
+  "rewind": "Geri Sar",
+  "fastForward": "İleri Sar",
+  "playNextAyah": "Sonraki Ayeti Çal",
+  "repeat": "Tekrarla",
+  "playAsPlaylist": "Çalma Listesi Olarak Çal",
+  "style": "Stil: {style}",
+  "@style": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "stopAndClose": "Durdur & Kapat",
+  "play": "Çal",
+  "pause": "Duraklat",
+  "selectReciter": "Okuyucu Seç",
+  "source": "Kaynak: {source}",
+  "@source": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "newText": "Yeni",
+  "more": "Daha Fazla: ",
+  "cacheNotFound": "Önbellek Bulunamadı",
+  "cacheSize": "Önbellek Boyutu",
+  "error": "Hata: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clean": "Temizle",
+  "lastModified": "Son Değiştirme",
+  "oneYearAgo": "1 Yıl önce",
+  "monthsAgo": "{number} Ay önce",
+  "@monthsAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "weeksAgo": "{number} Hafta önce",
+  "@weeksAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "{number} Gün önce",
+  "@daysAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursAgo": "{hour} Saat önce",
+  "@hoursAgo": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutAlQuran": "Kur'an Hakkında",
+  "appFullName": "Kur'an (Tefsir, Namaz, Kıble, Ses)",
+  "appDescription": "Android, iOS, MacOS, Web, Linux ve Windows için kapsamlı bir İslami uygulama. Kur'an okuma, tefsir ve birden fazla tercüme (kelime kelime dahil), dünya çapında namaz vakitleri, kıble pusulası ve senkronize kelime kelime sesli okuma sunar.",
+  "dataSourcesNote": "Not: Kur'an metinleri, tefsir, tercümeler ve ses kaynakları Quran.com, Everyayah.com ve diğer doğrulanmış açık kaynaklardan alınmıştır.",
+  "adFreePromise": "Bu uygulama Allah'ın rızasını kazanmak için yapılmıştır. Bu yüzden tamamen Reklamsızdır ve her zaman öyle kalacaktır.",
+  "coreFeatures": "Temel Özellikler",
+  "coreFeaturesDescription": "Al Quran v3'ü günlük İslami uygulamalarınız için vazgeçilmez bir araç yapan ana işlevleri keşfedin:",
+  "prayerTimesTitle": "Namaz Vakitleri & Uyarılar",
+  "prayerTimesDescription": "Dünya çapında herhangi bir konum için doğru namaz vakitleri, çeşitli hesaplama yöntemleri kullanarak. Ezan bildirimleriyle hatırlatmalar ayarlayın.",
+  "qiblaDirectionTitle": "Kıble Yönü",
+  "qiblaDirectionDescription": "Net ve doğru bir pusula görünümüyle kıble yönünü kolayca bulun.",
+  "translationTafsirTitle": "Kur'an Tercüme & Tefsir",
+  "translationTafsirDescription": "69 dilde 120+ tercüme kitabı (kelime kelime dahil) ve 30+ tefsir kitabı erişimi.",
+  "wordByWordAudioTitle": "Kelime Kelime Ses & Vurgulama",
+  "wordByWordAudioDescription": "Senkronize kelime kelime sesli okuma ve vurgulamayla sürükleyici bir öğrenme deneyimi için takip edin.",
+  "ayahAudioRecitationTitle": "Ayet Sesli Okuma",
+  "ayahAudioRecitationDescription": "40+ ünlü okuyucudan tam ayet okumalarını dinleyin.",
+  "notesCloudBackupTitle": "Notlar ve Bulut Yedekleme",
+  "notesCloudBackupDescription": "Kişisel notlar ve yansımalar kaydedin, buluta güvenli bir şekilde yedeklenir (geliştirme aşamasında/yakında).",
+  "crossPlatformSupportTitle": "Çoklu Platform Desteği",
+  "crossPlatformSupportDescription": "Android, Web, Linux ve Windows'ta desteklenir.",
+  "backgroundAudioPlaybackTitle": "Arka Plan Ses Çalma",
+  "backgroundAudioPlaybackDescription": "Uygulama arka planda olsa bile Kur'an okumasına devam edin.",
+  "audioDataCachingTitle": "Ses & Veri Önbellekleme",
+  "audioDataCachingDescription": "Sağlam ses ve Kur'an veri önbelleklemesiyle geliştirilmiş oynatma ve çevrimdışı yetenekler.",
+  "minimalisticInterfaceTitle": "Minimalist & Temiz Arayüz",
+  "minimalisticInterfaceDescription": "Kullanıcı deneyimine ve okunabilirliğe odaklanan kolay gezinme arayüzü.",
+  "optimizedPerformanceTitle": "Optimize Edilmiş Performans & Boyut",
+  "optimizedPerformanceDescription": "Özellik dolu bir uygulama, hafif ve performant olacak şekilde tasarlandı.",
+  "languageSupport": "Dil Desteği",
+  "languageSupportDescription": "Bu uygulama küresel bir kitleye erişilebilir olacak şekilde tasarlandı ve şu dilleri destekliyor (ve daha fazlası sürekli ekleniyor):",
+  "technologyAndResources": "Teknoloji & Kaynaklar",
+  "technologyAndResourcesDescription": "Bu uygulama son teknoloji ve güvenilir kaynaklar kullanılarak yapıldı:",
+  "flutterFrameworkTitle": "Flutter Çerçevesi",
+  "flutterFrameworkDescription": "Tek bir kod tabanından güzel, yerel derlenmiş, çoklu platform deneyimi için Flutter ile yapıldı.",
+  "advancedAudioEngineTitle": "Gelişmiş Ses Motoru",
+  "advancedAudioEngineDescription": "Sağlam ses çalma ve kontrol için `just_audio` ve `just_audio_background` Flutter paketleri tarafından desteklenir.",
+  "reliableQuranDataTitle": "Güvenilir Kur'an Verileri",
+  "reliableQuranDataDescription": "Kur'an metinleri, tercümeler, tefsirler ve sesler, Quran.com & Everyayah.com gibi doğrulanmış açık API'ler ve veritabanlarından alınır.",
+  "prayerTimeEngineTitle": "Namaz Vakti Motoru",
+  "prayerTimeEngineDescription": "Doğru namaz vakitleri için yerleşik hesaplama yöntemleri kullanır. Bildirimler `flutter_local_notifications` ve arka plan görevleri tarafından yönetilir.",
+  "crossPlatformSupport": "Çoklu Platform Desteği",
+  "crossPlatformSupportDescription2": "Çeşitli platformlarda kesintisiz erişimin keyfini çıkarın:",
+  "android": "Android",
+  "ios": "iOS",
+  "macos": "macOS",
+  "web": "Web",
+  "linux": "Linux",
+  "windows": "Windows",
+  "ourLifetimePromise": "Ömür Boyu Sözümüz",
+  "lifetimePromiseDescription": "Bu uygulamaya ömrüm boyunca sürekli destek ve bakım sağlayacağımı şahsen söz veriyorum, İnşallah. Amacım, bu uygulamanın Ümmet için yıllarca faydalı bir kaynak olarak kalmasını sağlamak.",
+  "fajr": "Sabah",
+  "sunrise": "Gündoğumu",
+  "dhuhr": "Öğle",
+  "asr": "İkindi",
+  "maghrib": "Akşam",
+  "isha": "Yatsı",
+  "midnight": "Gece Yarısı",
+  "alarm": "Alarm",
+  "notification": "Bildirim",
+  "formattedAddress": "{subAdministrativeArea}, {administrativeArea}, {country}",
+  "@formattedAddress": {
+    "placeholders": {
+      "subAdministrativeArea": {
+        "type": "String"
+      },
+      "administrativeArea": {
+        "type": "String"
+      },
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quranScriptTajweed": "Tecvid",
+  "quranScriptUthmani": "Osmanlı",
+  "quranScriptIndopak": "Indopak",
+  "sajdaAyah": "Secde Ayeti",
+  "required": "Gerekli",
+  "optional": "İsteğe Bağlı",
+  "notificationScheduleWarning": "Not: Zamanlanmış Bildirim veya Hatırlatma, telefonunuzun OS arka plan işlem kısıtlamaları nedeniyle kaçırılabilir. Örneğin: Vivo'nun Origin OS, Samsung'un One UI, Oppo'nun ColorOS vb. bazen zamanlanmış Bildirim veya Hatırlatmayı öldürür. Lütfen OS ayarlarınızı kontrol edin ve uygulamayı arka plan işleminden kısıtlamayın.",
+  "scrollWithRecitation": "Okumayla Kaydır",
+  "quickAccess": "Hızlı Erişim",
+  "initiallyScrollAyah": "Başlangıçta ayete kaydır",
+  "tajweedGuide": "Tecvid Rehberi",
+  "scrollWithRecitationDesc": "Etkinleştirildiğinde, Kur'an ayeti sesli okumayla senkronize olarak otomatik kayar.",
+  "configuration": "Yapılandırma",
+  "restoreFromBackup": "Yedekten Geri Yükle",
+  "history": "Geçmiş",
+  "search": "Ara",
+  "useAudioStream": "Ses Akışı Kullan",
+  "useAudioStreamDesc": "Sesleri indirmek yerine doğrudan internetten akıt.",
+  "notUseAudioStreamDesc": "Çevrimdışı kullanım için ses indir ve veri tüketimini azalt.",
+  "audioSettings": "Ses Ayarları",
+  "playbackSpeed": "Çalma Hızı",
+  "playbackSpeedDesc": "Kur'an Okuma hızını ayarla.",
+  "waitForCurrentDownloadToFinish": "Lütfen mevcut indirmenin bitmesini bekleyin.",
+  "areYouSure": "Emin misiniz?",
+  "checkYourInternetConnection": "İnternet bağlantınızı kontrol edin.",
+  "audioDownloadAlert": "{totalVersesCount} ayetten {requiredDownload} indirilmesi gerekiyor.",
+  "@audioDownloadAlert": {
+    "placeholders": {
+      "requiredDownload": {
+        "type": "int"
+      },
+      "totalVersesCount": {
+        "type": "int"
+      }
+    }
+  },
+  "download": "İndir",
+  "audioDownload": "Ses İndirme",
+  "am": "ÖÖ",
+  "pm": "ÖS",
+  "optimizingQuranScript": "Kur'an Yazısını Optimize Ediliyor",
+  "supportOnGithub": "GitHub'da Destekleyin",
+  "noon": "Öğle",
+  "sunset": "Gün batımı",
+  "forbiddenSalatTimes": "Kerahat Vakitleri",
+  "prayerTimes": "Namaz Vakitleri",
+  "hanafi": "Hanefi",
+  "shafie": "Şafii",
+  "suhurEnd": "Sahur Bitişi",
+  "iftarStart": "İftar Vakti",
+  "tahajjudStart": "Teheccüd Başlangıcı",
+  "tahajjud": "Teheccüd",
+  "dhuha": "Kuşluk"
+}

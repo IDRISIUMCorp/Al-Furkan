@@ -1,0 +1,606 @@
+{
+  "@@locale": "ms",
+  "tafsirAppBarTitle": "{nameSimple} ( {nameArabic} ) - {ayahKey}",
+  "@tafsirAppBarTitle": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      },
+      "nameArabic": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirNotAvailable": "Tafsir tidak tersedia untuk {ayahKey}",
+  "@tafsirNotAvailable": {
+    "placeholders": {
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirFoundAt": "Tafsir boleh didapati di: {anotherAyahLinkKey}",
+  "@tafsirFoundAt": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirJumpTo": "Lompat ke {anotherAyahLinkKey}",
+  "@tafsirJumpTo": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "hizb": "Hizb",
+  "juz": "Juz",
+  "page": "Halaman",
+  "ruku": "Ruku",
+  "languageSettings": "Tetapan Bahasa",
+  "surahAyah": "{surahName} {ayahKey}",
+  "@surahAyah": {
+    "placeholders": {
+      "surahName": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsCount": "{count} Ayat",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAndDownload": "Simpan dan Muat Turun",
+  "appLanguage": "Bahasa Aplikasi",
+  "selectAppLanguage": "Pilih bahasa aplikasi...",
+  "pleaseSelectOne": "Sila pilih satu",
+  "quranTranslationLanguage": "Bahasa Terjemahan Al-Quran",
+  "selectTranslationLanguage": "Pilih bahasa terjemahan...",
+  "quranTranslationBook": "Buku Terjemahan Al-Quran",
+  "selectTranslationBook": "Pilih buku terjemahan...",
+  "quranTafsirLanguage": "Bahasa Tafsir Al-Quran",
+  "selectTafsirLanguage": "Pilih bahasa tafsir...",
+  "quranTafsirBook": "Buku Tafsir Al-Quran",
+  "selectTafsirBook": "Pilih buku tafsir...",
+  "quranScriptAndStyle": "Skrip & Gaya Al-Quran",
+  "justAMoment": "Sebentar sahaja...",
+  "processProgress": "{processName} {percentage}",
+  "@processProgress": {
+    "placeholders": {
+      "processName": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "Berjaya",
+  "retry": "Cuba Semula",
+  "unableToDownloadResources": "Tidak dapat muat turun sumber...\nSesuatu tidak kena",
+  "downloadingSegmentedQuranRecitation": "Muat Turun Bacaan Al-Quran Bersegmen",
+  "processingSegmentedQuranRecitation": "Memproses Bacaan Al-Quran Bersegmen",
+  "footnote": "Catatan Kaki",
+  "tafsir": "Tafsir",
+  "wordByWord": "Perkataan demi Perkataan",
+  "pleaseSelectRequiredOption": "Sila pilih pilihan yang diperlukan",
+  "rememberHomeTab": "Ingat Tab Utama",
+  "rememberHomeTabSubtitle": "Aplikasi akan ingat tab terakhir yang dibuka di skrin utama.",
+  "wakeLock": "Kunci Bangun",
+  "wakeLockSubtitle": "Cegah skrin mati secara automatik.",
+  "settings": "Tetapan",
+  "appTheme": "Tema Aplikasi",
+  "quranStyle": "Gaya Al-Quran",
+  "changeTheme": "Tukar Tema",
+  "verseCount": "Bilangan Ayat: ",
+  "translation": "Terjemahan",
+  "tafsirNotFound": "Tidak Dijumpai",
+  "moreInfo": "maklumat lanjut",
+  "playAudio": "Main Audio",
+  "preview": "Pratonton",
+  "loading": "Sedang Memuat...",
+  "errorFetchingAddress": "Ralat mengambil alamat",
+  "addressNotAvailable": "Alamat tidak tersedia",
+  "latitude": "Latitud: ",
+  "longitude": "Longitud: ",
+  "name": "Nama: ",
+  "location": "Lokasi: ",
+  "parameters": "Parameter: ",
+  "selectCalculationMethod": "Pilih Kaedah Pengiraan",
+  "shareSelectAyahs": "Kongsi Ayat Terpilih",
+  "selectionEmpty": "Pilihan Kosong",
+  "generatingImagePleaseWait": "Menjana Imej... Sila Tunggu",
+  "asImage": "Sebagai Imej",
+  "asText": "Sebagai Teks",
+  "playFromSelectedAyah": "Main Dari Ayat Terpilih",
+  "toTafsir": "Ke Tafsir",
+  "selectAyah": "Pilih Ayat",
+  "toAyah": "Ke Ayat",
+  "searchForASurah": "Cari surah",
+  "bugReportTitle": "Laporan Pepijat",
+  "audioCached": "Audio Dikache",
+  "others": "Lain-lain",
+  "quranTranslationAyahOneMustEnabled": "Al-Quran|Terjemahan|Ayat, Satu Mesti Diaktifkan",
+  "quranFontSize": "Saiz Fon Al-Quran",
+  "quranLineHeight": "Ketinggian Baris Al-Quran",
+  "translationAndTafsirFontSize": "Saiz Fon Terjemahan & Tafsir",
+  "quranAyah": "Ayat Al-Quran",
+  "topToolbar": "Bar Alat Atas",
+  "keepOpenWordByWord": "Biarkan Terbuka Perkataan demi Perkataan",
+  "wordByWordHighlight": "Sorotan Perkataan demi Perkataan",
+  "quranScriptSettings": "Tetapan Skrip Al-Quran",
+  "surahName": "{nameSimple}",
+  "@surahName": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNumber": "Halaman: ",
+  "quranResources": "Sumber Al-Quran",
+  "alreadySelected": "Bahasa '{name}' sudah dipilih.",
+  "@alreadySelected": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToGetCompassData": "Tidak dapat mendapatkan data kompas",
+  "deviceDoesNotHaveSensors": "Peranti tidak mempunyai sensor!",
+  "north": "U",
+  "east": "T",
+  "south": "S",
+  "west": "B",
+  "address": "Alamat: ",
+  "change": "Tukar",
+  "calculationMethod": "Kaedah Pengiraan: ",
+  "downloadPrayerTime": "Muat Turun Waktu Solat",
+  "calculationMethodsListEmpty": "Senarai kaedah pengiraan kosong.",
+  "noCalculationMethodWithLocationData": "Tidak dapat mencari kaedah pengiraan dengan data lokasi.",
+  "prayerSettings": "Tetapan Solat",
+  "reminderSettings": "Tetapan Peringatan",
+  "adjustReminderTime": "Laraskan Masa Peringatan",
+  "enforceAlarmSound": "Paksa Bunyi Penggera",
+  "enforceAlarmSoundDescription": "Jika diaktifkan, ciri ini akan mainkan penggera pada kelantangan yang ditetapkan di sini, walaupun bunyi telefon anda rendah. Ini memastikan anda tidak terlepas penggera kerana kelantangan telefon rendah.",
+  "volume": "Kelantangan",
+  "atPrayerTime": "Pada waktu solat",
+  "minBefore": "{minutes} min sebelum",
+  "@minBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minAfter": "{minutes} min selepas",
+  "@minAfter": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeIsAt": "{prayerName} pada {prayerTime}",
+  "@prayerTimeIsAt": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      },
+      "prayerTime": {
+        "type": "String"
+      }
+    }
+  },
+  "itsTimeOf": "Masa untuk {prayerName}",
+  "@itsTimeOf": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "stopTheAdhan": "Hentikan Azan",
+  "dateFoundEmpty": "{date} Dijumpai Kosong",
+  "@dateFoundEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "Hari Ini",
+  "left": "Baki",
+  "reminderAdded": "Peringatan untuk {prayerName} ditambah",
+  "@reminderAdded": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "allowNotificationPermission": "Sila benarkan kebenaran pemberitahuan untuk menggunakan ciri ini",
+  "reminderRemoved": "Peringatan untuk {prayerName} dibuang",
+  "@reminderRemoved": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "getPrayerTimesAndQibla": "Dapatkan Waktu Solat dan Kiblat",
+  "getPrayerTimesAndQiblaDescription": "Kira Waktu Solat dan Kiblat untuk Mana-mana Lokasi.",
+  "getFromGPS": "Dapatkan dari GPS",
+  "or": "Atau",
+  "selectYourCity": "Pilih Bandar Anda",
+  "noteAboutGPS": "Nota: Jika anda tidak mahu gunakan GPS atau tidak rasa selamat, anda boleh pilih bandar anda.",
+  "downloadingLocationResources": "Muat turun sumber lokasi...",
+  "somethingWentWrong": "Sesuatu tidak kena",
+  "selectYourCountry": "Pilih Negara Anda",
+  "searchForACountry": "Cari negara",
+  "selectYourAdministrator": "Pilih Pentadbir Anda",
+  "searchForAnAdministrator": "Cari pentadbir",
+  "searchForACity": "Cari bandar",
+  "pleaseEnableLocationService": "Sila aktifkan perkhidmatan lokasi",
+  "donateUs": "Dermakan Kepada Kami",
+  "underDevelopment": "Sedang Dibangunkan",
+  "versionLoading": "Sedang Memuat...",
+  "alQuran": "Al-Quran",
+  "mainMenu": "Menu Utama",
+  "notes": "Nota",
+  "pinned": "Dipinkan",
+  "jumpToAyah": "Lompat ke Ayat",
+  "shareMultipleAyah": "Kongsi Beberapa Ayat",
+  "shareThisApp": "Kongsi Aplikasi Ini",
+  "giveRating": "Beri Penilaian",
+  "bugReport": "Laporan Pepijat",
+  "privacyPolicy": "Dasar Privasi",
+  "aboutTheApp": "Tentang Aplikasi",
+  "resetTheApp": "Tetapkan Semula Aplikasi",
+  "resetAppWarningTitle": "Tetapkan Semula Data Aplikasi",
+  "resetAppWarningMessage": "Adakah anda pasti mahu tetapkan semula aplikasi? Semua data anda akan hilang, dan anda perlu tetapkan aplikasi dari awal.",
+  "cancel": "Batal",
+  "reset": "Tetapkan Semula",
+  "shareAppSubject": "Lihat Aplikasi Al-Quran Ini!",
+  "shareAppBody": "Assalamualaikum! Lihat aplikasi Al-Quran ini untuk bacaan dan renungan harian. Ia membantu hubung dengan kalam Allah. Muat turun di sini: {appLink}",
+  "@shareAppBody": {
+    "placeholders": {
+      "appLink": {
+        "type": "String"
+      }
+    }
+  },
+  "openDrawerTooltip": "Buka Laci",
+  "quran": "Al-Quran",
+  "prayer": "Solat",
+  "qibla": "Kiblat",
+  "audio": "Audio",
+  "surah": "Surah",
+  "pages": "Halaman",
+  "note": "Nota:",
+  "linkedAyahs": "Ayat Berkaitan:",
+  "emptyNoteCollection": "Koleksi nota ini kosong.\nTambah nota untuk lihat di sini.",
+  "emptyPinnedCollection": "Tiada ayat dipinkan ke koleksi ini lagi.\nPinkan ayat untuk lihat di sini.",
+  "noContentAvailable": "Tiada kandungan tersedia.",
+  "failedToLoadCollections": "Gagal muat koleksi: {error}",
+  "@failedToLoadCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByCollectionName": "Cari Mengikut Nama {collectionType}...",
+  "@searchByCollectionName": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "Susun mengikut",
+  "noCollectionAddedYet": "Tiada {collectionType} ditambah lagi",
+  "@noCollectionAddedYet": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedItemsCount": "{count} item dipinkan",
+  "@pinnedItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesCount": "{count} nota",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyNameNotAllowed": "Nama kosong tidak dibenarkan",
+  "updatedTo": "Dikemas kini ke {collectionName}",
+  "@updatedTo": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "changeName": "Tukar Nama",
+  "changeColor": "Tukar Warna",
+  "colorUpdated": "Warna dikemas kini",
+  "collectionDeleted": "{collectionName} Dipadam",
+  "@collectionDeleted": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "Padam",
+  "save": "Simpan",
+  "collectionNameCannotBeEmpty": "Nama koleksi tidak boleh kosong.",
+  "addedNewCollection": "Tambah Koleksi Baru",
+  "ayahCount": "{count} Ayat",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byNameAtoZ": "Nama A-Z",
+  "byNameZtoA": "Nama Z-A",
+  "byElementNumberAscending": "Nombor Elemen Menaik",
+  "byElementNumberDescending": "Nombor Elemen Menurun",
+  "byUpdateDateAscending": "Tarikh Kemas Kini Menaik",
+  "byUpdateDateDescending": "Tarikh Kemas Kini Menurun",
+  "byCreateDateAscending": "Tarikh Cipta Menaik",
+  "byCreateDateDescending": "Tarikh Cipta Menurun",
+  "translationNotFound": "Terjemahan Tidak Dijumpai",
+  "translationTitle": "Terjemahan:",
+  "footNoteTitle": "Catatan Kaki:",
+  "wordByWordTranslation": "Terjemahan Perkataan demi Perkataan:",
+  "tafsirButton": "Tafsir",
+  "shareButton": "Kongsi",
+  "addNoteButton": "Tambah Nota",
+  "pinToCollectionButton": "Pinkan ke Koleksi",
+  "shareAsText": "Kongsi sebagai Teks",
+  "copiedWithTafsir": "Disalin dengan Tafsir",
+  "shareAsImage": "Kongsi sebagai Imej",
+  "shareWithTafsir": "Kongsi dengan Tafsir",
+  "notFound": "Tidak dijumpai",
+  "noteContentCannotBeEmpty": "Kandungan nota tidak boleh kosong.",
+  "noteSavedSuccessfully": "Nota disimpan berjaya!",
+  "selectCollections": "Pilih Koleksi",
+  "addNote": "Tambah Nota",
+  "writeCollectionName": "Tulis nama koleksi...",
+  "noCollectionsYetAddANewOne": "Tiada koleksi lagi. Tambah yang baru!",
+  "pleaseWriteYourNoteFirst": "Sila tulis nota anda dulu.",
+  "noCollectionSelected": "Tiada Koleksi dipilih",
+  "saveNote": "Simpan Nota",
+  "nextSelectCollections": "Seterusnya: Pilih Koleksi",
+  "addToPinned": "Tambah Ke Dipinkan",
+  "pinnedSavedSuccessfully": "Dipinkan disimpan berjaya!",
+  "savePinned": "Simpan Dipinkan",
+  "closeAudioController": "Tutup Pengawal Audio",
+  "previous": "Sebelumnya",
+  "rewind": "Undur",
+  "fastForward": "Maju Cepat",
+  "playNextAyah": "Main Ayat Seterusnya",
+  "repeat": "Ulang",
+  "playAsPlaylist": "Main Sebagai Senarai Main",
+  "style": "Gaya: {style}",
+  "@style": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "stopAndClose": "Henti & Tutup",
+  "play": "Main",
+  "pause": "Jeda",
+  "selectReciter": "Pilih Pembaca",
+  "source": "Sumber: {source}",
+  "@source": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "newText": "Baru",
+  "more": "Lebih: ",
+  "cacheNotFound": "Cache Tidak Dijumpai",
+  "cacheSize": "Saiz Cache",
+  "error": "Ralat: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clean": "Bersih",
+  "lastModified": "Terakhir Diubah",
+  "oneYearAgo": "1 Tahun lalu",
+  "monthsAgo": "{number} Bulan lalu",
+  "@monthsAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "weeksAgo": "{number} Minggu lalu",
+  "@weeksAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "{number} Hari lalu",
+  "@daysAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursAgo": "{hour} Jam lalu",
+  "@hoursAgo": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutAlQuran": "Tentang Al-Quran",
+  "appFullName": "Al-Quran (Tafsir, Solat, Kiblat, Audio)",
+  "appDescription": "Aplikasi Islam komprehensif untuk Android, iOS, MacOS, Web, Linux dan Windows, menawarkan bacaan Al-Quran dengan Tafsir & pelbagai terjemahan (termasuk perkataan demi perkataan), waktu solat seluruh dunia dengan pemberitahuan, kompas Kiblat, dan bacaan audio perkataan demi perkataan yang diselaraskan.",
+  "dataSourcesNote": "Nota: Teks Al-Quran, Tafsir, terjemahan, dan sumber audio diambil dari Quran.com, Everyayah.com, dan sumber terbuka yang disahkan lain.",
+  "adFreePromise": "Aplikasi ini dibina untuk mencari keredhaan Allah. Oleh itu, ia adalah dan sentiasa bebas iklan sepenuhnya.",
+  "coreFeatures": "Ciri Utama",
+  "coreFeaturesDescription": "Terokai fungsi utama yang menjadikan Al-Quran v3 alat penting untuk amalan Islam harian anda:",
+  "prayerTimesTitle": "Waktu Solat & Amaran",
+  "prayerTimesDescription": "Waktu solat tepat untuk mana-mana lokasi di dunia menggunakan pelbagai kaedah pengiraan. Tetapkan peringatan dengan pemberitahuan Azan.",
+  "qiblaDirectionTitle": "Arah Kiblat",
+  "qiblaDirectionDescription": "Cari arah Kiblat dengan mudah dengan paparan kompas yang jelas dan tepat.",
+  "translationTafsirTitle": "Terjemahan & Tafsir Al-Quran",
+  "translationTafsirDescription": "Akses 120+ buku terjemahan (termasuk perkataan demi perkataan) dalam 69 bahasa, dan 30+ buku Tafsir.",
+  "wordByWordAudioTitle": "Audio & Sorotan Perkataan demi Perkataan",
+  "wordByWordAudioDescription": "Ikuti bacaan audio perkataan demi perkataan yang diselaraskan dan sorotan untuk pengalaman pembelajaran mendalam.",
+  "ayahAudioRecitationTitle": "Bacaan Audio Ayat",
+  "ayahAudioRecitationDescription": "Dengar bacaan ayat penuh dari lebih 40+ pembaca terkenal.",
+  "notesCloudBackupTitle": "Nota dengan Sandaran Awan",
+  "notesCloudBackupDescription": "Simpan nota dan renungan peribadi, disandarkan dengan selamat ke awan (ciri dalam pembangunan/akan datang).",
+  "crossPlatformSupportTitle": "Sokongan Pelbagai Platform",
+  "crossPlatformSupportDescription": "Disokong pada Android, Web, Linux, dan Windows.",
+  "backgroundAudioPlaybackTitle": "Main Audio Latar Belakang",
+  "backgroundAudioPlaybackDescription": "Teruskan mendengar bacaan Al-Quran walaupun aplikasi di latar belakang.",
+  "audioDataCachingTitle": "Cache Audio & Data",
+  "audioDataCachingDescription": "Main semula yang lebih baik dan keupayaan luar talian dengan cache audio dan data Al-Quran yang kukuh.",
+  "minimalisticInterfaceTitle": "Antara Muka Minimalis & Bersih",
+  "minimalisticInterfaceDescription": "Antara muka mudah dinavigasi dengan fokus pada pengalaman pengguna dan kebolehbacaan.",
+  "optimizedPerformanceTitle": "Prestasi & Saiz Dioptimumkan",
+  "optimizedPerformanceDescription": "Aplikasi kaya ciri direka untuk ringan dan berprestasi.",
+  "languageSupport": "Sokongan Bahasa",
+  "languageSupportDescription": "Aplikasi ini direka untuk boleh diakses oleh khalayak global dengan sokongan untuk bahasa berikut (dan lebih banyak ditambah secara berterusan):",
+  "technologyAndResources": "Teknologi & Sumber",
+  "technologyAndResourcesDescription": "Aplikasi ini dibina menggunakan teknologi canggih dan sumber yang boleh dipercayai:",
+  "flutterFrameworkTitle": "Kerangka Flutter",
+  "flutterFrameworkDescription": "Dibina dengan Flutter untuk pengalaman indah, dikompil asli, pelbagai platform dari kod tunggal.",
+  "advancedAudioEngineTitle": "Enjin Audio Canggih",
+  "advancedAudioEngineDescription": "Dikuasakan oleh pakej Flutter `just_audio` dan `just_audio_background` untuk main audio kukuh dan kawalan.",
+  "reliableQuranDataTitle": "Data Al-Quran Boleh Dipercayai",
+  "reliableQuranDataDescription": "Teks Al-Quran, terjemahan, tafsir, dan audio diambil dari API terbuka yang disahkan dan pangkalan data seperti Quran.com & Everyayah.com.",
+  "prayerTimeEngineTitle": "Enjin Waktu Solat",
+  "prayerTimeEngineDescription": "Menggunakan kaedah pengiraan yang ditetapkan untuk waktu solat tepat. Pemberitahuan dikendalikan oleh `flutter_local_notifications` dan tugas latar belakang.",
+  "crossPlatformSupport": "Sokongan Pelbagai Platform",
+  "crossPlatformSupportDescription2": "Nikmati akses lancar merentasi pelbagai platform:",
+  "android": "Android",
+  "ios": "iOS",
+  "macos": "macOS",
+  "web": "Web",
+  "linux": "Linux",
+  "windows": "Windows",
+  "ourLifetimePromise": "Janji Seumur Hidup Kami",
+  "lifetimePromiseDescription": "Saya secara peribadi berjanji untuk memberikan sokongan dan penyelenggaraan berterusan untuk aplikasi ini sepanjang hayat saya, In Sha Allah. Matlamat saya adalah memastikan aplikasi ini kekal sebagai sumber bermanfaat untuk Ummah untuk tahun-tahun mendatang.",
+  "fajr": "Subuh",
+  "sunrise": "Matahari Terbit",
+  "dhuhr": "Zohor",
+  "asr": "Asar",
+  "maghrib": "Maghrib",
+  "isha": "Isyak",
+  "midnight": "Tengah Malam",
+  "alarm": "Penggera",
+  "notification": "Pemberitahuan",
+  "formattedAddress": "{subAdministrativeArea}, {administrativeArea}, {country}",
+  "@formattedAddress": {
+    "placeholders": {
+      "subAdministrativeArea": {
+        "type": "String"
+      },
+      "administrativeArea": {
+        "type": "String"
+      },
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quranScriptTajweed": "Tajwid",
+  "quranScriptUthmani": "Uthmani",
+  "quranScriptIndopak": "Indopak",
+  "sajdaAyah": "Ayat Sajdah",
+  "required": "Diperlukan",
+  "optional": "Pilihan",
+  "notificationScheduleWarning": "Nota: Pemberitahuan atau Peringatan Berjadual boleh terlepas kerana sekatan proses latar belakang OS telefon anda. Contohnya: Origin OS Vivo, One UI Samsung, ColorOS Oppo dll. kadang-kadang membunuh Pemberitahuan atau Peringatan berjadual. Sila semak tetapan OS anda untuk buat aplikasi tidak disekat dari proses latar belakang.",
+  "scrollWithRecitation": "Skrol dengan Bacaan",
+  "quickAccess": "Akses Cepat",
+  "initiallyScrollAyah": "Skrol ke ayat pada mulanya",
+  "tajweedGuide": "Panduan Tajwid",
+  "scrollWithRecitationDesc": "Apabila diaktifkan, ayat Al-Quran akan skrol secara automatik selaras dengan bacaan audio.",
+  "configuration": "Konfigurasi",
+  "restoreFromBackup": "Pulih Dari Sandaran",
+  "history": "Sejarah",
+  "search": "Cari",
+  "useAudioStream": "Gunakan Strim Audio",
+  "useAudioStreamDesc": "Strim audio terus dari internet bukannya muat turun.",
+  "notUseAudioStreamDesc": "Muat turun audio untuk penggunaan luar talian dan kurangkan penggunaan data.",
+  "audioSettings": "Tetapan Audio",
+  "playbackSpeed": "Kelajuan Main Semula",
+  "playbackSpeedDesc": "Laraskan kelajuan Bacaan Al-Quran.",
+  "waitForCurrentDownloadToFinish": "Sila tunggu muat turun semasa selesai.",
+  "areYouSure": "Adakah anda pasti?",
+  "checkYourInternetConnection": "Semak sambungan internet anda.",
+  "audioDownloadAlert": "Perlu muat turun {requiredDownload} daripada {totalVersesCount} ayat.",
+  "@audioDownloadAlert": {
+    "placeholders": {
+      "requiredDownload": {
+        "type": "int"
+      },
+      "totalVersesCount": {
+        "type": "int"
+      }
+    }
+  },
+  "download": "Muat Turun",
+  "audioDownload": "Muat Turun Audio",
+  "am": "PG",
+  "pm": "PTG",
+  "optimizingQuranScript": "Mengoptimumkan Skrip Al-Quran",
+  "supportOnGithub": "Sokongan di GitHub",
+  "noon": "Tengah hari",
+  "sunset": "Matahari terbenam",
+  "forbiddenSalatTimes": "Waktu Solat Dilarang",
+  "prayerTimes": "Waktu Solat",
+  "hanafi": "Hanafi",
+  "shafie": "Syafi'i",
+  "suhurEnd": "Tamat Sahur",
+  "iftarStart": "Mula Iftar",
+  "tahajjudStart": "Mula Tahajjud",
+  "tahajjud": "Tahajjud",
+  "dhuha": "Dhuha"
+}

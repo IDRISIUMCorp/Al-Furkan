@@ -1,0 +1,606 @@
+{
+  "@@locale": "ru",
+  "tafsirAppBarTitle": "{nameSimple} ( {nameArabic} ) - {ayahKey}",
+  "@tafsirAppBarTitle": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      },
+      "nameArabic": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirNotAvailable": "Тафсир недоступен для {ayahKey}",
+  "@tafsirNotAvailable": {
+    "placeholders": {
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirFoundAt": "Тафсир можно найти в: {anotherAyahLinkKey}",
+  "@tafsirFoundAt": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirJumpTo": "Перейти к {anotherAyahLinkKey}",
+  "@tafsirJumpTo": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "hizb": "Хизб",
+  "juz": "Джуз",
+  "page": "Страница",
+  "ruku": "Руку",
+  "languageSettings": "Настройки языка",
+  "surahAyah": "{surahName} {ayahKey}",
+  "@surahAyah": {
+    "placeholders": {
+      "surahName": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsCount": "{count} аятов",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAndDownload": "Сохранить и скачать",
+  "appLanguage": "Язык приложения",
+  "selectAppLanguage": "Выберите язык приложения...",
+  "pleaseSelectOne": "Пожалуйста, выберите один",
+  "quranTranslationLanguage": "Язык перевода Корана",
+  "selectTranslationLanguage": "Выберите язык перевода...",
+  "quranTranslationBook": "Книга перевода Корана",
+  "selectTranslationBook": "Выберите книгу перевода...",
+  "quranTafsirLanguage": "Язык тафсира Корана",
+  "selectTafsirLanguage": "Выберите язык тафсира...",
+  "quranTafsirBook": "Книга тафсира Корана",
+  "selectTafsirBook": "Выберите книгу тафсира...",
+  "quranScriptAndStyle": "Стиль и шрифт Корана",
+  "justAMoment": "Подождите немного...",
+  "processProgress": "{processName} {percentage}",
+  "@processProgress": {
+    "placeholders": {
+      "processName": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "Успех",
+  "retry": "Повторить",
+  "unableToDownloadResources": "Не удалось скачать ресурсы...\nЧто-то пошло не так",
+  "downloadingSegmentedQuranRecitation": "Скачивание сегментированного чтения Корана",
+  "processingSegmentedQuranRecitation": "Обработка сегментированного чтения Корана",
+  "footnote": "Сноска",
+  "tafsir": "Тафсир",
+  "wordByWord": "Слово за словом",
+  "pleaseSelectRequiredOption": "Пожалуйста, выберите необходимый вариант",
+  "rememberHomeTab": "Запоминать вкладку на главном экране",
+  "rememberHomeTabSubtitle": "Приложение запомнит последнюю открытую вкладку на главном экране.",
+  "wakeLock": "Блокировка выключения экрана",
+  "wakeLockSubtitle": "Предотвращает автоматическое выключение экрана.",
+  "settings": "Настройки",
+  "appTheme": "Тема приложения",
+  "quranStyle": "Стиль Корана",
+  "changeTheme": "Изменить тему",
+  "verseCount": "Количество аятов: ",
+  "translation": "Перевод",
+  "tafsirNotFound": "Не найдено",
+  "moreInfo": "больше информации",
+  "playAudio": "Воспроизвести аудио",
+  "preview": "Предпросмотр",
+  "loading": "Загрузка...",
+  "errorFetchingAddress": "Ошибка получения адреса",
+  "addressNotAvailable": "Адрес недоступен",
+  "latitude": "Широта: ",
+  "longitude": "Долгота: ",
+  "name": "Имя: ",
+  "location": "Местоположение: ",
+  "parameters": "Параметры: ",
+  "selectCalculationMethod": "Выберите метод расчета",
+  "shareSelectAyahs": "Поделиться выбранными аятами",
+  "selectionEmpty": "Выбор пуст",
+  "generatingImagePleaseWait": "Генерация изображения... Подождите",
+  "asImage": "Как изображение",
+  "asText": "Как текст",
+  "playFromSelectedAyah": "Воспроизвести с выбранного аята",
+  "toTafsir": "К тафсиру",
+  "selectAyah": "Выберите аят",
+  "toAyah": "К аяту",
+  "searchForASurah": "Поиск суры",
+  "bugReportTitle": "Отчет об ошибке",
+  "audioCached": "Аудио в кэше",
+  "others": "Другие",
+  "quranTranslationAyahOneMustEnabled": "Коран|Перевод|Аят, один должен быть включен",
+  "quranFontSize": "Размер шрифта Корана",
+  "quranLineHeight": "Высота строки Корана",
+  "translationAndTafsirFontSize": "Размер шрифта перевода и тафсира",
+  "quranAyah": "Аят Корана",
+  "topToolbar": "Верхняя панель инструментов",
+  "keepOpenWordByWord": "Оставить открытым слово за словом",
+  "wordByWordHighlight": "Подсветка слово за словом",
+  "quranScriptSettings": "Настройки шрифта Корана",
+  "surahName": "{nameSimple}",
+  "@surahName": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNumber": "Страница: ",
+  "quranResources": "Ресурсы Корана",
+  "alreadySelected": "Язык '{name}' уже выбран.",
+  "@alreadySelected": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToGetCompassData": "Не удалось получить данные компаса",
+  "deviceDoesNotHaveSensors": "Устройство не имеет датчиков!",
+  "north": "С",
+  "east": "В",
+  "south": "Ю",
+  "west": "З",
+  "address": "Адрес: ",
+  "change": "Изменить",
+  "calculationMethod": "Метод расчета: ",
+  "downloadPrayerTime": "Скачать время намаза",
+  "calculationMethodsListEmpty": "Список методов расчета пуст.",
+  "noCalculationMethodWithLocationData": "Не удалось найти метод расчета с данными о местоположении.",
+  "prayerSettings": "Настройки намаза",
+  "reminderSettings": "Настройки напоминаний",
+  "adjustReminderTime": "Настроить время напоминания",
+  "enforceAlarmSound": "Принудительный звук будильника",
+  "enforceAlarmSoundDescription": "Если включено, эта функция воспроизведет будильник на установленной здесь громкости, даже если звук телефона низкий. Это гарантирует, что вы не пропустите будильник из-за низкой громкости.",
+  "volume": "Громкость",
+  "atPrayerTime": "В время намаза",
+  "minBefore": "{minutes} мин до",
+  "@minBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minAfter": "{minutes} мин после",
+  "@minAfter": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeIsAt": "{prayerName} в {prayerTime}",
+  "@prayerTimeIsAt": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      },
+      "prayerTime": {
+        "type": "String"
+      }
+    }
+  },
+  "itsTimeOf": "Время {prayerName}",
+  "@itsTimeOf": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "stopTheAdhan": "Остановить азан",
+  "dateFoundEmpty": "{date} Пусто",
+  "@dateFoundEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "Сегодня",
+  "left": "Осталось",
+  "reminderAdded": "Напоминание для {prayerName} добавлено",
+  "@reminderAdded": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "allowNotificationPermission": "Пожалуйста, разрешите уведомления для использования этой функции",
+  "reminderRemoved": "Напоминание для {prayerName} удалено",
+  "@reminderRemoved": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "getPrayerTimesAndQibla": "Получить время намаза и киблу",
+  "getPrayerTimesAndQiblaDescription": "Рассчитать время намаза и киблу для любого местоположения.",
+  "getFromGPS": "Получить из GPS",
+  "or": "Или",
+  "selectYourCity": "Выберите свой город",
+  "noteAboutGPS": "Примечание: Если вы не хотите использовать GPS или не чувствуете себя в безопасности, вы можете выбрать свой город.",
+  "downloadingLocationResources": "Скачивание ресурсов местоположения...",
+  "somethingWentWrong": "Что-то пошло не так",
+  "selectYourCountry": "Выберите свою страну",
+  "searchForACountry": "Поиск страны",
+  "selectYourAdministrator": "Выберите администратора",
+  "searchForAnAdministrator": "Поиск администратора",
+  "searchForACity": "Поиск города",
+  "pleaseEnableLocationService": "Пожалуйста, включите службу геолокации",
+  "donateUs": "Пожертвуйте нам",
+  "underDevelopment": "В разработке",
+  "versionLoading": "Загрузка...",
+  "alQuran": "Аль-Коран",
+  "mainMenu": "Главное меню",
+  "notes": "Заметки",
+  "pinned": "Закрепленные",
+  "jumpToAyah": "Перейти к аяту",
+  "shareMultipleAyah": "Поделиться несколькими аятами",
+  "shareThisApp": "Поделиться приложением",
+  "giveRating": "Оценить",
+  "bugReport": "Отчет об ошибке",
+  "privacyPolicy": "Политика конфиденциальности",
+  "aboutTheApp": "О приложении",
+  "resetTheApp": "Сбросить приложение",
+  "resetAppWarningTitle": "Сброс данных приложения",
+  "resetAppWarningMessage": "Вы уверены, что хотите сбросить приложение? Все ваши данные будут потеряны, и вам придется настроить приложение заново.",
+  "cancel": "Отмена",
+  "reset": "Сброс",
+  "shareAppSubject": "Посмотрите это приложение Аль-Коран!",
+  "shareAppBody": "Ассаламу алейкум! Посмотрите это приложение Аль-Коран для ежедневного чтения и размышлений. Оно помогает связаться со словами Аллаха. Скачайте здесь: {appLink}",
+  "@shareAppBody": {
+    "placeholders": {
+      "appLink": {
+        "type": "String"
+      }
+    }
+  },
+  "openDrawerTooltip": "Открыть меню",
+  "quran": "Коран",
+  "prayer": "Намаз",
+  "qibla": "Кибла",
+  "audio": "Аудио",
+  "surah": "Сура",
+  "pages": "Страницы",
+  "note": "Заметка:",
+  "linkedAyahs": "Связанные аяты:",
+  "emptyNoteCollection": "Эта коллекция заметок пуста.\nДобавьте заметки, чтобы увидеть их здесь.",
+  "emptyPinnedCollection": "Нет закрепленных аятов в этой коллекции.\nЗакрепите аяты, чтобы увидеть их здесь.",
+  "noContentAvailable": "Нет доступного содержимого.",
+  "failedToLoadCollections": "Не удалось загрузить коллекции: {error}",
+  "@failedToLoadCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByCollectionName": "Поиск по имени {collectionType}...",
+  "@searchByCollectionName": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "Сортировать по",
+  "noCollectionAddedYet": "Нет добавленных {collectionType} пока",
+  "@noCollectionAddedYet": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedItemsCount": "{count} закрепленных элементов",
+  "@pinnedItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesCount": "{count} заметок",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyNameNotAllowed": "Пустое имя не разрешено",
+  "updatedTo": "Обновлено до {collectionName}",
+  "@updatedTo": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "changeName": "Изменить имя",
+  "changeColor": "Изменить цвет",
+  "colorUpdated": "Цвет обновлен",
+  "collectionDeleted": "{collectionName} Удалено",
+  "@collectionDeleted": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "Удалить",
+  "save": "Сохранить",
+  "collectionNameCannotBeEmpty": "Имя коллекции не может быть пустым.",
+  "addedNewCollection": "Добавлена новая коллекция",
+  "ayahCount": "{count} аят",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byNameAtoZ": "Имя A-Я",
+  "byNameZtoA": "Имя Я-A",
+  "byElementNumberAscending": "Номер элемента по возрастанию",
+  "byElementNumberDescending": "Номер элемента по убыванию",
+  "byUpdateDateAscending": "Дата обновления по возрастанию",
+  "byUpdateDateDescending": "Дата обновления по убыванию",
+  "byCreateDateAscending": "Дата создания по возрастанию",
+  "byCreateDateDescending": "Дата создания по убыванию",
+  "translationNotFound": "Перевод не найден",
+  "translationTitle": "Перевод:",
+  "footNoteTitle": "Сноска:",
+  "wordByWordTranslation": "Перевод слово за словом:",
+  "tafsirButton": "Тафсир",
+  "shareButton": "Поделиться",
+  "addNoteButton": "Добавить заметку",
+  "pinToCollectionButton": "Закрепить в коллекции",
+  "shareAsText": "Поделиться как текст",
+  "copiedWithTafsir": "Скопировано с тафсиром",
+  "shareAsImage": "Поделиться как изображение",
+  "shareWithTafsir": "Поделиться с тафсиром",
+  "notFound": "Не найдено",
+  "noteContentCannotBeEmpty": "Содержимое заметки не может быть пустым.",
+  "noteSavedSuccessfully": "Заметка сохранена успешно!",
+  "selectCollections": "Выберите коллекции",
+  "addNote": "Добавить заметку",
+  "writeCollectionName": "Напишите имя коллекции...",
+  "noCollectionsYetAddANewOne": "Нет коллекций пока. Добавьте новую!",
+  "pleaseWriteYourNoteFirst": "Пожалуйста, сначала напишите заметку.",
+  "noCollectionSelected": "Коллекция не выбрана",
+  "saveNote": "Сохранить заметку",
+  "nextSelectCollections": "Далее: Выберите коллекции",
+  "addToPinned": "Добавить в закрепленные",
+  "pinnedSavedSuccessfully": "Закрепленное сохранено успешно!",
+  "savePinned": "Сохранить закрепленное",
+  "closeAudioController": "Закрыть контроллер аудио",
+  "previous": "Предыдущий",
+  "rewind": "Перемотать назад",
+  "fastForward": "Перемотать вперед",
+  "playNextAyah": "Воспроизвести следующий аят",
+  "repeat": "Повтор",
+  "playAsPlaylist": "Воспроизвести как плейлист",
+  "style": "Стиль: {style}",
+  "@style": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "stopAndClose": "Остановить и закрыть",
+  "play": "Воспроизвести",
+  "pause": "Пауза",
+  "selectReciter": "Выберите чтеца",
+  "source": "Источник: {source}",
+  "@source": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "newText": "Новое",
+  "more": "Больше: ",
+  "cacheNotFound": "Кэш не найден",
+  "cacheSize": "Размер кэша",
+  "error": "Ошибка: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clean": "Очистить",
+  "lastModified": "Последнее изменение",
+  "oneYearAgo": "1 год назад",
+  "monthsAgo": "{number} месяцев назад",
+  "@monthsAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "weeksAgo": "{number} недель назад",
+  "@weeksAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "{number} дней назад",
+  "@daysAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursAgo": "{hour} часов назад",
+  "@hoursAgo": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutAlQuran": "О Аль-Коране",
+  "appFullName": "Аль-Коран (Тафсир, Намаз, Кибла, Аудио)",
+  "appDescription": "Комплексное исламское приложение для Android, iOS, MacOS, Web, Linux и Windows, предлагающее чтение Корана с тафсиром и несколькими переводами (включая слово за словом), время намаза по всему миру с уведомлениями, компас киблы и синхронизированное чтение слово за словом.",
+  "dataSourcesNote": "Примечание: Тексты Корана, тафсир, переводы и аудиоресурсы взяты из Quran.com, Everyayah.com и других проверенных открытых источников.",
+  "adFreePromise": "Это приложение создано для поиска довольства Аллаха. Поэтому оно всегда будет полностью без рекламы.",
+  "coreFeatures": "Основные функции",
+  "coreFeaturesDescription": "Изучите ключевые функции, которые делают Аль-Коран v3 незаменимым инструментом для ваших ежедневных исламских практик:",
+  "prayerTimesTitle": "Время намаза и оповещения",
+  "prayerTimesDescription": "Точные времена намаза для любого местоположения по всему миру с использованием различных методов расчета. Установите напоминания с уведомлениями азана.",
+  "qiblaDirectionTitle": "Направление киблы",
+  "qiblaDirectionDescription": "Легко найдите направление киблы с четким и точным видом компаса.",
+  "translationTafsirTitle": "Перевод и тафсир Корана",
+  "translationTafsirDescription": "Доступ к более 120 книгам переводов (включая слово за словом) на 69 языках и более 30 книгам тафсира.",
+  "wordByWordAudioTitle": "Аудио слово за словом и подсветка",
+  "wordByWordAudioDescription": "Следите за синхронизированным аудио чтением слово за словом и подсветкой для immersive опыта обучения.",
+  "ayahAudioRecitationTitle": "Аудио чтение аятов",
+  "ayahAudioRecitationDescription": "Слушайте полные чтения аятов от более 40 известных чтецов.",
+  "notesCloudBackupTitle": "Заметки с облачным резервным копированием",
+  "notesCloudBackupDescription": "Сохраняйте личные заметки и размышления, безопасно сохраненные в облаке (функция в разработке/скоро).",
+  "crossPlatformSupportTitle": "Поддержка нескольких платформ",
+  "crossPlatformSupportDescription": "Поддерживается на Android, Web, Linux и Windows.",
+  "backgroundAudioPlaybackTitle": "Воспроизведение аудио в фоне",
+  "backgroundAudioPlaybackDescription": "Продолжайте слушать чтение Корана даже когда приложение в фоне.",
+  "audioDataCachingTitle": "Кэширование аудио и данных",
+  "audioDataCachingDescription": "Улучшенное воспроизведение и оффлайн возможности с надежным кэшированием аудио и данных Корана.",
+  "minimalisticInterfaceTitle": "Минималистичный и чистый интерфейс",
+  "minimalisticInterfaceDescription": "Легкий в навигации интерфейс с фокусом на пользовательский опыт и читаемость.",
+  "optimizedPerformanceTitle": "Оптимизированная производительность и размер",
+  "optimizedPerformanceDescription": "Функциональное приложение, разработанное чтобы быть легким и производительным.",
+  "languageSupport": "Поддержка языков",
+  "languageSupportDescription": "Это приложение предназначено для глобальной аудитории с поддержкой следующих языков (и добавляются еще):",
+  "technologyAndResources": "Технологии и ресурсы",
+  "technologyAndResourcesDescription": "Это приложение построено с использованием передовых технологий и надежных ресурсов:",
+  "flutterFrameworkTitle": "Фреймворк Flutter",
+  "flutterFrameworkDescription": "Построено на Flutter для красивого, нативно компилируемого, мультиплатформенного опыта из единой кодовой базы.",
+  "advancedAudioEngineTitle": "Продвинутый аудио движок",
+  "advancedAudioEngineDescription": "Работает на пакетах Flutter `just_audio` и `just_audio_background` для надежного воспроизведения и контроля аудио.",
+  "reliableQuranDataTitle": "Надежные данные Корана",
+  "reliableQuranDataDescription": "Тексты Аль-Корана, переводы, тафсиры и аудио взяты из проверенных открытых API и баз данных вроде Quran.com & Everyayah.com.",
+  "prayerTimeEngineTitle": "Движок времени намаза",
+  "prayerTimeEngineDescription": "Использует установленные методы расчета для точного времени намаза. Уведомления обрабатываются `flutter_local_notifications` и фоновыми задачами.",
+  "crossPlatformSupport": "Поддержка нескольких платформ",
+  "crossPlatformSupportDescription2": "Наслаждайтесь seamless доступом на различных платформах:",
+  "android": "Android",
+  "ios": "iOS",
+  "macos": "macOS",
+  "web": "Web",
+  "linux": "Linux",
+  "windows": "Windows",
+  "ourLifetimePromise": "Наше обещание на всю жизнь",
+  "lifetimePromiseDescription": "Я лично обещаю предоставлять непрерывную поддержку и обслуживание этого приложения на протяжении всей моей жизни, Инша Аллах. Моя цель - убедиться, что это приложение остается полезным ресурсом для Уммы на годы вперед.",
+  "fajr": "Фаджр",
+  "sunrise": "Восход",
+  "dhuhr": "Зухр",
+  "asr": "Аср",
+  "maghrib": "Магриб",
+  "isha": "Иша",
+  "midnight": "Полночь",
+  "alarm": "Будильник",
+  "notification": "Уведомление",
+  "formattedAddress": "{subAdministrativeArea}, {administrativeArea}, {country}",
+  "@formattedAddress": {
+    "placeholders": {
+      "subAdministrativeArea": {
+        "type": "String"
+      },
+      "administrativeArea": {
+        "type": "String"
+      },
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quranScriptTajweed": "Таджвид",
+  "quranScriptUthmani": "Усмани",
+  "quranScriptIndopak": "Индопак",
+  "sajdaAyah": "Аят саджда",
+  "required": "Обязательно",
+  "optional": "Опционально",
+  "notificationScheduleWarning": "Примечание: Запланированные уведомления или напоминания могут быть пропущены из-за ограничений фоновых процессов ОС вашего телефона. Например: Origin OS от Vivo, One UI от Samsung, ColorOS от Oppo иногда убивают запланированные уведомления или напоминания. Пожалуйста, проверьте настройки ОС, чтобы приложение не было ограничено в фоновых процессах.",
+  "scrollWithRecitation": "Прокрутка с чтением",
+  "quickAccess": "Быстрый доступ",
+  "initiallyScrollAyah": "Изначально прокрутить к аяту",
+  "tajweedGuide": "Руководство по таджвиду",
+  "scrollWithRecitationDesc": "Когда включено, аяты Корана будут автоматически прокручиваться в синхронизации с аудио чтением.",
+  "configuration": "Конфигурация",
+  "restoreFromBackup": "Восстановить из резервной копии",
+  "history": "История",
+  "search": "Поиск",
+  "useAudioStream": "Использовать потоковое аудио",
+  "useAudioStreamDesc": "Потоковое аудио напрямую из интернета вместо скачивания.",
+  "notUseAudioStreamDesc": "Скачивайте аудио для оффлайн использования и снижения потребления данных.",
+  "audioSettings": "Настройки аудио",
+  "playbackSpeed": "Скорость воспроизведения",
+  "playbackSpeedDesc": "Настройте скорость чтения Корана.",
+  "waitForCurrentDownloadToFinish": "Пожалуйста, подождите завершения текущей загрузки.",
+  "areYouSure": "Вы уверены?",
+  "checkYourInternetConnection": "Проверьте подключение к интернету.",
+  "audioDownloadAlert": "Нужно скачать {requiredDownload} из {totalVersesCount} аятов.",
+  "@audioDownloadAlert": {
+    "placeholders": {
+      "requiredDownload": {
+        "type": "int"
+      },
+      "totalVersesCount": {
+        "type": "int"
+      }
+    }
+  },
+  "download": "Скачать",
+  "audioDownload": "Скачивание аудио",
+  "am": "AM",
+  "pm": "PM",
+  "optimizingQuranScript": "Оптимизация шрифта Корана",
+  "supportOnGithub": "Поддержать на GitHub",
+  "noon": "Полдень",
+  "sunset": "Закат",
+  "forbiddenSalatTimes": "Запрещенные времена намаза",
+  "prayerTimes": "Времена намаза",
+  "hanafi": "Ханифитский",
+  "shafie": "Шафиитский",
+  "suhurEnd": "Конец Сухура",
+  "iftarStart": "Начало Ифтара",
+  "tahajjudStart": "Начало Тахаджуда",
+  "tahajjud": "Тахаджуд",
+  "dhuha": "Духа"
+}

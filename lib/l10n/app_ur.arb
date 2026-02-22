@@ -1,0 +1,606 @@
+{
+  "@@locale": "ur",
+  "tafsirAppBarTitle": "{nameSimple} ( {nameArabic} ) - {ayahKey}",
+  "@tafsirAppBarTitle": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      },
+      "nameArabic": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirNotAvailable": "{ayahKey} کے لیے تفسیر دستیاب نہیں ہے",
+  "@tafsirNotAvailable": {
+    "placeholders": {
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirFoundAt": "تفسیر یہاں دستیاب ہے: {anotherAyahLinkKey}",
+  "@tafsirFoundAt": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirJumpTo": "{anotherAyahLinkKey} پر جائیں",
+  "@tafsirJumpTo": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "hizb": "حزب",
+  "juz": "جز",
+  "page": "صفحہ",
+  "ruku": "رکوع",
+  "languageSettings": "زبان کی ترتیبات",
+  "surahAyah": "{surahName} {ayahKey}",
+  "@surahAyah": {
+    "placeholders": {
+      "surahName": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsCount": "{count} آیات",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAndDownload": "محفوظ کریں اور ڈاؤن لوڈ کریں",
+  "appLanguage": "ایپ کی زبان",
+  "selectAppLanguage": "ایپ کی زبان منتخب کریں...",
+  "pleaseSelectOne": "براہ مہربانی ایک منتخب کریں",
+  "quranTranslationLanguage": "قرآن کا ترجمہ زبان",
+  "selectTranslationLanguage": "ترجمہ کی زبان منتخب کریں...",
+  "quranTranslationBook": "قرآن کا ترجمہ کتاب",
+  "selectTranslationBook": "ترجمہ کی کتاب منتخب کریں...",
+  "quranTafsirLanguage": "قرآن کی تفسیر زبان",
+  "selectTafsirLanguage": "تفسیر کی زبان منتخب کریں...",
+  "quranTafsirBook": "قرآن کی تفسیر کتاب",
+  "selectTafsirBook": "تفسیر کی کتاب منتخب کریں...",
+  "quranScriptAndStyle": "قرآن کا رسم الخط اور انداز",
+  "justAMoment": "ایک لمحہ...",
+  "processProgress": "{processName} {percentage}",
+  "@processProgress": {
+    "placeholders": {
+      "processName": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "کامیابی",
+  "retry": "دوبارہ کوشش کریں",
+  "unableToDownloadResources": "وسائل ڈاؤن لوڈ کرنے میں ناکام...\nکچھ غلط ہو گیا",
+  "downloadingSegmentedQuranRecitation": "قرآن کی تقسیم شدہ تلاوت ڈاؤن لوڈ ہو رہی ہے",
+  "processingSegmentedQuranRecitation": "قرآن کی تقسیم شدہ تلاوت پر عمل ہو رہا ہے",
+  "footnote": "فٹ نوٹ",
+  "tafsir": "تفسیر",
+  "wordByWord": "لفظ بہ لفظ",
+  "pleaseSelectRequiredOption": "براہ مہربانی مطلوبہ آپشن منتخب کریں",
+  "rememberHomeTab": "ہوم ٹیب یاد رکھیں",
+  "rememberHomeTabSubtitle": "ایپ ہوم اسکرین میں آخری کھولی گئی ٹیب کو یاد رکھے گی۔",
+  "wakeLock": "ویک لاک",
+  "wakeLockSubtitle": "اسکرین کو خود بخود بند ہونے سے روکیں۔",
+  "settings": "ترتیبات",
+  "appTheme": "ایپ کا تھیم",
+  "quranStyle": "قرآن کا انداز",
+  "changeTheme": "تھیم تبدیل کریں",
+  "verseCount": "آیات کی تعداد: ",
+  "translation": "ترجمہ",
+  "tafsirNotFound": "نہیں ملا",
+  "moreInfo": "مزید معلومات",
+  "playAudio": "آڈیو چلائیں",
+  "preview": "پیش نظارہ",
+  "loading": "لوڈ ہو رہا ہے...",
+  "errorFetchingAddress": "پتہ حاصل کرنے میں خرابی",
+  "addressNotAvailable": "پتہ دستیاب نہیں ہے",
+  "latitude": "عرض البلد: ",
+  "longitude": "طول البلد: ",
+  "name": "نام: ",
+  "location": "مقام: ",
+  "parameters": "پیرامیٹرز: ",
+  "selectCalculationMethod": "حساب کا طریقہ منتخب کریں",
+  "shareSelectAyahs": "منتخب آیات شیئر کریں",
+  "selectionEmpty": "انتخاب خالی ہے",
+  "generatingImagePleaseWait": "تصویر تیار ہو رہی ہے... براہ مہربانی انتظار کریں",
+  "asImage": "تصویر کی صورت میں",
+  "asText": "متن کی صورت میں",
+  "playFromSelectedAyah": "منتخب آیت سے چلائیں",
+  "toTafsir": "تفسیر کی طرف",
+  "selectAyah": "آیت منتخب کریں",
+  "toAyah": "آیت کی طرف",
+  "searchForASurah": "سورہ تلاش کریں",
+  "bugReportTitle": "بگ رپورٹ",
+  "audioCached": "آڈیو کیچڈ",
+  "others": "دیگر",
+  "quranTranslationAyahOneMustEnabled": "قرآن|ترجمہ|آیت، ایک کو فعال کرنا ضروری ہے",
+  "quranFontSize": "قرآن کا فونٹ سائز",
+  "quranLineHeight": "قرآن کی لائن ہائیٹ",
+  "translationAndTafsirFontSize": "ترجمہ اور تفسیر کا فونٹ سائز",
+  "quranAyah": "قرآن کی آیت",
+  "topToolbar": "اوپر کا ٹول بار",
+  "keepOpenWordByWord": "لفظ بہ لفظ کھلا رکھیں",
+  "wordByWordHighlight": "لفظ بہ لفظ ہائی لائٹ",
+  "quranScriptSettings": "قرآن کے رسم الخط کی ترتیبات",
+  "surahName": "{nameSimple}",
+  "@surahName": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNumber": "صفحہ: ",
+  "quranResources": "قرآن کے وسائل",
+  "alreadySelected": "زبان '{name}' پہلے سے منتخب ہے۔",
+  "@alreadySelected": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToGetCompassData": "کمپس کا ڈیٹا حاصل کرنے میں ناکام",
+  "deviceDoesNotHaveSensors": "ڈیوائس میں سینسرز نہیں ہیں!",
+  "north": "شمال",
+  "east": "مشرق",
+  "south": "جنوب",
+  "west": "مغرب",
+  "address": "پتہ: ",
+  "change": "تبدیل کریں",
+  "calculationMethod": "حساب کا طریقہ: ",
+  "downloadPrayerTime": "نماز کے اوقات ڈاؤن لوڈ کریں",
+  "calculationMethodsListEmpty": "حساب کے طریقوں کی فہرست خالی ہے۔",
+  "noCalculationMethodWithLocationData": "مقام کے ڈیٹا کے ساتھ کوئی حساب کا طریقہ نہیں ملا۔",
+  "prayerSettings": "نماز کی ترتیبات",
+  "reminderSettings": "یاد دہانی کی ترتیبات",
+  "adjustReminderTime": "یاد دہانی کا وقت ایڈجسٹ کریں",
+  "enforceAlarmSound": "الارم کی آواز کو نافذ کریں",
+  "enforceAlarmSoundDescription": "اگر فعال ہو تو، یہ فیچر الارم کو یہاں سیٹ کی گئی والیوم پر چلائے گا، چاہے آپ کے فون کی آواز کم ہو۔ یہ یقینی بناتا ہے کہ آپ کم فون والیوم کی وجہ سے الارم مس نہ کریں۔",
+  "volume": "والیوم",
+  "atPrayerTime": "نماز کے وقت پر",
+  "minBefore": "{minutes} منٹ پہلے",
+  "@minBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minAfter": "{minutes} منٹ بعد",
+  "@minAfter": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeIsAt": "{prayerName} کا وقت {prayerTime} ہے",
+  "@prayerTimeIsAt": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      },
+      "prayerTime": {
+        "type": "String"
+      }
+    }
+  },
+  "itsTimeOf": "{prayerName} کا وقت ہے",
+  "@itsTimeOf": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "stopTheAdhan": "اذان روکیں",
+  "dateFoundEmpty": "{date} خالی ملا",
+  "@dateFoundEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "آج",
+  "left": "باقی",
+  "reminderAdded": "{prayerName} کے لیے یاد دہانی شامل کی گئی",
+  "@reminderAdded": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "allowNotificationPermission": "اس فیچر کو استعمال کرنے کے لیے نوٹیفیکیشن کی اجازت دیں",
+  "reminderRemoved": "{prayerName} کے لیے یاد دہانی ہٹا دی گئی",
+  "@reminderRemoved": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "getPrayerTimesAndQibla": "نماز کے اوقات اور قبلہ حاصل کریں",
+  "getPrayerTimesAndQiblaDescription": "کسی بھی دیے گئے مقام کے لیے نماز کے اوقات اور قبلہ کا حساب لگائیں۔",
+  "getFromGPS": "جی پی ایس سے حاصل کریں",
+  "or": "یا",
+  "selectYourCity": "اپنا شہر منتخب کریں",
+  "noteAboutGPS": "نوٹ: اگر آپ جی پی ایس استعمال نہیں کرنا چاہتے یا محفوظ محسوس نہیں کرتے، تو آپ اپنا شہر منتخب کر سکتے ہیں۔",
+  "downloadingLocationResources": "مقام کے وسائل ڈاؤن لوڈ ہو رہے ہیں...",
+  "somethingWentWrong": "کچھ غلط ہو گیا",
+  "selectYourCountry": "اپنا ملک منتخب کریں",
+  "searchForACountry": "ملک تلاش کریں",
+  "selectYourAdministrator": "اپنا ایڈمنسٹریٹر منتخب کریں",
+  "searchForAnAdministrator": "ایڈمنسٹریٹر تلاش کریں",
+  "searchForACity": "شہر تلاش کریں",
+  "pleaseEnableLocationService": "براہ مہربانی مقام کی سروس فعال کریں",
+  "donateUs": "ہمیں عطیہ دیں",
+  "underDevelopment": "ترقی کے مراحل میں",
+  "versionLoading": "لوڈ ہو رہا ہے...",
+  "alQuran": "القرآن",
+  "mainMenu": "مین مینو",
+  "notes": "نوٹس",
+  "pinned": "پن کیے گئے",
+  "jumpToAyah": "آیت پر جائیں",
+  "shareMultipleAyah": "کئی آیات شیئر کریں",
+  "shareThisApp": "یہ ایپ شیئر کریں",
+  "giveRating": "ریٹنگ دیں",
+  "bugReport": "بگ رپورٹ",
+  "privacyPolicy": "پرائیویسی پالیسی",
+  "aboutTheApp": "ایپ کے بارے میں",
+  "resetTheApp": "ایپ ری سیٹ کریں",
+  "resetAppWarningTitle": "ایپ ڈیٹا ری سیٹ کریں",
+  "resetAppWarningMessage": "کیا آپ واقعی ایپ ری سیٹ کرنا چاہتے ہیں؟ آپ کا تمام ڈیٹا ضائع ہو جائے گا، اور آپ کو ایپ کو شروع سے سیٹ اپ کرنا پڑے گا۔",
+  "cancel": "منسوخ کریں",
+  "reset": "ری سیٹ",
+  "shareAppSubject": "یہ القرآن ایپ چیک کریں!",
+  "shareAppBody": "السلام علیکم! یہ القرآن ایپ روزانہ پڑھنے اور غور و فکر کے لیے چیک کریں۔ یہ اللہ کے کلام سے جڑنے میں مدد کرتی ہے۔ یہاں سے ڈاؤن لوڈ کریں: {appLink}",
+  "@shareAppBody": {
+    "placeholders": {
+      "appLink": {
+        "type": "String"
+      }
+    }
+  },
+  "openDrawerTooltip": "ڈراور کھولیں",
+  "quran": "قرآن",
+  "prayer": "نماز",
+  "qibla": "قبلہ",
+  "audio": "آڈیو",
+  "surah": "سورہ",
+  "pages": "صفحات",
+  "note": "نوٹ:",
+  "linkedAyahs": "منسلک آیات:",
+  "emptyNoteCollection": "یہ نوٹ کلیکشن خالی ہے۔\nیہاں دیکھنے کے لیے کچھ نوٹس شامل کریں۔",
+  "emptyPinnedCollection": "ابھی تک اس کلیکشن میں کوئی آیات پن نہیں کی گئیں۔\nیہاں دیکھنے کے لیے آیات پن کریں۔",
+  "noContentAvailable": "کوئی مواد دستیاب نہیں ہے۔",
+  "failedToLoadCollections": "کلیکشنز لوڈ کرنے میں ناکام: {error}",
+  "@failedToLoadCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByCollectionName": "{collectionType} نام سے تلاش کریں...",
+  "@searchByCollectionName": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "ترتیب سے",
+  "noCollectionAddedYet": "ابھی تک کوئی {collectionType} شامل نہیں کیا گیا",
+  "@noCollectionAddedYet": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedItemsCount": "{count} پن کیے گئے آئٹمز",
+  "@pinnedItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesCount": "{count} نوٹس",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyNameNotAllowed": "خالی نام کی اجازت نہیں ہے",
+  "updatedTo": "{collectionName} میں اپ ڈیٹ کیا گیا",
+  "@updatedTo": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "changeName": "نام تبدیل کریں",
+  "changeColor": "رنگ تبدیل کریں",
+  "colorUpdated": "رنگ اپ ڈیٹ ہو گیا",
+  "collectionDeleted": "{collectionName} حذف کر دیا گیا",
+  "@collectionDeleted": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "حذف کریں",
+  "save": "محفوظ کریں",
+  "collectionNameCannotBeEmpty": "کلیکشن کا نام خالی نہیں ہو سکتا۔",
+  "addedNewCollection": "نئی کلیکشن شامل کی گئی",
+  "ayahCount": "{count} آیت",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byNameAtoZ": "نام A-Z",
+  "byNameZtoA": "نام Z-A",
+  "byElementNumberAscending": "عنصر نمبر بڑھتا ہوا",
+  "byElementNumberDescending": "عنصر نمبر گھٹتا ہوا",
+  "byUpdateDateAscending": "اپ ڈیٹ کی تاریخ بڑھتی ہوئی",
+  "byUpdateDateDescending": "اپ ڈیٹ کی تاریخ گھٹتی ہوئی",
+  "byCreateDateAscending": "تخلیق کی تاریخ بڑھتی ہوئی",
+  "byCreateDateDescending": "تخلیق کی تاریخ گھٹتی ہوئی",
+  "translationNotFound": "ترجمہ نہیں ملا",
+  "translationTitle": "ترجمہ:",
+  "footNoteTitle": "فٹ نوٹ:",
+  "wordByWordTranslation": "لفظ بہ لفظ ترجمہ:",
+  "tafsirButton": "تفسیر",
+  "shareButton": "شیئر",
+  "addNoteButton": "نوٹ شامل کریں",
+  "pinToCollectionButton": "کلیکشن میں پن کریں",
+  "shareAsText": "متن کی صورت میں شیئر کریں",
+  "copiedWithTafsir": "تفسیر کے ساتھ کاپی کیا گیا",
+  "shareAsImage": "تصویر کی صورت میں شیئر کریں",
+  "shareWithTafsir": "تفسیر کے ساتھ شیئر کریں",
+  "notFound": "نہیں ملا",
+  "noteContentCannotBeEmpty": "نوٹ کا مواد خالی نہیں ہو سکتا۔",
+  "noteSavedSuccessfully": "نوٹ کامیابی سے محفوظ ہو گیا!",
+  "selectCollections": "کلیکشنز منتخب کریں",
+  "addNote": "نوٹ شامل کریں",
+  "writeCollectionName": "کلیکشن کا نام لکھیں...",
+  "noCollectionsYetAddANewOne": "ابھی تک کوئی کلیکشن نہیں۔ ایک نئی شامل کریں!",
+  "pleaseWriteYourNoteFirst": "براہ مہربانی پہلے اپنا نوٹ لکھیں۔",
+  "noCollectionSelected": "کوئی کلیکشن منتخب نہیں کی گئی",
+  "saveNote": "نوٹ محفوظ کریں",
+  "nextSelectCollections": "اگلا: کلیکشنز منتخب کریں",
+  "addToPinned": "پن کیے گئے میں شامل کریں",
+  "pinnedSavedSuccessfully": "پن کامیابی سے محفوظ ہو گیا!",
+  "savePinned": "پن محفوظ کریں",
+  "closeAudioController": "آڈیو کنٹرولر بند کریں",
+  "previous": "پچھلا",
+  "rewind": "پیچھے کریں",
+  "fastForward": "آگے کریں",
+  "playNextAyah": "اگلی آیت چلائیں",
+  "repeat": "دہرائیں",
+  "playAsPlaylist": "پلے لسٹ کی طرح چلائیں",
+  "style": "انداز: {style}",
+  "@style": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "stopAndClose": "روکیں اور بند کریں",
+  "play": "چلائیں",
+  "pause": "روکیں",
+  "selectReciter": "قاری منتخب کریں",
+  "source": "ماخذ: {source}",
+  "@source": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "newText": "نیا",
+  "more": "مزید: ",
+  "cacheNotFound": "کیچ نہیں ملا",
+  "cacheSize": "کیچ کا سائز",
+  "error": "خرابی: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clean": "صاف کریں",
+  "lastModified": "آخری ترمیم",
+  "oneYearAgo": "1 سال پہلے",
+  "monthsAgo": "{number} مہینے پہلے",
+  "@monthsAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "weeksAgo": "{number} ہفتے پہلے",
+  "@weeksAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "{number} دن پہلے",
+  "@daysAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursAgo": "{hour} گھنٹے پہلے",
+  "@hoursAgo": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutAlQuran": "القرآن کے بارے میں",
+  "appFullName": "القرآن (تفسیر، نماز، قبلہ، آڈیو)",
+  "appDescription": "ایک جامع اسلامی ایپلیکیشن اینڈرائیڈ، آئی او ایس، میک او ایس، ویب، لینکس اور ونڈوز کے لیے، جو قرآن کی تفسیر اور متعدد تراجم (بشمول لفظ بہ لفظ) کے ساتھ پڑھنے، دنیا بھر کے نماز کے اوقات نوٹیفیکیشنز کے ساتھ، قبلہ کمپاس، اور سنکرونائزڈ لفظ بہ لفظ آڈیو تلاوت پیش کرتی ہے۔",
+  "dataSourcesNote": "نوٹ: قرآن کے متن، تفسیر، تراجم، اور آڈیو وسائل Quran.com، Everyayah.com، اور دیگر تصدیق شدہ اوپن سورس سے لیے گئے ہیں۔",
+  "adFreePromise": "یہ ایپ اللہ کی خوشنودی حاصل کرنے کے لیے بنائی گئی ہے۔ اس لیے یہ مکمل طور پر اور ہمیشہ ایڈ فری رہے گی۔",
+  "coreFeatures": "بنیادی فیچرز",
+  "coreFeaturesDescription": "القرآن v3 کے کلیدی فنکشنز کو دریافت کریں جو آپ کی روزانہ اسلامی عبادات کے لیے ایک ناگزیر ٹول بناتے ہیں:",
+  "prayerTimesTitle": "نماز کے اوقات اور الرٹس",
+  "prayerTimesDescription": "دنیا بھر کے کسی بھی مقام کے لیے درست نماز کے اوقات مختلف حساب کے طریقوں کا استعمال کرتے ہوئے۔ اذان نوٹیفیکیشنز کے ساتھ یاد دہانیاں سیٹ کریں۔",
+  "qiblaDirectionTitle": "قبلہ کی سمت",
+  "qiblaDirectionDescription": "واضح اور درست کمپاس ویو کے ساتھ قبلہ کی سمت آسانی سے تلاش کریں۔",
+  "translationTafsirTitle": "قرآن کا ترجمہ اور تفسیر",
+  "translationTafsirDescription": "69 زبانوں میں 120+ ترجمہ کی کتابیں (بشمول لفظ بہ لفظ) اور 30+ تفسیر کی کتابیں حاصل کریں۔",
+  "wordByWordAudioTitle": "لفظ بہ لفظ آڈیو اور ہائی لائٹنگ",
+  "wordByWordAudioDescription": "ایک immersive لرننگ تجربے کے لیے سنکرونائزڈ لفظ بہ لفظ آڈیو تلاوت اور ہائی لائٹنگ کے ساتھ ساتھ چلیں۔",
+  "ayahAudioRecitationTitle": "آیت کی آڈیو تلاوت",
+  "ayahAudioRecitationDescription": "40+ مشہور قاریوں سے مکمل آیت کی تلاوت سنیں۔",
+  "notesCloudBackupTitle": "نوٹس کلاؤڈ بیک اپ کے ساتھ",
+  "notesCloudBackupDescription": "ذاتی نوٹس اور غور و فکر محفوظ کریں، کلاؤڈ پر محفوظ بیک اپ (فیچر ترقی کے مراحل میں/جلد آ رہا ہے)۔",
+  "crossPlatformSupportTitle": "کراس پلیٹ فارم سپورٹ",
+  "crossPlatformSupportDescription": "اینڈرائیڈ، ویب، لینکس، اور ونڈوز پر سپورٹڈ۔",
+  "backgroundAudioPlaybackTitle": "بیک گراؤنڈ آڈیو پلے بیک",
+  "backgroundAudioPlaybackDescription": "ایپ بیک گراؤنڈ میں ہونے پر بھی قرآن کی تلاوت سنتے رہیں۔",
+  "audioDataCachingTitle": "آڈیو اور ڈیٹا کیچنگ",
+  "audioDataCachingDescription": "آف لائن صلاحیتوں اور بہتر پلے بیک کے لیے مضبوط آڈیو اور قرآن ڈیٹا کیچنگ۔",
+  "minimalisticInterfaceTitle": "منیملسٹک اور کلین انٹرفیس",
+  "minimalisticInterfaceDescription": "یوزر تجربے اور پڑھنے کی آسانی پر توجہ کے ساتھ نیویگیٹ کرنے میں آسان انٹرفیس۔",
+  "optimizedPerformanceTitle": "آپٹمائزڈ پرفارمنس اور سائز",
+  "optimizedPerformanceDescription": "ایک فیچر سے بھرپور ایپلیکیشن جو ہلکی اور پرفارمنٹ ہونے کے لیے ڈیزائن کی گئی ہے۔",
+  "languageSupport": "زبان کی سپورٹ",
+  "languageSupportDescription": "یہ ایپلیکیشن عالمی سامعین کے لیے قابل رسائی ہونے کے لیے ڈیزائن کی گئی ہے جس میں درج ذیل زبانوں کی سپورٹ ہے (اور مزید مسلسل شامل کی جا رہی ہیں):",
+  "technologyAndResources": "ٹیکنالوجی اور وسائل",
+  "technologyAndResourcesDescription": "یہ ایپ جدید ٹیکنالوجیز اور قابل اعتماد وسائل کا استعمال کرتے ہوئے بنائی گئی ہے:",
+  "flutterFrameworkTitle": "فلٹر فریم ورک",
+  "flutterFrameworkDescription": "فلٹر کے ساتھ بنائی گئی ایک خوبصورت، نیٹولی کمپائلڈ، ملٹی پلیٹ فارم تجربے کے لیے ایک سنگل کوڈ بیس سے۔",
+  "advancedAudioEngineTitle": "ایڈوانسڈ آڈیو انجن",
+  "advancedAudioEngineDescription": "just_audio اور just_audio_background فلٹر پیکیجز سے چلنے والا مضبوط آڈیو پلے بیک اور کنٹرول۔",
+  "reliableQuranDataTitle": "قابل اعتماد قرآن ڈیٹا",
+  "reliableQuranDataDescription": "القرآن کے متن، تراجم، تفاسیر، اور آڈیو تصدیق شدہ اوپن APIs اور ڈیٹا بیسز جیسے Quran.com اور Everyayah.com سے لیے گئے ہیں۔",
+  "prayerTimeEngineTitle": "نماز کے وقت کا انجن",
+  "prayerTimeEngineDescription": "درست نماز کے اوقات کے لیے قائم شدہ حساب کے طریقے استعمال کرتا ہے۔ نوٹیفیکیشنز flutter_local_notifications اور بیک گراؤنڈ ٹاسکس سے ہینڈل کیے جاتے ہیں۔",
+  "crossPlatformSupport": "کراس پلیٹ فارم سپورٹ",
+  "crossPlatformSupportDescription2": "مختلف پلیٹ فارمز پر بغیر کسی رکاوٹ کے رسائی حاصل کریں:",
+  "android": "اینڈرائیڈ",
+  "ios": "آئی او ایس",
+  "macos": "میک او ایس",
+  "web": "ویب",
+  "linux": "لینکس",
+  "windows": "ونڈوز",
+  "ourLifetimePromise": "ہمارا لائف ٹائم وعدہ",
+  "lifetimePromiseDescription": "میں ذاتی طور پر اس ایپلیکیشن کی لائف ٹائم سپورٹ اور مینٹیننس فراہم کرنے کا وعدہ کرتا ہوں، ان شاء اللہ۔ میرا مقصد یہ یقینی بنانا ہے کہ یہ ایپ امت کے لیے آنے والے سالوں میں ایک مفید وسیلہ رہے۔",
+  "fajr": "فجر",
+  "sunrise": "طلوع آفتاب",
+  "dhuhr": "ظہر",
+  "asr": "عصر",
+  "maghrib": "مغرب",
+  "isha": "عشاء",
+  "midnight": "نصف شب",
+  "alarm": "الارم",
+  "notification": "نوٹیفیکیشن",
+  "formattedAddress": "{subAdministrativeArea}، {administrativeArea}، {country}",
+  "@formattedAddress": {
+    "placeholders": {
+      "subAdministrativeArea": {
+        "type": "String"
+      },
+      "administrativeArea": {
+        "type": "String"
+      },
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quranScriptTajweed": "تجوید",
+  "quranScriptUthmani": "عثمانی",
+  "quranScriptIndopak": "انڈو پاک",
+  "sajdaAyah": "سجدہ کی آیت",
+  "required": "ضروری",
+  "optional": "اختیاری",
+  "notificationScheduleWarning": "نوٹ: شیڈولڈ نوٹیفیکیشن یا یاد دہانی آپ کے فون کی OS بیک گراؤنڈ پروسیس پابندیوں کی وجہ سے مس ہو سکتی ہے۔ مثال کے طور پر: Vivo کی Origin OS، Samsung کی One UI، Oppo کی ColorOS وغیرہ کبھی کبھی شیڈولڈ نوٹیفیکیشن یا یاد دہانی کو ختم کر دیتے ہیں۔ براہ مہربانی اپنے OS کی ترتیبات چیک کریں تاکہ ایپ کو بیک گراؤنڈ پروسیس سے محدود نہ کیا جائے۔",
+  "scrollWithRecitation": "تلاوت کے ساتھ اسکرول کریں",
+  "quickAccess": "فوری رسائی",
+  "initiallyScrollAyah": "شروع میں آیت پر اسکرول کریں",
+  "tajweedGuide": "تجوید گائیڈ",
+  "scrollWithRecitationDesc": "فعال ہونے پر، قرآن کی آیت آڈیو تلاوت کے ساتھ خود بخود اسکرول ہو گی۔",
+  "configuration": "کنفیگریشن",
+  "restoreFromBackup": "بیک اپ سے بحال کریں",
+  "history": "تاریخ",
+  "search": "تلاش",
+  "useAudioStream": "آڈیو اسٹریم استعمال کریں",
+  "useAudioStreamDesc": "انٹرنیٹ سے براہ راست آڈیو اسٹریم کریں بجائے ڈاؤن لوڈ کرنے کے۔",
+  "notUseAudioStreamDesc": "آف لائن استعمال کے لیے آڈیو ڈاؤن لوڈ کریں اور ڈیٹا کی کھپت کم کریں۔",
+  "audioSettings": "آڈیو ترتیبات",
+  "playbackSpeed": "پلے بیک کی رفتار",
+  "playbackSpeedDesc": "قرآن کی تلاوت کی رفتار ایڈجسٹ کریں۔",
+  "waitForCurrentDownloadToFinish": "براہ مہربانی موجودہ ڈاؤن لوڈ ختم ہونے کا انتظار کریں۔",
+  "areYouSure": "کیا آپ یقینی ہیں؟",
+  "checkYourInternetConnection": "اپنا انٹرنیٹ کنکشن چیک کریں۔",
+  "audioDownloadAlert": "{totalVersesCount} آیات میں سے {requiredDownload} ڈاؤن لوڈ کرنے کی ضرورت ہے۔",
+  "@audioDownloadAlert": {
+    "placeholders": {
+      "requiredDownload": {
+        "type": "int"
+      },
+      "totalVersesCount": {
+        "type": "int"
+      }
+    }
+  },
+  "download": "ڈاؤن لوڈ",
+  "audioDownload": "آڈیو ڈاؤن لوڈ",
+  "am": "صبح",
+  "pm": "شام",
+  "optimizingQuranScript": "قرآن کے رسم الخط کو آپٹمائز کر رہے ہیں",
+  "supportOnGithub": "گٹ ہب پر حمایت",
+  "noon": "دوپہر",
+  "sunset": "غروب آفتاب",
+  "forbiddenSalatTimes": "ممنوعہ نماز کے اوقات",
+  "prayerTimes": "نماز کے اوقات",
+  "hanafi": "حنفی",
+  "shafie": "شافعی",
+  "suhurEnd": "سحری کا اختتام",
+  "iftarStart": "افطار کا وقت",
+  "tahajjudStart": "تہجد کی شروعات",
+  "tahajjud": "تہجد",
+  "dhuha": "چاشت"
+}

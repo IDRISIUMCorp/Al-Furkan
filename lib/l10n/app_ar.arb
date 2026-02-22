@@ -1,0 +1,606 @@
+{
+  "@@locale": "ar",
+  "tafsirAppBarTitle": "{nameSimple} ({nameArabic}) - {ayahKey}",
+  "@tafsirAppBarTitle": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      },
+      "nameArabic": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirNotAvailable": "التفسير غير متوفر لـ {ayahKey}",
+  "@tafsirNotAvailable": {
+    "placeholders": {
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirFoundAt": "التفسير موجود في: {anotherAyahLinkKey}",
+  "@tafsirFoundAt": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "tafsirJumpTo": "انتقل إلى {anotherAyahLinkKey}",
+  "@tafsirJumpTo": {
+    "placeholders": {
+      "anotherAyahLinkKey": {
+        "type": "String"
+      }
+    }
+  },
+  "hizb": "حزب",
+  "juz": "جزء",
+  "page": "صفحة",
+  "ruku": "ركوع",
+  "languageSettings": "إعدادات اللغة",
+  "surahAyah": "{surahName} {ayahKey}",
+  "@surahAyah": {
+    "placeholders": {
+      "surahName": {
+        "type": "String"
+      },
+      "ayahKey": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsCount": "{count} آيات",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAndDownload": "احفظ ونزل",
+  "appLanguage": "لغة التطبيق",
+  "selectAppLanguage": "اختر لغة التطبيق...",
+  "pleaseSelectOne": "يرجى اختيار واحد",
+  "quranTranslationLanguage": "لغة ترجمة القرآن",
+  "selectTranslationLanguage": "اختر لغة الترجمة...",
+  "quranTranslationBook": "كتاب ترجمة القرآن",
+  "selectTranslationBook": "اختر كتاب الترجمة...",
+  "quranTafsirLanguage": "لغة تفسير القرآن",
+  "selectTafsirLanguage": "اختر لغة التفسير...",
+  "quranTafsirBook": "كتاب تفسير القرآن",
+  "selectTafsirBook": "اختر كتاب التفسير...",
+  "quranScriptAndStyle": "نص القرآن وأسلوبه",
+  "justAMoment": "لحظة فقط...",
+  "processProgress": "{processName} {percentage}",
+  "@processProgress": {
+    "placeholders": {
+      "processName": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "نجاح",
+  "retry": "أعد المحاولة",
+  "unableToDownloadResources": "غير قادر على تنزيل الموارد...\nحدث خطأ ما",
+  "downloadingSegmentedQuranRecitation": "جاري تنزيل تلاوة القرآن المقسمة",
+  "processingSegmentedQuranRecitation": "جاري معالجة تلاوة القرآن المقسمة",
+  "footnote": "هامش",
+  "tafsir": "تفسير",
+  "wordByWord": "كلمة بكلمة",
+  "pleaseSelectRequiredOption": "يرجى اختيار الخيار المطلوب",
+  "rememberHomeTab": "تذكر علامة التبويب الرئيسية",
+  "rememberHomeTabSubtitle": "سيحتفظ التطبيق بآخر علامة تبويب مفتوحة في الشاشة الرئيسية.",
+  "wakeLock": "قفل الاستيقاظ",
+  "wakeLockSubtitle": "منع الشاشة من الإغلاق تلقائيًا.",
+  "settings": "الإعدادات",
+  "appTheme": "سمة التطبيق",
+  "quranStyle": "أسلوب القرآن",
+  "changeTheme": "تغيير السمة",
+  "verseCount": "عدد الآيات: ",
+  "translation": "ترجمة",
+  "tafsirNotFound": "غير موجود",
+  "moreInfo": "مزيد من المعلومات",
+  "playAudio": "تشغيل الصوت",
+  "preview": "معاينة",
+  "loading": "جاري التحميل...",
+  "errorFetchingAddress": "خطأ في جلب العنوان",
+  "addressNotAvailable": "العنوان غير متوفر",
+  "latitude": "خط العرض: ",
+  "longitude": "خط الطول: ",
+  "name": "الاسم: ",
+  "location": "الموقع: ",
+  "parameters": "المعلمات: ",
+  "selectCalculationMethod": "اختر طريقة الحساب",
+  "shareSelectAyahs": "مشاركة الآيات المختارة",
+  "selectionEmpty": "الاختيار فارغ",
+  "generatingImagePleaseWait": "جاري إنشاء الصورة... يرجى الانتظار",
+  "asImage": "كصورة",
+  "asText": "كنص",
+  "playFromSelectedAyah": "تشغيل من الآية المختارة",
+  "toTafsir": "إلى التفسير",
+  "selectAyah": "اختر آية",
+  "toAyah": "إلى آية",
+  "searchForASurah": "ابحث عن سورة",
+  "bugReportTitle": "تقرير خطأ",
+  "audioCached": "الصوت المخزن مؤقتًا",
+  "others": "آخرون",
+  "quranTranslationAyahOneMustEnabled": "القرآن|الترجمة|الآية، يجب تمكين واحد",
+  "quranFontSize": "حجم خط القرآن",
+  "quranLineHeight": "ارتفاع سطر القرآن",
+  "translationAndTafsirFontSize": "حجم خط الترجمة والتفسير",
+  "quranAyah": "آية القرآن",
+  "topToolbar": "شريط الأدوات العلوي",
+  "keepOpenWordByWord": "ابق مفتوحًا كلمة بكلمة",
+  "wordByWordHighlight": "تسليط الضوء كلمة بكلمة",
+  "quranScriptSettings": "إعدادات نص القرآن",
+  "surahName": "{nameSimple}",
+  "@surahName": {
+    "placeholders": {
+      "nameSimple": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNumber": "رقم الصفحة: ",
+  "quranResources": "موارد القرآن",
+  "alreadySelected": "اللغة '{name}' مختارة بالفعل.",
+  "@alreadySelected": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToGetCompassData": "غير قادر على الحصول على بيانات البوصلة",
+  "deviceDoesNotHaveSensors": "الجهاز لا يحتوي على مستشعرات!",
+  "north": "شمال",
+  "east": "شرق",
+  "south": "جنوب",
+  "west": "غرب",
+  "address": "العنوان: ",
+  "change": "تغيير",
+  "calculationMethod": "طريقة الحساب: ",
+  "downloadPrayerTime": "تنزيل أوقات الصلاة",
+  "calculationMethodsListEmpty": "قائمة طرق الحساب فارغة.",
+  "noCalculationMethodWithLocationData": "لم يتم العثور على أي طريقة حساب مع بيانات الموقع.",
+  "prayerSettings": "إعدادات الصلاة",
+  "reminderSettings": "إعدادات التذكير",
+  "adjustReminderTime": "ضبط وقت التذكير",
+  "enforceAlarmSound": "فرض صوت الإنذار",
+  "enforceAlarmSoundDescription": "إذا تم تمكينه، سيقوم هذا الميزة بتشغيل الإنذار بحجم الصوت المحدد هنا، حتى لو كان صوت هاتفك منخفضًا. هذا يضمن عدم تفويت الإنذار بسبب انخفاض حجم الهاتف.",
+  "volume": "الصوت",
+  "atPrayerTime": "في وقت الصلاة",
+  "minBefore": "{minutes} دقيقة قبل",
+  "@minBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minAfter": "{minutes} دقيقة بعد",
+  "@minAfter": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeIsAt": "{prayerName} في {prayerTime}",
+  "@prayerTimeIsAt": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      },
+      "prayerTime": {
+        "type": "String"
+      }
+    }
+  },
+  "itsTimeOf": "حان وقت {prayerName}",
+  "@itsTimeOf": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "stopTheAdhan": "أوقف الأذان",
+  "dateFoundEmpty": "{date} وجد فارغًا",
+  "@dateFoundEmpty": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "اليوم",
+  "left": "باقي",
+  "reminderAdded": "تم إضافة تذكير لـ {prayerName}",
+  "@reminderAdded": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "allowNotificationPermission": "يرجى السماح بإذن الإشعارات لاستخدام هذه الميزة",
+  "reminderRemoved": "تم إزالة تذكير {prayerName}",
+  "@reminderRemoved": {
+    "placeholders": {
+      "prayerName": {
+        "type": "String"
+      }
+    }
+  },
+  "getPrayerTimesAndQibla": "احصل على أوقات الصلاة والقبلة",
+  "getPrayerTimesAndQiblaDescription": "احسب أوقات الصلاة والقبلة لأي موقع معين.",
+  "getFromGPS": "احصل من GPS",
+  "or": "أو",
+  "selectYourCity": "اختر مدينتك",
+  "noteAboutGPS": "ملاحظة: إذا كنت لا تريد استخدام GPS أو لا تشعر بالأمان، يمكنك اختيار مدينتك.",
+  "downloadingLocationResources": "جاري تنزيل موارد الموقع...",
+  "somethingWentWrong": "حدث خطأ ما",
+  "selectYourCountry": "اختر بلدك",
+  "searchForACountry": "ابحث عن بلد",
+  "selectYourAdministrator": "اختر الإدارة الخاصة بك",
+  "searchForAnAdministrator": "ابحث عن إدارة",
+  "searchForACity": "ابحث عن مدينة",
+  "pleaseEnableLocationService": "يرجى تمكين خدمة الموقع",
+  "donateUs": "تبرع لنا",
+  "underDevelopment": "قيد التطوير",
+  "versionLoading": "جاري التحميل...",
+  "alQuran": "القرآن",
+  "mainMenu": "القائمة الرئيسية",
+  "notes": "ملاحظات",
+  "pinned": "مثبت",
+  "jumpToAyah": "انتقل إلى آية",
+  "shareMultipleAyah": "مشاركة آيات متعددة",
+  "shareThisApp": "مشاركة هذا التطبيق",
+  "giveRating": "أعطِ تقييمًا",
+  "bugReport": "تقرير خطأ",
+  "privacyPolicy": "سياسة الخصوصية",
+  "aboutTheApp": "عن التطبيق",
+  "resetTheApp": "إعادة تعيين التطبيق",
+  "resetAppWarningTitle": "إعادة تعيين بيانات التطبيق",
+  "resetAppWarningMessage": "هل أنت متأكد من إعادة تعيين التطبيق؟ سيتم فقدان جميع بياناتك، وسيتعين عليك إعداد التطبيق من البداية.",
+  "cancel": "إلغاء",
+  "reset": "إعادة تعيين",
+  "shareAppSubject": "تحقق من تطبيق القرآن هذا!",
+  "shareAppBody": "السلام عليكم! تحقق من تطبيق القرآن هذا للقراءة اليومية والتأمل. يساعد في الاتصال بكلمات الله. نزل من هنا: {appLink}",
+  "@shareAppBody": {
+    "placeholders": {
+      "appLink": {
+        "type": "String"
+      }
+    }
+  },
+  "openDrawerTooltip": "افتح الدرج",
+  "quran": "قرآن",
+  "prayer": "صلاة",
+  "qibla": "قبلة",
+  "audio": "صوت",
+  "surah": "سورة",
+  "pages": "صفحات",
+  "note": "ملاحظة:",
+  "linkedAyahs": "آيات مرتبطة:",
+  "emptyNoteCollection": "هذه المجموعة من الملاحظات فارغة.\nأضف بعض الملاحظات لرؤيتها هنا.",
+  "emptyPinnedCollection": "لم يتم تثبيت أي آيات في هذه المجموعة بعد.\nثبت الآيات لرؤيتها هنا.",
+  "noContentAvailable": "لا يوجد محتوى متوفر.",
+  "failedToLoadCollections": "فشل في تحميل المجموعات: {error}",
+  "@failedToLoadCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByCollectionName": "ابحث حسب اسم {collectionType}...",
+  "@searchByCollectionName": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "sortBy": "ترتيب حسب",
+  "noCollectionAddedYet": "لم يتم إضافة {collectionType} بعد",
+  "@noCollectionAddedYet": {
+    "placeholders": {
+      "collectionType": {
+        "type": "String"
+      }
+    }
+  },
+  "pinnedItemsCount": "{count} عناصر مثبتة",
+  "@pinnedItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesCount": "{count} ملاحظات",
+  "@notesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyNameNotAllowed": "الاسم الفارغ غير مسموح",
+  "updatedTo": "تم التحديث إلى {collectionName}",
+  "@updatedTo": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "changeName": "تغيير الاسم",
+  "changeColor": "تغيير اللون",
+  "colorUpdated": "تم تحديث اللون",
+  "collectionDeleted": "{collectionName} محذوف",
+  "@collectionDeleted": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "delete": "حذف",
+  "save": "حفظ",
+  "collectionNameCannotBeEmpty": "اسم المجموعة لا يمكن أن يكون فارغًا.",
+  "addedNewCollection": "تم إضافة مجموعة جديدة",
+  "ayahCount": "{count} آية",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "byNameAtoZ": "الاسم أ-ي",
+  "byNameZtoA": "الاسم ي-أ",
+  "byElementNumberAscending": "رقم العنصر تصاعدي",
+  "byElementNumberDescending": "رقم العنصر تنازلي",
+  "byUpdateDateAscending": "تاريخ التحديث تصاعدي",
+  "byUpdateDateDescending": "تاريخ التحديث تنازلي",
+  "byCreateDateAscending": "تاريخ الإنشاء تصاعدي",
+  "byCreateDateDescending": "تاريخ الإنشاء تنازلي",
+  "translationNotFound": "الترجمة غير موجودة",
+  "translationTitle": "ترجمة:",
+  "footNoteTitle": "هامش:",
+  "wordByWordTranslation": "ترجمة كلمة بكلمة:",
+  "tafsirButton": "تفسير",
+  "shareButton": "مشاركة",
+  "addNoteButton": "إضافة ملاحظة",
+  "pinToCollectionButton": "تثبيت في المجموعة",
+  "shareAsText": "مشاركة كنص",
+  "copiedWithTafsir": "تم النسخ مع التفسير",
+  "shareAsImage": "مشاركة كصورة",
+  "shareWithTafsir": "مشاركة مع التفسير",
+  "notFound": "غير موجود",
+  "noteContentCannotBeEmpty": "محتوى الملاحظة لا يمكن أن يكون فارغًا.",
+  "noteSavedSuccessfully": "تم حفظ الملاحظة بنجاح!",
+  "selectCollections": "اختر المجموعات",
+  "addNote": "إضافة ملاحظة",
+  "writeCollectionName": "اكتب اسم المجموعة...",
+  "noCollectionsYetAddANewOne": "لا مجموعات بعد. أضف واحدة جديدة!",
+  "pleaseWriteYourNoteFirst": "يرجى كتابة ملاحظتك أولاً.",
+  "noCollectionSelected": "لم يتم اختيار مجموعة",
+  "saveNote": "حفظ الملاحظة",
+  "nextSelectCollections": "التالي: اختر المجموعات",
+  "addToPinned": "إضافة إلى المثبت",
+  "pinnedSavedSuccessfully": "تم حفظ المثبت بنجاح!",
+  "savePinned": "حفظ المثبت",
+  "closeAudioController": "أغلق متحكم الصوت",
+  "previous": "السابق",
+  "rewind": "إعادة",
+  "fastForward": "تقديم سريع",
+  "playNextAyah": "تشغيل الآية التالية",
+  "repeat": "تكرار",
+  "playAsPlaylist": "تشغيل كقائمة تشغيل",
+  "style": "أسلوب: {style}",
+  "@style": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "stopAndClose": "أوقف وأغلق",
+  "play": "تشغيل",
+  "pause": "إيقاف مؤقت",
+  "selectReciter": "اختر القارئ",
+  "source": "المصدر: {source}",
+  "@source": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "newText": "جديد",
+  "more": "المزيد: ",
+  "cacheNotFound": "المخزن المؤقت غير موجود",
+  "cacheSize": "حجم المخزن المؤقت",
+  "error": "خطأ: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clean": "تنظيف",
+  "lastModified": "آخر تعديل",
+  "oneYearAgo": "منذ عام واحد",
+  "monthsAgo": "منذ {number} أشهر",
+  "@monthsAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "weeksAgo": "منذ {number} أسابيع",
+  "@weeksAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "daysAgo": "منذ {number} أيام",
+  "@daysAgo": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursAgo": "منذ {hour} ساعات",
+  "@hoursAgo": {
+    "placeholders": {
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutAlQuran": "عن القرآن",
+  "appFullName": "الفُرقان",
+  "appDescription": "تطبيق إسلامي شامل لأندرويد، iOS، macOS، الويب، لينكس وويندوز، يقدم قراءة القرآن مع تفسير وترجمات متعددة (بما في ذلك كلمة بكلمة)، أوقات الصلاة في جميع أنحاء العالم مع إشعارات، بوصلة القبلة، وتلاوة صوتية متزامنة كلمة بكلمة.",
+  "dataSourcesNote": "ملاحظة: نصوص القرآن، التفسير، الترجمات، والموارد الصوتية مستمدة من Quran.com، Everyayah.com، ومصادر مفتوحة موثوقة أخرى.",
+  "adFreePromise": "تم بناء هذا التطبيق للحصول على رضا الله. لذلك، هو ودائمًا سيكون خاليًا تمامًا من الإعلانات.",
+  "coreFeatures": "الميزات الأساسية",
+  "coreFeaturesDescription": "استكشف الوظائف الرئيسية التي تجعل القرآن v3 أداة لا غنى عنها لممارساتك الإسلامية اليومية:",
+  "prayerTimesTitle": "أوقات الصلاة والتنبيهات",
+  "prayerTimesDescription": "أوقات صلاة دقيقة لأي موقع في العالم باستخدام طرق حساب متنوعة. قم بتعيين تذكيرات مع إشعارات الأذان.",
+  "qiblaDirectionTitle": "اتجاه القبلة",
+  "qiblaDirectionDescription": "ابحث عن اتجاه القبلة بسهولة مع عرض بوصلة واضح ودقيق.",
+  "translationTafsirTitle": "ترجمة القرآن وتفسيره",
+  "translationTafsirDescription": "الوصول إلى أكثر من 120 كتاب ترجمة (بما في ذلك كلمة بكلمة) في 69 لغة، وأكثر من 30 كتاب تفسير.",
+  "wordByWordAudioTitle": "صوت كلمة بكلمة وتسليط الضوء",
+  "wordByWordAudioDescription": "تابع مع تلاوة صوتية متزامنة كلمة بكلمة وتسليط الضوء لتجربة تعلم غامرة.",
+  "ayahAudioRecitationTitle": "تلاوة صوتية للآية",
+  "ayahAudioRecitationDescription": "استمع إلى تلاوات آيات كاملة من أكثر من 40 قارئ مشهور.",
+  "notesCloudBackupTitle": "ملاحظات مع نسخ احتياطي سحابي",
+  "notesCloudBackupDescription": "احفظ ملاحظاتك الشخصية وتأملاتك، مدعومة بشكل آمن في السحابة (ميزة قيد التطوير/قادمة قريبًا).",
+  "crossPlatformSupportTitle": "دعم عبر المنصات",
+  "crossPlatformSupportDescription": "مدعوم على أندرويد، الويب، لينكس، وويندوز.",
+  "backgroundAudioPlaybackTitle": "تشغيل الصوت في الخلفية",
+  "backgroundAudioPlaybackDescription": "استمر في الاستماع إلى تلاوة القرآن حتى عندما يكون التطبيق في الخلفية.",
+  "audioDataCachingTitle": "تخزين الصوت والبيانات مؤقتًا",
+  "audioDataCachingDescription": "تحسين التشغيل والقدرات دون اتصال مع تخزين قوي للصوت وبيانات القرآن.",
+  "minimalisticInterfaceTitle": "واجهة بسيطة ونظيفة",
+  "minimalisticInterfaceDescription": "واجهة سهلة التنقل مع التركيز على تجربة المستخدم والقراءة.",
+  "optimizedPerformanceTitle": "أداء محسن وحجم",
+  "optimizedPerformanceDescription": "تطبيق غني بالميزات مصمم ليكون خفيف الوزن وفعال.",
+  "languageSupport": "دعم اللغات",
+  "languageSupportDescription": "تم تصميم هذا التطبيق ليكون متاحًا لجمهور عالمي مع دعم اللغات التالية (ومزيد منها يتم إضافته باستمرار):",
+  "technologyAndResources": "التكنولوجيا والموارد",
+  "technologyAndResourcesDescription": "تم بناء هذا التطبيق باستخدام تقنيات حديثة وموارد موثوقة:",
+  "flutterFrameworkTitle": "إطار عمل فلاتر",
+  "flutterFrameworkDescription": "مبني باستخدام فلاتر لتجربة جميلة، مترجمة أصلاً، متعددة المنصات من قاعدة كود واحدة.",
+  "advancedAudioEngineTitle": "محرك صوت متقدم",
+  "advancedAudioEngineDescription": "مدعوم بحزم فلاتر `just_audio` و`just_audio_background` لتشغيل وتحكم صوتي قوي.",
+  "reliableQuranDataTitle": "بيانات قرآن موثوقة",
+  "reliableQuranDataDescription": "نصوص القرآن، الترجمات، التفاسير، والصوت مستمدة من واجهات برمجة تطبيقات مفتوحة موثوقة و قواعد بيانات مثل Quran.com وEveryayah.com.",
+  "prayerTimeEngineTitle": "محرك أوقات الصلاة",
+  "prayerTimeEngineDescription": "يستخدم طرق حساب مثبتة لأوقات صلاة دقيقة. الإشعارات تدار بواسطة `flutter_local_notifications` والمهام الخلفية.",
+  "crossPlatformSupport": "دعم عبر المنصات",
+  "crossPlatformSupportDescription2": "استمتع بالوصول السلس عبر منصات مختلفة:",
+  "android": "أندرويد",
+  "ios": "iOS",
+  "macos": "macOS",
+  "web": "الويب",
+  "linux": "لينكس",
+  "windows": "ويندوز",
+  "ourLifetimePromise": "وعدنا مدى الحياة",
+  "lifetimePromiseDescription": "أعد شخصيًا بدعم وصيانة مستمرة لهذا التطبيق طوال حياتي، إن شاء الله. هدفي هو التأكد من أن هذا التطبيق يظل مصدرًا مفيدًا للأمة لسنوات قادمة.",
+  "fajr": "فجر",
+  "sunrise": "شروق",
+  "dhuhr": "ظهر",
+  "asr": "عصر",
+  "maghrib": "مغرب",
+  "isha": "عشاء",
+  "midnight": "منتصف الليل",
+  "alarm": "إنذار",
+  "notification": "إشعار",
+  "formattedAddress": "{subAdministrativeArea}، {administrativeArea}، {country}",
+  "@formattedAddress": {
+    "placeholders": {
+      "subAdministrativeArea": {
+        "type": "String"
+      },
+      "administrativeArea": {
+        "type": "String"
+      },
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "quranScriptTajweed": "تجويد",
+  "quranScriptUthmani": "عثماني",
+  "quranScriptIndopak": "إندوباك",
+  "sajdaAyah": "آية سجدة",
+  "required": "مطلوب",
+  "optional": "اختياري",
+  "notificationScheduleWarning": "ملاحظة: قد يتم تفويت إشعار أو تذكير مجدول بسبب قيود عملية الخلفية في نظام تشغيل هاتفك. على سبيل المثال: Origin OS من Vivo، One UI من Samsung، ColorOS من Oppo إلخ. أحيانًا تقتل الإشعارات أو التذكيرات المجدولة. يرجى التحقق من إعدادات نظام التشغيل الخاص بك لجعل التطبيق غير مقيد من عمليات الخلفية.",
+  "scrollWithRecitation": "التمرير مع التلاوة",
+  "quickAccess": "وصول سريع",
+  "initiallyScrollAyah": "التمرير الأولي إلى الآية",
+  "tajweedGuide": "دليل التجويد",
+  "scrollWithRecitationDesc": "عند تمكينه، سيتحرك الآية القرآنية تلقائيًا متزامنًا مع التلاوة الصوتية.",
+  "configuration": "التكوين",
+  "restoreFromBackup": "استعادة من النسخ الاحتياطي",
+  "history": "التاريخ",
+  "search": "بحث",
+  "useAudioStream": "استخدام تدفق الصوت",
+  "useAudioStreamDesc": "تدفق الصوت مباشرة من الإنترنت بدلاً من التنزيل.",
+  "notUseAudioStreamDesc": "تنزيل الصوت للاستخدام دون اتصال وتقليل استهلاك البيانات.",
+  "audioSettings": "إعدادات الصوت",
+  "playbackSpeed": "سرعة التشغيل",
+  "playbackSpeedDesc": "ضبط سرعة تلاوة القرآن.",
+  "waitForCurrentDownloadToFinish": "يرجى الانتظار حتى ينتهي التنزيل الحالي.",
+  "areYouSure": "هل أنت متأكد؟",
+  "checkYourInternetConnection": "تحقق من اتصالك بالإنترنت.",
+  "audioDownloadAlert": "يحتاج إلى تنزيل {requiredDownload} من {totalVersesCount} آيات.",
+  "@audioDownloadAlert": {
+    "placeholders": {
+      "requiredDownload": {
+        "type": "int"
+      },
+      "totalVersesCount": {
+        "type": "int"
+      }
+    }
+  },
+  "download": "تنزيل",
+  "audioDownload": "تنزيل الصوت",
+  "am": "ص",
+  "pm": "م",
+  "optimizingQuranScript": "تحسين نص القرآن",
+  "supportOnGithub": "ادعمونا على جيت هب",
+  "noon": "الظهر",
+  "sunset": "الغروب",
+  "forbiddenSalatTimes": "أوقات الصلاة المنهي عنها",
+  "prayerTimes": "أوقات الصلاة",
+  "hanafi": "حنفى",
+  "shafie": "شافعى",
+  "suhurEnd": "نهاية السحور",
+  "iftarStart": "بداية الإفطار",
+  "tahajjudStart": "بداية التهجد",
+  "tahajjud": "التهجد",
+  "dhuha": "الضحى"
+}
