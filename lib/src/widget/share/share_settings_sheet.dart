@@ -1,6 +1,8 @@
 import "dart:io";
 import "dart:ui";
 
+import "package:flutter/foundation.dart";
+
 import "package:al_quran_v3/l10n/app_localizations.dart";
 import "package:al_quran_v3/src/model/ayah_image_settings.dart";
 import "package:al_quran_v3/src/resources/quran_resources/meaning_of_surah.dart";
@@ -1882,6 +1884,7 @@ class _ShareSettingsSheetState extends State<ShareSettingsSheet>
     setState(() => _isSharing = true);
 
     try {
+      // Capture the image bytes.
       final imageBytes = await _screenshotController.capture(
         pixelRatio: _settings.exportQuality.getPixelRatio(),
         delay: const Duration(milliseconds: 100),
@@ -1890,20 +1893,41 @@ class _ShareSettingsSheetState extends State<ShareSettingsSheet>
       if (imageBytes != null) {
         final surahName = getSurahName(context, 
           int.parse(widget.ayahKey.split(":").first));
-
-        final dir = await getTemporaryDirectory();
-        final safeKey = widget.ayahKey.replaceAll(":", "_");
         final fileName = "$surahName - ${widget.ayahKey}.png";
-        final file = File("${dir.path}/share_$safeKey.png");
-        await file.writeAsBytes(imageBytes, flush: true);
+        
+        XFile xFile;
+        // Check if we are on the web to avoid dart:io File usage which crashes.
+        try {
+          if (!kIsWeb && (Platform.isAndroid || Platform.isIOS || Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
+            final dir = await getTemporaryDirectory();
+            final safeKey = widget.ayahKey.replaceAll(":", "_");
+            final file = File("${dir.path}/share_$safeKey.png");
+            await file.writeAsBytes(imageBytes, flush: true);
+            xFile = XFile(file.path);
+          } else {
+            // Web fallback using bytes directly.
+            xFile = XFile.fromData(imageBytes, mimeType: "image/png", name: fileName);
+          }
+        } catch (_) {
+            // General fallback using bytes directly.
+            xFile = XFile.fromData(imageBytes, mimeType: "image/png", name: fileName);
+        }
 
-        await SharePlus.instance.share(
-          ShareParams(
-            files: [XFile(file.path)],
-            fileNameOverrides: [fileName],
-            downloadFallbackEnabled: false,
-            mailToFallbackEnabled: false,
-          ),
+        if (kIsWeb) {
+          // On Web, Share API for files is unreliable. XFile.saveTo triggers a download.
+          await xFile.saveTo(fileName);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("تم تحميل الصورة بنجاح.")),
+            );
+            Navigator.pop(context);
+          }
+          return;
+        }
+
+        await Share.shareXFiles(
+          [xFile],
+          text: widget.ayahText,
         );
 
         if (mounted) {
@@ -1912,13 +1936,17 @@ class _ShareSettingsSheetState extends State<ShareSettingsSheet>
       }
     } catch (e) {
       debugPrint("Error sharing image: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("عذراً، حدث خطأ أثناء المشاركة. حاول تاني.")),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isSharing = false);
       }
     }
   }
-
   String _getCleanAyahText() {
     // Always fetch clean Uthmani for sharing image to avoid tajweed markup.
     final split = widget.ayahKey.split(":");
