@@ -47,7 +47,6 @@ import "package:al_quran_v3/src/screen/prayer_time/prayer_time_page.dart";
 import "package:al_quran_v3/src/screen/qibla/qibla_direction.dart";
 import "package:al_quran_v3/src/screen/mushaf/index/aya_index_page.dart";
 import "package:al_quran_v3/src/screen/audio/audio_page.dart";
-import "package:al_quran_v3/src/widget/idrisium_about_modal.dart";
 import "package:al_quran_v3/src/widget/add_collection_popup/add_note_popup.dart";
 import "package:al_quran_v3/src/screen/about/about_the_app.dart";
 import "package:al_quran_v3/src/screen/smart_khatma/smart_khatma_page.dart";
@@ -2069,7 +2068,10 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
                         children: [
                           Expanded(
                             child: InkWell(
-                              onTap: () => IdrisiumAboutModal.show(context),
+                              onTap: () {
+                                Navigator.pop(context); // Close drawer
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppPage()));
+                              },
                               borderRadius: BorderRadius.circular(12),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),

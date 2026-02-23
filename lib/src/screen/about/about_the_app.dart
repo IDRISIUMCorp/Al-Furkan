@@ -179,10 +179,6 @@ class _AboutAppPageState extends State<AboutAppPage> {
                 ),
               ),
             ),
-            // ── Cross Platform Promotion ──
-            _buildAvailableOnSection(themeState, isDark, cs),
-            const Gap(40),
-
             // ── Developer Section (STRICTLY PRESERVED) ──
             _buildDeveloperSection(themeState, isDark),
             
@@ -298,109 +294,6 @@ class _AboutAppPageState extends State<AboutAppPage> {
           style: TextStyle(fontSize: 10, color: muted, fontWeight: FontWeight.w600),
         ),
       ],
-    );
-  }
-
-  // ── CROSS-PLATFORM LINKS (IDRISIUM) ──
-  Widget _buildAvailableOnSection(ThemeState themeState, bool isDark, ColorScheme cs) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 1,
-              width: 40,
-              color: cs.primary.withValues(alpha: 0.2),
-            ),
-            const Gap(12),
-            Text(
-              "متوفر أيضاً على",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                color: cs.onSurface,
-              ),
-            ),
-            const Gap(12),
-            Container(
-              height: 1,
-              width: 40,
-              color: cs.primary.withValues(alpha: 0.2),
-            ),
-          ],
-        ),
-        const Gap(24),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          alignment: WrapAlignment.center,
-          children: [
-            _platformButton(
-              themeState: themeState,
-              isDark: isDark,
-              icon: SimpleIcons.apple,
-              label: "App Store",
-              url: "https://idrisium.linkpc.net/alfurkan/ios",
-            ),
-            _platformButton(
-              themeState: themeState,
-              isDark: isDark,
-              icon: SimpleIcons.googleplay,
-              label: "Google Play",
-              url: "https://idrisium.linkpc.net/alfurkan/android",
-            ),
-            _platformButton(
-              themeState: themeState,
-              isDark: isDark,
-              icon: Icons.language_rounded,
-              label: "Web App",
-              url: "https://alfurqan.vercel.app/",
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _platformButton({
-    required ThemeState themeState,
-    required bool isDark,
-    required IconData icon,
-    required String label,
-    required String url,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.03),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: themeState.primary.withValues(alpha: 0.15)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 20, color: themeState.primary),
-              const Gap(10),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                  color: isDark ? Colors.white : Colors.black87,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
