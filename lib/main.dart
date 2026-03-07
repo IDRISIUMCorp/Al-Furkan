@@ -39,6 +39,7 @@ import "package:al_quran_v3/src/widget/quran_script_words/cubit/word_playing_sta
 import "package:al_quran_v3/src/screen/quran_reader/cubit/reader_ui_cubit.dart";
 import "dart:ui";
 import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
@@ -292,29 +293,36 @@ class MyApp extends StatelessWidget {
           builder: (context, languageState) {
             return BlocBuilder<ThemeCubit, ThemeState>(
               builder: (context, themeState) {
-                return MaterialApp(
-                  navigatorKey: navigatorKey,
-                  debugShowCheckedModeBanner: false,
-                  locale: languageState.locale,
-                  localizationsDelegates: const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: AppLocalizations.supportedLocales,
-                  onGenerateTitle: (context) => "الفُرقان",
-                  theme: WahyThemeData.lightTheme.copyWith(
-                    pageTransitionsTheme: pageTransitionsTheme,
-                    textTheme: getTextTheme(languageState.locale, false),
-                  ),
-                  darkTheme: WahyThemeData.darkTheme.copyWith(
-                    pageTransitionsTheme: pageTransitionsTheme,
-                    textTheme: getTextTheme(languageState.locale, true),
-                  ),
-                  themeMode: themeState.themeMode,
-                  scrollBehavior: AppScrollBehavior(),
-                  home: const QuranBootstrapPage(),
+                return ScreenUtilInit(
+                  designSize: const Size(360, 690),
+                  minTextAdapt: true,
+                  splitScreenMode: true,
+                  builder: (context, child) {
+                    return MaterialApp(
+                      navigatorKey: navigatorKey,
+                      debugShowCheckedModeBanner: false,
+                      locale: languageState.locale,
+                      localizationsDelegates: const [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      supportedLocales: AppLocalizations.supportedLocales,
+                      onGenerateTitle: (context) => "الفُرقان",
+                      theme: WahyThemeData.lightTheme.copyWith(
+                        pageTransitionsTheme: pageTransitionsTheme,
+                        textTheme: getTextTheme(languageState.locale, false),
+                      ),
+                      darkTheme: WahyThemeData.darkTheme.copyWith(
+                        pageTransitionsTheme: pageTransitionsTheme,
+                        textTheme: getTextTheme(languageState.locale, true),
+                      ),
+                      themeMode: themeState.themeMode,
+                      scrollBehavior: AppScrollBehavior(),
+                      home: const QuranBootstrapPage(),
+                    );
+                  },
                 );
               },
             );

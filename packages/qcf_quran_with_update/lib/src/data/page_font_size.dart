@@ -1,84 +1,69 @@
-//get fONTSIZE For the pages that have different sizes
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-double getFontSize(int index, BuildContext context) {
-  final double screenWidth = MediaQuery.of(context).size.width;
-  if( MediaQuery.of(context).orientation != Orientation.portrait){
-    return screenWidth > 800 ? 55 : 35; // Larger font on Web/Desktop landscape
-  }
- else if (getScreenType(context) == ScreenType.large) {
-      return 45; // Was 15, which makes text extremely tiny on Web!
-    } else if (getScreenType(context) == ScreenType.small) {
-      return 20;
-    }else
-  if (index == 1 || index == 2) {
-    return 25;
-  } else if (index == 145 || index == 585) {
-    return 22.7;
-  } else if (index == 532 || index == 533 || index == 523||index==577) {
-    return 22.5;
-  } else if (index == 116 || index == 156) {
-    return 23.4;
-  } else if (index == 56 ||
-      index == 57 ||
-      index == 368 ||
-      index == 269 ||
-      index == 372 ||
-      index == 376 ||
-      index == 409 ||
-      index == 435 ||
-      index == 444 ||
+// التصميم المرجعي اللي حسبنا عليه الأبعاد (من تطبيق quran_library)
+const double _quranLibraryDesignWidth = 392.7;
 
-      // index == 447 ||
-      index == 448 ||
-      index == 527 ||
-      index == 535 ||
-      index == 565 ||
-      index == 566 ||
-      index == 569 ||
-      index == 574 ||
-      index == 578 ||
-      index == 581 ||
-      index == 584 ||
-      index == 587 ||
-      index == 589 ||
-      index == 590 ||
-      index == 592 ||
-      index == 593 ||
-      index == 50 ||
-      index == 568) {
-    return 23;
-  } else if (index == 34) {
-    return 23;
-  } else if (index == 568) {
-    return 23.1;
-  } else if (index == 70) {
-    return 23.5;
-  } else if (index == 51 || index == 501) {
-    return 23.7;
-  } else if (index == 581 || index == 575) {
-    return 23;
-  } else if (index == 576 ||
-      index == 567 ||
-      index == 577 ||
-      index == 371 ||
-      index == 446 ||
-      index == 447) {
-    return 22.8;
-  } else {
-   
-    return 23.1; // default
-    //33 ipad
-//23.2default
-// 20 small devices
+double getFontSize(int pageIndex, BuildContext context) {
+  final media = MediaQuery.of(context);
+  final width = media.size.width;
+  final isLandscape = media.orientation == Orientation.landscape;
+  final shortestSide = media.size.shortestSide;
+
+  // تحويل الـ pageIndex لرقم الصفحة الفعلي (يبدأ من 1)
+  final page = pageIndex;
+
+  // 1. حساب نسبة التكبير/التصغير بناءً على عرض الشاشة الفعلي مقارنة بالمقاس الافتراضي
+  double ratio = (width / _quranLibraryDesignWidth).clamp(0.6, 1.8);
+  
+  // 2. القيمة الأساسية للخط التي نضربها في الـ Ratio
+  double size = 23.1 * ratio;
+
+  // 3. تعديل في وضع Landscape عشان الخط ميطولش برا الشاشة والأبعاد متضربش
+  if (isLandscape) {
+    size *= 0.85; 
   }
+
+  // 4. تعديلات الشاشات الضخمة (التابلت والويب)
+  if (shortestSide > 600) {
+    // تقليل الحجم في التابلت لأن التمدد بنسبة العرض بيخلي الكلمة عملاقة 
+    size = 18.0 * ratio;
+    if (isLandscape) size *= 0.8;
+  }
+
+  // 5. تعديلات خاصة للصفحات اللي فيها هوامش كبيرة أو مزخرفة (زي الفاتحة وبداية البقرة)
+  if (page == 1 || page == 2) {
+    size *= 1.1; // نكبره شوية في البداية لأن السورتين قصيرتين
+  }
+
+  // 6. صفحات خاصة تحتاج لضبط دقيق كما في المكتبة المرجعية quran_library
+  final size23Pages = [
+    56, 57, 368, 269, 372, 376, 409, 435, 444, 448, 527, 535, 565, 566, 569,
+    574, 578, 581, 584, 587, 589, 590, 592, 593, 50, 568, 34
+  ];
+  if (size23Pages.contains(page)) {
+    size = 23.0 * ratio;
+  } else if (page == 145 || page == 585) {
+    size = 22.7 * ratio;
+  } else if ([532, 533, 523, 577].contains(page)) {
+    size = 22.5 * ratio;
+  } else if (page == 116 || page == 156) {
+    size = 23.4 * ratio;
+  } else if (page == 70) {
+    size = 23.5 * ratio;
+  } else if (page == 51 || page == 501) {
+    size = 23.7 * ratio;
+  }
+
+  // 7. Clamp لحدود آمنة جداً
+  // أقل خط 16 وأكبر خط 45 عشان الشاشات متكسرش
+  return size.clamp(16.0, 45.0);
 }
 
 enum ScreenType { small, medium, large }
 
 ScreenType getScreenType(BuildContext context) {
-  final double screenWidth = MediaQuery.of(context).size.width;
+  final double screenWidth = MediaQuery.sizeOf(context).width;
 
   if (screenWidth < 360) {
     return ScreenType.small;

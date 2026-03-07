@@ -255,19 +255,11 @@ class QcfPage extends StatelessWidget {
               style: TextStyle(
                 fontFamily: pageFont,
                 package: 'qcf_quran',
-                fontSize: isPortrait
-                    ? baseFontSize
-                    : (pageNumber == 1 || pageNumber == 2)
-                        ? 20 * sp
-                        : baseFontSize - (17 * sp),
+                fontSize: baseFontSize,
                 color: theme.verseTextColor,
-                height: isPortrait
-                    ? (pageNumber == 1 || pageNumber == 2)
+                height: (pageNumber == 1 || pageNumber == 2)
                         ? 2.2 * h
-                        : theme.verseHeight * h
-                    : (pageNumber == 1 || pageNumber == 2)
-                        ? 4 * h
-                        : 4 * h,
+                        : theme.verseHeight * h,
                 letterSpacing: theme.letterSpacing,
                 wordSpacing: theme.wordSpacing,
               ),

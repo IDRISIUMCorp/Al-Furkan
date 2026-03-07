@@ -18,7 +18,6 @@ dependencies:
   fluentui_system_icons: ^1.1.273
   intl: ^0.20.2
   html: ^0.15.5
-  http: ^1.4.0
   archive: ^4.0.5
   meta: ^1.16.0
   bloc: ^9.0.0
@@ -79,6 +78,8 @@ dependencies:
   camera: ^0.11.4
   sensors_plus: ^7.0.0
   percent_indicator: ^4.2.5
+  flutter_screenutil: ^5.9.3
+  responsive_builder: ^0.7.1
   # background_fetch:
   #   git:
   #     url: https://github.com/transistorsoft/flutter_background_fetch
