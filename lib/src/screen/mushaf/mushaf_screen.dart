@@ -1660,8 +1660,8 @@ color: _bg(ctx),
                               initialPageNumber:
                                   context.watch<AyahKeyCubit>().state.lastScrolledPageNumber,
                               controller: _mushafPageController,
-                              spOverride: mushafScale,
-                              hOverride: mushafScale,
+                              spOverride: 1.0,
+                              hOverride: 1.0,
                               onToggleHeader: () => setState(() => _showHeader = !_showHeader),
                             )
                           : QuranScriptView(
@@ -6384,8 +6384,8 @@ color: _bg(sheet),
             child: PageviewQuran(
               controller: widget.controller,
               initialPageNumber: (widget.initialPageNumber ?? 1).clamp(1, 604),
-              sp: widget.spOverride ?? 0.86,
-              h: widget.hOverride ?? 0.86,
+              sp: widget.spOverride ?? 1.0,
+              h: widget.hOverride ?? 1.0,
               physics: const ClampingScrollPhysics(),
               theme: qcfTheme.copyWith(
                 headerScale: 0.985,
