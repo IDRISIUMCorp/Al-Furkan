@@ -1646,7 +1646,7 @@ color: _bg(ctx),
                 color: isDark ? const Color(0xFF0B0B0F) : _bg(context),
                 child: Padding(
                     padding: const EdgeInsets.only(
-                      top: 44, // Adjusted further from 47 to 44 to raise headers more
+                      top: 44, // Balanced for fullscreen immersive mode
                       bottom: _miniPlayerBottomPadding,
                     ),
                     child: AnimatedSwitcher(
@@ -6378,6 +6378,7 @@ color: _bg(sheet),
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             textScaler: const TextScaler.linear(1),
+            padding: MediaQuery.of(context).padding.copyWith(top: 0),
           ),
           child: Container(
             color: isDark ? Color(0xFF0B0B0F) : _bg(context),
