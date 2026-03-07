@@ -80,6 +80,8 @@ dependencies:
   percent_indicator: ^4.2.5
   flutter_screenutil: ^5.9.3
   responsive_builder: ^0.7.1
+  flex_color_scheme: ^8.4.0
+  awesome_notifications: ^0.11.0
   # background_fetch:
   #   git:
   #     url: https://github.com/transistorsoft/flutter_background_fetch

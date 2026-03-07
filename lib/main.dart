@@ -11,7 +11,7 @@ import "package:al_quran_v3/src/screen/quran_bootstrap/quran_bootstrap_page.dart
 import "package:al_quran_v3/src/screen/audio/download_screen/cubit/audio_download_cubit.dart";
 import "package:al_quran_v3/src/screen/prayer_time/cubit/prayer_time_state.dart";
 import "package:al_quran_v3/src/screen/quran_script_view/cubit/ayah_to_highlight.dart";
-import "package:al_quran_v3/src/theme/wahy_theme_data.dart";
+import "package:flex_color_scheme/flex_color_scheme.dart";
 import "package:al_quran_v3/src/utils/quran_resources/quran_script_function.dart";
 import "package:al_quran_v3/src/utils/quran_resources/default_offline_resources.dart";
 import "package:al_quran_v3/src/utils/quran_resources/quran_tafsir_function.dart";
@@ -310,11 +310,22 @@ class MyApp extends StatelessWidget {
                       ],
                       supportedLocales: AppLocalizations.supportedLocales,
                       onGenerateTitle: (context) => "الفُرقان",
-                      theme: WahyThemeData.lightTheme.copyWith(
+                      theme: FlexThemeData.light(
+                        scheme: themeState.flexScheme,
+                        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+                        blendLevel: 10,
+                        useMaterial3: true,
+                      ).copyWith(
                         pageTransitionsTheme: pageTransitionsTheme,
                         textTheme: getTextTheme(languageState.locale, false),
                       ),
-                      darkTheme: WahyThemeData.darkTheme.copyWith(
+                      darkTheme: FlexThemeData.dark(
+                        scheme: themeState.flexScheme,
+                        surfaceMode: FlexSurfaceMode.highScaffoldLevelSurface,
+                        blendLevel: 12,
+                        useMaterial3: true,
+                        darkIsTrueBlack: true, // OLED/Apple level black
+                      ).copyWith(
                         pageTransitionsTheme: pageTransitionsTheme,
                         textTheme: getTextTheme(languageState.locale, true),
                       ),

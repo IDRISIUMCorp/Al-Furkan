@@ -1,28 +1,24 @@
-import "package:al_quran_v3/src/theme/values/values.dart";
 import "package:flutter/material.dart";
+import "package:flex_color_scheme/flex_color_scheme.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../theme/controller/theme_cubit.dart";
 import "../../theme/controller/theme_state.dart";
 
-Color defaultPrimary = const Color(0xFF009688);
-
 class ThemeSettings extends StatelessWidget {
   const ThemeSettings({super.key});
 
-  static List<Color> appColor = [
-    defaultPrimary,
-    Colors.blue,
-    Colors.deepPurple,
-    Colors.orange,
-    Colors.blueGrey,
-    Colors.green,
-    Colors.red,
-    Colors.indigo,
-    Colors.brown,
-    Colors.pink,
-    Colors.amber,
-    Colors.cyan,
+  static List<FlexScheme> appSchemes = [
+    FlexScheme.tealM3,
+    FlexScheme.blueM3,
+    FlexScheme.deepPurple,
+    FlexScheme.indigoM3,
+    FlexScheme.sakura,
+    FlexScheme.mandyRed,
+    FlexScheme.gold,
+    FlexScheme.brandBlue,
+    FlexScheme.ebonyClay,
+    FlexScheme.redWine,
   ];
 
   @override
@@ -31,28 +27,41 @@ class ThemeSettings extends StatelessWidget {
       builder: (context, themeState) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            children: List.generate(appColor.length, (index) {
-              Color current = appColor[index];
-              bool isSelected =
-                  themeState.primary.toARGB32() == current.toARGB32();
+            children: List.generate(appSchemes.length, (index) {
+              final FlexScheme scheme = appSchemes[index];
+              final Color primaryColor = FlexColor.schemes[scheme]!.light.primary;
+              final bool isSelected = themeState.flexScheme == scheme;
+
               return Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(6),
                 child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
                   onTap: () {
-                    context.read<ThemeCubit>().changePrimaryColor(current);
+                    context.read<ThemeCubit>().changeFlexScheme(scheme);
                   },
-                  child: Container(
-                    height: 40,
-                    width: 60,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    height: isSelected ? 50 : 40,
+                    width: isSelected ? 50 : 40,
                     decoration: BoxDecoration(
-                      color: current,
-                      borderRadius: BorderRadius.circular(roundedRadius),
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(isSelected ? 16 : 12),
+                      boxShadow: isSelected ? [
+                        BoxShadow(
+                          color: primaryColor.withValues(alpha: 0.4),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        )
+                      ] : [],
+                      border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
                     ),
-                    child:
-                        isSelected
-                            ? const Icon(Icons.done, color: Colors.white)
-                            : null,
+                    child: isSelected
+                        ? const Icon(Icons.check_rounded, color: Colors.white, size: 24)
+                        : null,
                   ),
                 ),
               );
@@ -63,3 +72,4 @@ class ThemeSettings extends StatelessWidget {
     );
   }
 }
+

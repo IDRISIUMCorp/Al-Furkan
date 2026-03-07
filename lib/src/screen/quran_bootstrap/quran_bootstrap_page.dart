@@ -3,7 +3,9 @@ import "dart:developer";
 import "package:al_quran_v3/src/screen/mushaf/mushaf_screen.dart";
 import "package:al_quran_v3/src/utils/quran_resources/default_offline_resources.dart";
 import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
 import "package:hive_ce_flutter/hive_flutter.dart";
+import "package:gap/gap.dart";
 
 class QuranBootstrapPage extends StatefulWidget {
   const QuranBootstrapPage({super.key});
@@ -43,8 +45,15 @@ class _QuranBootstrapPageState extends State<QuranBootstrapPage> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const MushafScreen(),
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 600),
+          pageBuilder: (_, __, ___) => const MushafScreen(),
+          transitionsBuilder: (_, animation, __, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
         ),
       );
     } catch (e, s) {
@@ -63,15 +72,15 @@ class _QuranBootstrapPageState extends State<QuranBootstrapPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(),
-              ),
-              const SizedBox(height: 14),
+                width: 48,
+                height: 48,
+                child: CircularProgressIndicator(strokeWidth: 3),
+              ).animate().fade(duration: 500.ms).scale(curve: Curves.easeOutBack, duration: 600.ms),
+              const Gap(16),
               Text(
                 _status,
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16, letterSpacing: 1.1),
+              ).animate().fade(delay: 300.ms, duration: 500.ms).slideY(begin: 0.5, curve: Curves.easeOut),
             ],
           ),
         ),
@@ -79,3 +88,4 @@ class _QuranBootstrapPageState extends State<QuranBootstrapPage> {
     );
   }
 }
+

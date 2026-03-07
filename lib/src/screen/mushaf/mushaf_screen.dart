@@ -1841,7 +1841,7 @@ color: _bg(ctx),
           ],
         ),
       ),
-    );
+    ).animate().fade(duration: 500.ms, curve: Curves.easeOut).scale(begin: const Offset(0.98, 0.98), duration: 500.ms, curve: Curves.easeOutCubic);
   }
 
   Widget _buildMoreMenu(Color primaryColor, bool isDark) {
