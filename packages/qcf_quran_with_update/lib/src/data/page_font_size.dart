@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// Dynamic font size helper for Quran pages.
-/// Uses ScreenUtil `.sp` for automatic screen adaptation
-/// (same approach as the reference library `quran_library`).
+/// Uses ScreenUtil `.sp` for automatic screen adaptation.
+/// Values adjusted for our designSize(360) vs reference library designWidth(392.7).
 double getFontSize(int pageNumber, BuildContext context) {
   final media = MediaQuery.of(context);
   final isPortrait = media.orientation == Orientation.portrait;
@@ -11,44 +11,44 @@ double getFontSize(int pageNumber, BuildContext context) {
 
   // ── 1. Landscape mode ──
   if (!isPortrait) {
-    return 35.sp;
+    return 31.sp;
   }
 
   // ── 2. Tablets & large screens (shortestSide > 600) ──
   if (shortestSide > 600) {
-    return 15.sp;
+    return 13.5.sp;
   }
 
   // ── 3. Very small screens (width < 360) ──
   final screenWidth = media.size.width;
   if (screenWidth < 360) {
-    return 20.sp;
+    return 17.5.sp;
   }
 
   // ── 4. First two pages (Fatihah & start of Baqarah) ──
   if (pageNumber == 1 || pageNumber == 2) {
-    return 25.sp;
+    return 22.sp;
   }
 
-  // ── 5. Per-page overrides (from reference library quran_library) ──
-  if (pageNumber == 145 || pageNumber == 585) return 22.7.sp;
-  if ([532, 533, 523, 577].contains(pageNumber)) return 22.5.sp;
-  if (pageNumber == 116 || pageNumber == 156) return 23.4.sp;
+  // ── 5. Per-page overrides ──
+  if (pageNumber == 145 || pageNumber == 585) return 20.2.sp;
+  if ([532, 533, 523, 577].contains(pageNumber)) return 20.sp;
+  if (pageNumber == 116 || pageNumber == 156) return 20.8.sp;
 
   const size23Pages = [
     56, 57, 368, 269, 372, 376, 409, 435, 444, 448, 527, 535,
     565, 566, 569, 574, 575, 578, 581, 584, 587, 589, 590, 592, 593, 50, 568, 34,
   ];
-  if (size23Pages.contains(pageNumber)) return 23.sp;
+  if (size23Pages.contains(pageNumber)) return 20.4.sp;
 
-  if (pageNumber == 70) return 23.5.sp;
-  if (pageNumber == 51 || pageNumber == 501) return 23.7.sp;
+  if (pageNumber == 70) return 20.8.sp;
+  if (pageNumber == 51 || pageNumber == 501) return 21.sp;
 
   const size228Pages = [576, 567, 371, 446, 447];
-  if (size228Pages.contains(pageNumber)) return 22.8.sp;
+  if (size228Pages.contains(pageNumber)) return 20.3.sp;
 
   // ── 6. Default ──
-  return 23.1.sp;
+  return 20.5.sp;
 }
 
 enum ScreenType { small, medium, large }
