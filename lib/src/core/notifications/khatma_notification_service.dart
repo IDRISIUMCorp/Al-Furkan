@@ -93,20 +93,42 @@ class KhatmaNotificationService {
     final box = await _openUserBox();
     final lastPage = box.get("wahy_last_page", defaultValue: 0) as int;
     
-    String body = "افتح المصحف وأكمل وردك النهارده";
+    final List<String> motivations = [
+      "نور قلبك بآيات من الذكر الحكيم.",
+      "وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا",
+      "ألا بذكر الله تطمئن القلوب.",
+      "اقرأ وارتقِ، فإن منزلتك عند آخر آية تقرأها.",
+      "جدد إيمانك بوردك اليومي.",
+    ];
+    final String motivation = motivations[DateTime.now().microsecond % motivations.length];
+
+    String body = motivation;
     if (lastPage > 0) {
-      body += " لقد توقفت عند الصفحة رقم $lastPage.";
+      body += "\nلقد توقفت عند مباهج الصفحة رقم $lastPage.";
     }
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: _dailyReminderId,
         channelKey: _khatmaChannelKey,
-        title: "تذكير الختمة - ورد اليوم",
+        title: "تذكير الختمة - ورد اليوم 📖",
         body: body,
         category: NotificationCategory.Reminder,
         wakeUpScreen: true,
+        payload: {"page": lastPage.toString()},
       ),
+      actionButtons: [
+        NotificationActionButton(
+          key: "READ_NOW",
+          label: "اقرأ الآن",
+          actionType: ActionType.Default,
+        ),
+        NotificationActionButton(
+          key: "LATER",
+          label: "لاحقاً",
+          actionType: ActionType.KeepOnTop,
+        ),
+      ],
       schedule: NotificationCalendar(
         hour: time.hour,
         minute: time.minute,
