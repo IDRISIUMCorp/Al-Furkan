@@ -39,6 +39,7 @@ import "package:al_quran_v3/src/widget/quran_script_words/cubit/word_playing_sta
 import "package:al_quran_v3/src/screen/quran_reader/cubit/reader_ui_cubit.dart";
 import "dart:ui";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -57,6 +58,10 @@ platform_services.PlatformOwn platformOwn = platform_services.getPlatform();
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // ── Fullscreen immersive mode — يخفي شريط الحالة وأزرار التحكم تماماً ──
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   platform_services.initializePlatform();
 
   await KhatmaNotificationService.instance.init();

@@ -6393,13 +6393,13 @@ color: _bg(sheet),
                 pageTopOverlayBuilder: (pageNumber, surahNumber, startVerse) {
                   final juzNumber = getJuzNumber(surahNumber, startVerse);
                   return Transform.translate(
-                    offset: const Offset(0, -2),
+                    offset: const Offset(0, -6),
                     child: IgnorePointer(
                       ignoring: true,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(
                           _pageHeaderSidePadding,
-                          8, // Significantly reduced from 25 to 8 to raise it to the top
+                          2,
                           _pageHeaderSidePadding,
                           0,
                         ),
