@@ -193,16 +193,18 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                                                   width: double.infinity,
                                                   child: Row(
                                                     children: [
-                                                      Expanded(
-                                                        child: Column(
+                                                       Expanded(
+                                                        child: FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min, // Let it shrink
+                                                          mainAxisSize: MainAxisSize.min,
                                                           children: [
                                                             InkWell(
                                                               borderRadius: BorderRadius.circular(999),
                                                               onTap: openReciterPicker,
                                                               child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                   mainAxisSize: MainAxisSize.min,
@@ -244,6 +246,7 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                                                               maxLines: 1,
                                                             ),
                                                           ],
+                                                        ),
                                                         ),
                                                       ),
                                                       IconButton(
