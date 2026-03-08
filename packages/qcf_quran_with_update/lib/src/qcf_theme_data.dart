@@ -255,7 +255,8 @@ class QcfThemeData {
     pageBottomOverlayBuilder,
     double? firstPagesTopSpacerFactor,
     Widget Function(int surahNumber)? basmalaBuilder,
-    InlineSpan Function(int surah, int verse, String verseNumber)? verseNumberBuilder,
+    InlineSpan Function(int surah, int verse, String verseNumber)?
+    verseNumberBuilder,
   }) {
     return QcfThemeData(
       verseTextColor: verseTextColor ?? this.verseTextColor,
@@ -290,7 +291,8 @@ class QcfThemeData {
       customHeaderBuilder: customHeaderBuilder ?? this.customHeaderBuilder,
       headerBorderRadius: headerBorderRadius ?? this.headerBorderRadius,
       headerScale: headerScale ?? this.headerScale,
-      pageTopOverlayBuilder: pageTopOverlayBuilder ?? this.pageTopOverlayBuilder,
+      pageTopOverlayBuilder:
+          pageTopOverlayBuilder ?? this.pageTopOverlayBuilder,
       pageBottomOverlayBuilder:
           pageBottomOverlayBuilder ?? this.pageBottomOverlayBuilder,
       firstPagesTopSpacerFactor:
@@ -307,7 +309,8 @@ class QcfThemeData {
   /// Custom builder for verse numbers.
   /// If provided, replaces the default verse number text style.
   /// Must return an [InlineSpan] because it's rendered inside a Text.rich.
-  final InlineSpan Function(int surah, int verse, String verseNumber)? verseNumberBuilder;
+  final InlineSpan Function(int surah, int verse, String verseNumber)?
+  verseNumberBuilder;
   factory QcfThemeData.dark() {
     return const QcfThemeData(
       verseTextColor: Color(0xFFE0E0E0),
@@ -326,6 +329,82 @@ class QcfThemeData {
       basmalaColor: Color(0xFF3E2723),
       headerTextColor: Color(0xFF3E2723),
       pageBackgroundColor: Color(0xFFF5E6D3),
+    );
+  }
+
+  /// Pure OLED black theme for AMOLED screens.
+  /// Uses true black (#000000) to save battery and reduce eye strain at night.
+  factory QcfThemeData.oled() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFFD0D0D0),
+      verseNumberColor: Color(0xFFFFCC80),
+      basmalaColor: Color(0xFFBDBDBD),
+      headerTextColor: Color(0xFFBDBDBD),
+      pageBackgroundColor: Color(0xFF000000), // True black
+    );
+  }
+
+  /// Night-blue theme designed to reduce blue-light strain.
+  /// Dark navy background with warm-tinted text for late-night reading.
+  factory QcfThemeData.nightBlue() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFFCFD8DC),
+      verseNumberColor: Color(0xFF80CBC4),
+      basmalaColor: Color(0xFFB0BEC5),
+      headerTextColor: Color(0xFFB0BEC5),
+      pageBackgroundColor: Color(0xFF0D1B2A), // Deep navy
+    );
+  }
+
+  /// Warm cream theme for comfortable daytime reading.
+  /// Soft off-white background that's easier on the eyes than pure white.
+  factory QcfThemeData.cream() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFF2E2E2E),
+      verseNumberColor: Color(0xFF795548),
+      basmalaColor: Color(0xFF424242),
+      headerTextColor: Color(0xFF424242),
+      pageBackgroundColor: Color(0xFFFFF8E7), // Warm cream
+    );
+  }
+
+  factory QcfThemeData.graphite() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFFE6E6E6),
+      verseNumberColor: Color(0xFF90CAF9),
+      basmalaColor: Color(0xFFDADADA),
+      headerTextColor: Color(0xFFDADADA),
+      pageBackgroundColor: Color(0xFF121417),
+    );
+  }
+
+  factory QcfThemeData.midnightPurple() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFFEDE7F6),
+      verseNumberColor: Color(0xFFB39DDB),
+      basmalaColor: Color(0xFFD1C4E9),
+      headerTextColor: Color(0xFFD1C4E9),
+      pageBackgroundColor: Color(0xFF140B2D),
+    );
+  }
+
+  factory QcfThemeData.paperWhite() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFF1F1F1F),
+      verseNumberColor: Color(0xFF5D4037),
+      basmalaColor: Color(0xFF1F1F1F),
+      headerTextColor: Color(0xFF1F1F1F),
+      pageBackgroundColor: Color(0xFFFFFFFF),
+    );
+  }
+
+  factory QcfThemeData.sand() {
+    return const QcfThemeData(
+      verseTextColor: Color(0xFF2B2620),
+      verseNumberColor: Color(0xFF6D4C41),
+      basmalaColor: Color(0xFF2B2620),
+      headerTextColor: Color(0xFF2B2620),
+      pageBackgroundColor: Color(0xFFF3E7D3),
     );
   }
 }

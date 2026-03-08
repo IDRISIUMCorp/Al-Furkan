@@ -31,7 +31,8 @@ String getSurahName(BuildContext? context, int index) {
   context ??= navigatorKey.currentContext!;
   if (surahNameLocalization.isEmpty) return "سورة $index";
   Locale locale = context.read<LanguageCubit>().state.locale;
-  final data = surahNameLocalization[locale.languageCode] ??
+  final data =
+      surahNameLocalization[locale.languageCode] ??
       surahNameLocalization["en"] ??
       surahNameLocalization["ar"];
   if (data == null) return "سورة $index";
@@ -53,7 +54,8 @@ String getSurahMeaning(BuildContext? context, int index) {
   context ??= navigatorKey.currentContext!;
   if (surahMeaningLocalization.isEmpty) return "";
   Locale locale = context.read<LanguageCubit>().state.locale;
-  final data = surahMeaningLocalization[locale.languageCode] ??
+  final data =
+      surahMeaningLocalization[locale.languageCode] ??
       surahNameLocalization["en"];
   if (data == null) return "";
   final list = List<String>.from(data);

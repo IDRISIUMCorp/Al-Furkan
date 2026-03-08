@@ -23,7 +23,6 @@ import "package:just_audio/just_audio.dart" as just_audio;
 import "../../core/audio/cubit/player_state_cubit.dart";
 import "../../theme/controller/theme_cubit.dart";
 import "../../theme/controller/theme_state.dart";
-import "package:al_quran_v3/src/theme/app_colors.dart";
 
 class AudioControllerUi extends StatefulWidget {
   const AudioControllerUi({super.key});
@@ -49,7 +48,7 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeState themeState = context.read<ThemeCubit>().state;
+    ThemeState themeState = context.watch<ThemeCubit>().state;
     AppLocalizations l10n = AppLocalizations.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
     bool isLandscapeViewNeedToShow = screenWidth > 600;
@@ -62,7 +61,7 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                     ? isLandscapeViewNeedToShow
                         ? 66
                         : 120
-                    : 72
+                    : 82 // Increased from 72 to 82 to prevent RenderFlex overflow
                 : 0;
         double width =
             (state.showUi && state.isInsideQuranPlayer)
@@ -85,7 +84,16 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
             duration: const Duration(milliseconds: 300),
             builder: (context, radius, child) {
               final isDark = Theme.of(context).brightness == Brightness.dark;
-              final Color collapsedSurface = isDark ? const Color(0xFF1B1B1F) : AppColors.ayaAudioPlayerBg;
+              final colorScheme = Theme.of(context).colorScheme;
+              final Color collapsedSurface = isDark
+                  ? colorScheme.surface
+                  : colorScheme.surface;
+              final Color borderColor = themeState.primary.withValues(
+                alpha: isDark ? 0.20 : 0.14,
+              );
+              final Color glass = collapsedSurface.withValues(
+                alpha: isDark ? 0.72 : 0.78,
+              );
               return Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, bottom: 12),
                 child: ClipRRect(
@@ -97,10 +105,10 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                       height: height,
                       width: width,
                       decoration: BoxDecoration(
-                        color: (isDark ? const Color(0xFF1B1B1F) : AppColors.ayaAudioPlayerBg).withValues(alpha: 0.75),
+                        color: glass,
                         borderRadius: BorderRadius.circular(radius),
                         border: Border.all(
-                          color: isDark ? Colors.white10 : AppColors.ayaBorder.withValues(alpha: 0.5),
+                          color: borderColor,
                           width: 0.8,
                         ),
                         boxShadow: [
@@ -143,7 +151,7 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                                                             .ProcessingState
                                                             .buffering;
 
-                                                final onSurface = isDark ? Colors.white : AppColors.ayaTextMain;
+                                                final onSurface = colorScheme.onSurface;
 
                                                 final isPlaylist =
                                                     context.read<AudioUiCubit>().state.isPlayList;
@@ -193,60 +201,60 @@ class _AudioControllerUiState extends State<AudioControllerUi> {
                                                   width: double.infinity,
                                                   child: Row(
                                                     children: [
-                                                       Expanded(
+                                                      Expanded(
                                                         child: FittedBox(
                                                           fit: BoxFit.scaleDown,
                                                           child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            InkWell(
-                                                              borderRadius: BorderRadius.circular(999),
-                                                              onTap: openReciterPicker,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                                                child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  children: [
-                                                                    Flexible(
-                                                                      child: Text(
-                                                                        reciter.name,
-                                                                        style: TextStyle(
-                                                                          fontWeight: FontWeight.w800,
-                                                                          fontSize: 13,
-                                                                          color: onSurface.withValues(alpha: 0.85),
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            mainAxisSize: MainAxisSize.min, // Let it shrink
+                                                            children: [
+                                                              InkWell(
+                                                                borderRadius: BorderRadius.circular(999),
+                                                                onTap: openReciterPicker,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child: Text(
+                                                                          reciter.name,
+                                                                          style: TextStyle(
+                                                                            fontWeight: FontWeight.w800,
+                                                                            fontSize: 13,
+                                                                            color: onSurface.withValues(alpha: 0.85),
+                                                                          ),
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          maxLines: 1,
+                                                                          textAlign: TextAlign.center,
                                                                         ),
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        maxLines: 1,
-                                                                        textAlign: TextAlign.center,
                                                                       ),
-                                                                    ),
-                                                                    const SizedBox(width: 4),
-                                                                    Icon(
-                                                                      Icons.keyboard_arrow_down_rounded,
-                                                                      size: 18,
-                                                                      color: themeState.primary,
-                                                                    ),
-                                                                  ],
+                                                                      const SizedBox(width: 4),
+                                                                      Icon(
+                                                                        Icons.keyboard_arrow_down_rounded,
+                                                                        size: 18,
+                                                                        color: themeState.primary,
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              isLoading
-                                                                  ? "جاري التحميل"
-                                                                  : (playerState.isPlaying ? "يتم التشغيل" : "متوقف"),
-                                                              style: TextStyle(
-                                                                fontSize: 11,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: themeState.primary,
+                                                              Text(
+                                                                isLoading
+                                                                    ? "جاري التحميل"
+                                                                    : (playerState.isPlaying ? "يتم التشغيل" : "متوقف"),
+                                                                style: TextStyle(
+                                                                  fontSize: 11,
+                                                                  fontWeight: FontWeight.w600,
+                                                                  color: themeState.primary,
+                                                                ),
+                                                                textDirection: TextDirection.rtl,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
                                                               ),
-                                                              textDirection: TextDirection.rtl,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              maxLines: 1,
-                                                            ),
-                                                          ],
-                                                        ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                       IconButton(

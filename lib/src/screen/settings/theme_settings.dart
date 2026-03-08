@@ -1,5 +1,6 @@
-import "package:flutter/material.dart";
+import "package:al_quran_v3/src/theme/values/values.dart";
 import "package:flex_color_scheme/flex_color_scheme.dart";
+import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../theme/controller/theme_cubit.dart";
@@ -10,15 +11,17 @@ class ThemeSettings extends StatelessWidget {
 
   static List<FlexScheme> appSchemes = [
     FlexScheme.tealM3,
-    FlexScheme.blueM3,
+    FlexScheme.blue,
     FlexScheme.deepPurple,
-    FlexScheme.indigoM3,
-    FlexScheme.sakura,
+    FlexScheme.orangeM3,
+    FlexScheme.blueWhale,
     FlexScheme.mandyRed,
-    FlexScheme.gold,
-    FlexScheme.brandBlue,
-    FlexScheme.ebonyClay,
-    FlexScheme.redWine,
+    FlexScheme.red,
+    FlexScheme.indigo,
+    FlexScheme.espresso,
+    FlexScheme.sakura,
+    FlexScheme.amber,
+    FlexScheme.cyanM3,
   ];
 
   @override
@@ -27,41 +30,28 @@ class ThemeSettings extends StatelessWidget {
       builder: (context, themeState) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: List.generate(appSchemes.length, (index) {
-              final FlexScheme scheme = appSchemes[index];
-              final Color primaryColor = FlexColor.schemes[scheme]!.light.primary;
-              final bool isSelected = themeState.flexScheme == scheme;
-
+              FlexScheme currentScheme = appSchemes[index];
+              Color currentPrimaryColor = FlexColor.schemes[currentScheme]!.light.primary;
+              bool isSelected = themeState.flexScheme == currentScheme;
               return Padding(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(5),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(16),
                   onTap: () {
-                    context.read<ThemeCubit>().changeFlexScheme(scheme);
+                    context.read<ThemeCubit>().changeFlexScheme(currentScheme);
                   },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeOutCubic,
-                    height: isSelected ? 50 : 40,
-                    width: isSelected ? 50 : 40,
+                  child: Container(
+                    height: 40,
+                    width: 60,
                     decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(isSelected ? 16 : 12),
-                      boxShadow: isSelected ? [
-                        BoxShadow(
-                          color: primaryColor.withValues(alpha: 0.4),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        )
-                      ] : [],
-                      border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
+                      color: currentPrimaryColor,
+                      borderRadius: BorderRadius.circular(roundedRadius),
                     ),
-                    child: isSelected
-                        ? const Icon(Icons.check_rounded, color: Colors.white, size: 24)
-                        : null,
+                    child:
+                        isSelected
+                            ? const Icon(Icons.done, color: Colors.white)
+                            : null,
                   ),
                 ),
               );

@@ -14,6 +14,10 @@ import "package:http/http.dart" as http;
 import "package:share_plus/share_plus.dart";
 import "package:path_provider/path_provider.dart";
 
+import "package:al_quran_v3/src/core/audio/cubit/player_position_cubit.dart";
+import "package:al_quran_v3/src/core/audio/model/audio_player_position_model.dart";
+import "package:al_quran_v3/src/utils/quran_resources/segmented_resources_manager.dart";
+
 import "package:al_quran_v3/l10n/app_localizations.dart";
 import "package:al_quran_v3/main.dart";
 import "package:al_quran_v3/src/core/audio/cubit/audio_ui_cubit.dart";
@@ -43,6 +47,8 @@ import "package:al_quran_v3/src/widget/quran_script/model/script_info.dart";
 import "package:al_quran_v3/src/widget/quran_script_words/cubit/word_playing_state_cubit.dart";
 import "package:al_quran_v3/src/screen/settings/app_language_settings.dart";
 import "package:al_quran_v3/src/screen/settings/settings_page.dart";
+import "package:al_quran_v3/src/core/unified_quran_settings/quran_settings_bottom_sheet.dart";
+import "package:al_quran_v3/src/core/unified_quran_settings/cubit/quran_settings_cubit.dart";
 import "package:al_quran_v3/src/screen/prayer_time/prayer_time_page.dart";
 import "package:al_quran_v3/src/screen/qibla/qibla_direction.dart";
 import "package:al_quran_v3/src/screen/mushaf/index/aya_index_page.dart";
@@ -62,7 +68,6 @@ import "package:al_quran_v3/src/resources/quran_resources/quran_pages_info.dart"
 import "package:al_quran_v3/src/utils/basic_functions.dart";
 import "package:al_quran_v3/src/theme/app_colors.dart";
 import "package:al_quran_v3/src/screen/collections/common_function.dart";
- 
 
 class MushafScreen extends StatelessWidget {
   const MushafScreen({super.key});
@@ -71,7 +76,6 @@ class MushafScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _MushafRoot();
   }
-
 }
 
 class _HeaderIconPill extends StatelessWidget {
@@ -99,7 +103,7 @@ class _HeaderIconPill extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           // Aya uses primary green icons on the transparent bar without background pills
-          child: Icon(icon, color: primary, size: 26), 
+          child: Icon(icon, color: primary, size: 26),
         ),
       ),
     );
@@ -151,8 +155,14 @@ class _MushafRootState extends State<_MushafRoot> {
   static const String _kWahyStarred = "wahy_starred";
   static const String _kWahyNotes = "wahy_notes";
 
-  static Color _bg(BuildContext ctx) => Theme.of(ctx).brightness == Brightness.dark ? Color(0xFF141414) : Color(0xFFF7F1E6);
-  static Color _onBg(BuildContext ctx) => Theme.of(ctx).brightness == Brightness.dark ? Colors.white : Color(0xFF1B1B1B);
+  static Color _bg(BuildContext ctx) =>
+      Theme.of(ctx).brightness == Brightness.dark
+      ? Color(0xFF141414)
+      : Color(0xFFF7F1E6);
+  static Color _onBg(BuildContext ctx) =>
+      Theme.of(ctx).brightness == Brightness.dark
+      ? Colors.white
+      : Color(0xFF1B1B1B);
   static const _headerHeight = 56.0;
   static const _miniPlayerBottomPadding = 0.0;
 
@@ -177,8 +187,10 @@ class _MushafRootState extends State<_MushafRoot> {
     final verse = parts.length == 2 ? int.tryParse(parts[1]) : null;
     if (surah == null || verse == null) return ayahKey;
 
-    final QuranScriptType scriptType =
-        context.read<QuranViewCubit>().state.quranScriptType;
+    final QuranScriptType scriptType = context
+        .read<QuranViewCubit>()
+        .state
+        .quranScriptType;
     final words = QuranScriptFunction.getWordListOfAyah(
       scriptType,
       surah.toString(),
@@ -225,7 +237,7 @@ class _MushafRootState extends State<_MushafRoot> {
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-color: _bg(sheet),
+              color: _bg(sheet),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -263,7 +275,10 @@ color: _bg(sheet),
                             color: entry.value.color,
                             onTap: () async {
                               Navigator.pop(sheet);
-                              await _setBookmarkColorForAyahKey(ayahKey, entry.key);
+                              await _setBookmarkColorForAyahKey(
+                                ayahKey,
+                                entry.key,
+                              );
                             },
                           );
                         }).toList(),
@@ -311,7 +326,7 @@ color: _bg(sheet),
             ),
             child: Container(
               decoration: BoxDecoration(
-color: _bg(ctx),
+                color: _bg(ctx),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(22),
                   topRight: Radius.circular(22),
@@ -351,25 +366,41 @@ color: _bg(ctx),
                         maxLines: 7,
                         textDirection: TextDirection.rtl,
                         style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black87,
                         ),
                         decoration: InputDecoration(
                           hintText: "اكتب ملاحظتك هنا…",
                           hintStyle: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade500 : Colors.grey.shade400,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.grey.shade500
+                                : Colors.grey.shade400,
                           ),
                           filled: true,
-                          fillColor: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF9F2),
+                          fillColor:
+                              Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF1E1E1E)
+                              : const Color(0xFFFFF9F2),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                             borderSide: BorderSide(
-                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.08),
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white.withValues(alpha: 0.08)
+                                  : Colors.black.withValues(alpha: 0.08),
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
                             borderSide: BorderSide(
-                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.08),
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white.withValues(alpha: 0.08)
+                                  : Colors.black.withValues(alpha: 0.08),
                             ),
                           ),
                         ),
@@ -425,7 +456,9 @@ color: _bg(ctx),
   Future<void> _ensureUthmaniAssetLoaded() async {
     if (_uthmaniAssetText != null) return;
     _uthmaniAssetLoadFuture ??= () async {
-      final raw = await rootBundle.loadString("assets/quran_script/Uthmani.json");
+      final raw = await rootBundle.loadString(
+        "assets/quran_script/Uthmani.json",
+      );
       final decoded = jsonDecode(raw) as Map;
       final out = <String, String>{};
       for (final entry in decoded.entries) {
@@ -435,8 +468,9 @@ color: _bg(ctx),
           final words = List<String>.from(ayahEntry.value as List);
           final joined = words.join(" ");
           final stripped = joined.replaceAll(RegExp(r"<[^>]+>"), "");
-          out["$surahKey:${ayahEntry.key}"] =
-              stripped.replaceAll(RegExp(r"\s+"), " ").trim();
+          out["$surahKey:${ayahEntry.key}"] = stripped
+              .replaceAll(RegExp(r"\s+"), " ")
+              .trim();
         }
       }
       _uthmaniAssetText = out;
@@ -445,8 +479,10 @@ color: _bg(ctx),
   }
 
   Future<String> _getAyahTextForSearch(int surah, int verse) async {
-    final QuranScriptType scriptType =
-        context.read<QuranViewCubit>().state.quranScriptType;
+    final QuranScriptType scriptType = context
+        .read<QuranViewCubit>()
+        .state
+        .quranScriptType;
 
     List<String> words = QuranScriptFunction.getWordListOfAyah(
       scriptType,
@@ -602,7 +638,10 @@ color: _bg(ctx),
     await _setBookmarkColorForAyahKey(key, colorId);
   }
 
-  Future<void> _setBookmarkColorForAyahKey(String ayahKey, String colorId) async {
+  Future<void> _setBookmarkColorForAyahKey(
+    String ayahKey,
+    String colorId,
+  ) async {
     final box = Hive.box("user");
 
     final list = _getWahyBookmarks();
@@ -691,7 +730,8 @@ color: _bg(ctx),
                     }
 
                     Future<void> onTapColor(String colorId) async {
-                      final list = grouped[colorId] ?? const <Map<String, dynamic>>[];
+                      final list =
+                          grouped[colorId] ?? const <Map<String, dynamic>>[];
                       if (list.isEmpty) {
                         await _setBookmarkColorForCurrentAyah(colorId);
                         setState(() {});
@@ -708,7 +748,8 @@ color: _bg(ctx),
 
                     Widget wahyColorRow(String colorId) {
                       final meta = colors[colorId]!;
-                      final list = grouped[colorId] ?? const <Map<String, dynamic>>[];
+                      final list =
+                          grouped[colorId] ?? const <Map<String, dynamic>>[];
 
                       String? subtitle;
                       if (list.isNotEmpty) {
@@ -716,11 +757,15 @@ color: _bg(ctx),
                         final key = (e["ayahKey"] as String?) ?? "";
                         final page = getPageNumber(key) ?? 1;
                         final parsed = _parseKey(key);
-                        final time = formatTime((e["createdAt"] as String?) ?? "");
+                        final time = formatTime(
+                          (e["createdAt"] as String?) ?? "",
+                        );
                         if (parsed != null && time.isNotEmpty) {
-                          subtitle = "$time ${getSurahNameArabic(parsed.surah)}: ${localizedNumber(ctx, parsed.verse)} - الصفحة ${localizedNumber(ctx, page)}";
+                          subtitle =
+                              "$time ${getSurahNameArabic(parsed.surah)}: ${localizedNumber(ctx, parsed.verse)} - الصفحة ${localizedNumber(ctx, page)}";
                         } else if (parsed != null) {
-                          subtitle = "${getSurahNameArabic(parsed.surah)}: ${localizedNumber(ctx, parsed.verse)} - الصفحة ${localizedNumber(ctx, page)}";
+                          subtitle =
+                              "${getSurahNameArabic(parsed.surah)}: ${localizedNumber(ctx, parsed.verse)} - الصفحة ${localizedNumber(ctx, page)}";
                         } else {
                           subtitle = "الصفحة ${localizedNumber(ctx, page)}";
                         }
@@ -741,14 +786,18 @@ color: _bg(ctx),
                                   color: Color(0xFF8F8F8F),
                                 ),
                               ),
-                        trailing: Icon(Icons.bookmark_rounded, color: meta.color),
+                        trailing: Icon(
+                          Icons.bookmark_rounded,
+                          color: meta.color,
+                        ),
                         onTap: () async => onTapColor(colorId),
                       );
                     }
 
                     Widget section(String colorId) {
                       final meta = colors[colorId]!;
-                      final list = grouped[colorId] ?? const <Map<String, dynamic>>[];
+                      final list =
+                          grouped[colorId] ?? const <Map<String, dynamic>>[];
                       return Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(
@@ -763,9 +812,14 @@ color: _bg(ctx),
                             ListTile(
                               title: Text(
                                 meta.name,
-                                style: const TextStyle(fontWeight: FontWeight.w900),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                ),
                               ),
-                              trailing: Icon(Icons.bookmark_rounded, color: meta.color),
+                              trailing: Icon(
+                                Icons.bookmark_rounded,
+                                color: meta.color,
+                              ),
                             ),
                             if (list.isEmpty)
                               const Padding(
@@ -791,7 +845,9 @@ color: _bg(ctx),
                                 return ListTile(
                                   title: Text(
                                     title,
-                                    style: const TextStyle(fontWeight: FontWeight.w900),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                   subtitle: Text(
                                     "${preview.isEmpty ? key : preview}\nالصفحة ${localizedNumber(ctx, page)}",
@@ -803,13 +859,19 @@ color: _bg(ctx),
                                       await _removeBookmark(key);
                                       setState(() {});
                                     },
-                                    icon: const Icon(Icons.delete_outline_rounded),
+                                    icon: const Icon(
+                                      Icons.delete_outline_rounded,
+                                    ),
                                   ),
                                   onTap: key.isEmpty
                                       ? null
                                       : () {
-                                          context.read<AyahKeyCubit>().changeLastScrolledPage(page);
-                                          context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
+                                          context
+                                              .read<AyahKeyCubit>()
+                                              .changeLastScrolledPage(page);
+                                          context
+                                              .read<AyahKeyCubit>()
+                                              .changeCurrentAyahKey(key);
                                           Navigator.pop(ctx);
                                         },
                                 );
@@ -920,10 +982,7 @@ color: _bg(ctx),
   }) {
     return ListTile(
       onTap: onTap,
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.w900),
-      ),
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.w900)),
       trailing: Icon(Icons.bookmark_rounded, color: color),
     );
   }
@@ -939,7 +998,7 @@ color: _bg(ctx),
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-color: _bg(ctx),
+              color: _bg(ctx),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -992,8 +1051,12 @@ color: _bg(ctx),
                                   ),
                                 )
                               : ListView.separated(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 16, 90),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    0,
+                                    16,
+                                    90,
+                                  ),
                                   itemCount: starred.length,
                                   separatorBuilder: (_, __) => Divider(
                                     height: 14,
@@ -1028,7 +1091,9 @@ color: _bg(ctx),
                                           await box.put(_kWahyStarred, list);
                                           setState(() {});
                                         },
-                                        icon: const Icon(Icons.star_outline_rounded),
+                                        icon: const Icon(
+                                          Icons.star_outline_rounded,
+                                        ),
                                       ),
                                       onTap: () {
                                         context
@@ -1066,7 +1131,7 @@ color: _bg(ctx),
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-color: _bg(ctx),
+              color: _bg(ctx),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -1109,10 +1174,16 @@ color: _bg(ctx),
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  final currentAyahKey = context.read<AyahKeyCubit>().state.current;
+                                  final currentAyahKey = context
+                                      .read<AyahKeyCubit>()
+                                      .state
+                                      .current;
                                   if (currentAyahKey.isNotEmpty) {
                                     Navigator.pop(ctx);
-                                    await showAddNotePopup(context, currentAyahKey);
+                                    await showAddNotePopup(
+                                      context,
+                                      currentAyahKey,
+                                    );
                                   }
                                 },
                                 child: Text(
@@ -1139,8 +1210,12 @@ color: _bg(ctx),
                                   ),
                                 )
                               : ListView.separated(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 16, 90),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    0,
+                                    16,
+                                    90,
+                                  ),
                                   itemCount: notes.length,
                                   separatorBuilder: (_, __) => Divider(
                                     height: 14,
@@ -1174,7 +1249,9 @@ color: _bg(ctx),
                                           await _removeNoteAt(index);
                                           setState(() {});
                                         },
-                                        icon: const Icon(Icons.delete_outline_rounded),
+                                        icon: const Icon(
+                                          Icons.delete_outline_rounded,
+                                        ),
                                       ),
                                       onTap: key.isEmpty
                                           ? null
@@ -1185,15 +1262,23 @@ color: _bg(ctx),
                                               context
                                                   .read<AyahKeyCubit>()
                                                   .changeCurrentAyahKey(key);
-                                              context.read<AyahToHighlight>().changeAyah(key);
+                                              context
+                                                  .read<AyahToHighlight>()
+                                                  .changeAyah(key);
                                               Navigator.pop(ctx);
 
-                                              if (_isMushafMode && _mushafPageController.hasClients) {
-                                                _mushafPageController.animateToPage(
-                                                  page - 1,
-                                                  duration: const Duration(milliseconds: 520),
-                                                  curve: Curves.easeOutCubic,
-                                                );
+                                              if (_isMushafMode &&
+                                                  _mushafPageController
+                                                      .hasClients) {
+                                                _mushafPageController
+                                                    .animateToPage(
+                                                      page - 1,
+                                                      duration: const Duration(
+                                                        milliseconds: 520,
+                                                      ),
+                                                      curve:
+                                                          Curves.easeOutCubic,
+                                                    );
                                               }
                                             },
                                     );
@@ -1223,7 +1308,7 @@ color: _bg(ctx),
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-color: _bg(ctx),
+              color: _bg(ctx),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -1237,9 +1322,13 @@ color: _bg(ctx),
                   onOpenPage: (page) async {
                     if (_isMushafMode) {
                       Navigator.pop(ctx);
-                      await Future<void>.delayed(const Duration(milliseconds: 80));
+                      await Future<void>.delayed(
+                        const Duration(milliseconds: 80),
+                      );
                       if (!_mushafPageController.hasClients) {
-                        context.read<AyahKeyCubit>().changeLastScrolledPage(page);
+                        context.read<AyahKeyCubit>().changeLastScrolledPage(
+                          page,
+                        );
                         return;
                       }
                       _mushafPageController.animateToPage(
@@ -1256,7 +1345,9 @@ color: _bg(ctx),
                   },
                   onOpenAyah: (key) async {
                     Navigator.pop(ctx);
-                    await Future<void>.delayed(const Duration(milliseconds: 80));
+                    await Future<void>.delayed(
+                      const Duration(milliseconds: 80),
+                    );
 
                     final page = getPageNumber(key) ?? 1;
                     context.read<AyahKeyCubit>().changeLastScrolledPage(page);
@@ -1281,8 +1372,10 @@ color: _bg(ctx),
   }
 
   String _getAyahText(BuildContext context, int surah, int verse) {
-    final QuranScriptType scriptType =
-        context.read<QuranViewCubit>().state.quranScriptType;
+    final QuranScriptType scriptType = context
+        .read<QuranViewCubit>()
+        .state
+        .quranScriptType;
     final words = QuranScriptFunction.getWordListOfAyah(
       scriptType,
       surah.toString(),
@@ -1374,9 +1467,12 @@ color: _bg(ctx),
     final themeState = context.read<ThemeCubit>().state;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? const Color(0xFF0B0B0F) : AppColors.ayaBackground;
-    final topBarColor = isDark ? const Color(0xFF1B1B1F).withValues(alpha: 0.85) : AppColors.ayaSurface.withValues(alpha: 0.85);
-    final topBarBorderColor = isDark ? Colors.white10 : AppColors.ayaBorder.withValues(alpha: 0.5);
-
+    final topBarColor = isDark
+        ? const Color(0xFF1B1B1F).withValues(alpha: 0.85)
+        : AppColors.ayaSurface.withValues(alpha: 0.85);
+    final topBarBorderColor = isDark
+        ? Colors.white10
+        : AppColors.ayaBorder.withValues(alpha: 0.5);
 
     final media = MediaQuery.of(context);
     final screenH = media.size.height;
@@ -1402,7 +1498,10 @@ color: _bg(ctx),
               context.read<AyahKeyCubit>().changeLastScrolledPage(page);
               context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
               _flashAyahHighlight(key);
-              Navigator.of(context, rootNavigator: true).popUntil((route) => route.isFirst);
+              Navigator.of(
+                context,
+                rootNavigator: true,
+              ).popUntil((route) => route.isFirst);
 
               if (_isMushafMode && _mushafPageController.hasClients) {
                 _mushafPageController.animateToPage(
@@ -1449,10 +1548,7 @@ color: _bg(ctx),
               ),
               title: Text(
                 title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  color: fontBase,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w900, color: fontBase),
               ),
               subtitle: Text(
                 subtitle,
@@ -1614,7 +1710,7 @@ color: _bg(ctx),
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: bgColor,
-      extendBodyBehindAppBar: true, 
+      extendBodyBehindAppBar: true,
       body: MultiBlocListener(
         listeners: [
           BlocListener<PlayerStateCubit, PlayerState>(
@@ -1625,7 +1721,9 @@ color: _bg(ctx),
                 highlighter.changeAyah(null);
                 return;
               }
-              highlighter.changeAyah(context.read<AyahKeyCubit>().state.current);
+              highlighter.changeAyah(
+                context.read<AyahKeyCubit>().state.current,
+              );
             },
           ),
           BlocListener<AyahKeyCubit, AyahKeyManagement>(
@@ -1638,15 +1736,16 @@ color: _bg(ctx),
         ],
         child: Stack(
           children: [
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () => setState(() => _showHeader = !_showHeader),
-              child: Container(
-                color: isDark ? const Color(0xFF0B0B0F) : _bg(context),
-                child: Padding(
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => setState(() => _showHeader = !_showHeader),
+                child: Container(
+                  color: isDark ? const Color(0xFF0B0B0F) : _bg(context),
+                  child: Padding(
                     padding: const EdgeInsets.only(
-                      top: 44, // Balanced for fullscreen immersive mode
+                      top:
+                          44, // Adjusted further from 47 to 44 to raise headers more
                       bottom: _miniPlayerBottomPadding,
                     ),
                     child: AnimatedSwitcher(
@@ -1657,18 +1756,24 @@ color: _bg(ctx),
                           ? MushafView(
                               key: const ValueKey("mushaf"),
                               useDefaultAppBar: false,
-                              initialPageNumber:
-                                  context.watch<AyahKeyCubit>().state.lastScrolledPageNumber,
+                              initialPageNumber: context
+                                  .watch<AyahKeyCubit>()
+                                  .state
+                                  .lastScrolledPageNumber,
                               controller: _mushafPageController,
-                              spOverride: 1.0,
-                              hOverride: 1.0,
-                              onToggleHeader: () => setState(() => _showHeader = !_showHeader),
+                              spOverride: mushafScale,
+                              hOverride: mushafScale,
+                              onToggleHeader: () =>
+                                  setState(() => _showHeader = !_showHeader),
                             )
                           : QuranScriptView(
                               key: const ValueKey("ayah_by_ayah"),
                               startKey: "1:1",
                               endKey: "114:6",
-                              toScrollKey: context.read<AyahKeyCubit>().state.current,
+                              toScrollKey: context
+                                  .read<AyahKeyCubit>()
+                                  .state
+                                  .current,
                               embedded: true,
                               topPaddingOverride: 0,
                               showAudioController: false,
@@ -1676,125 +1781,162 @@ color: _bg(ctx),
                     ),
                   ),
                 ),
+              ),
             ),
-          ),
 
-          // Top header (Beige)
-          AnimatedSlide(
-            duration:
-                Duration(milliseconds: _showHeader ? 320 : 520),
-            curve: Curves.easeInOutCubic,
-            offset: _showHeader ? Offset.zero : const Offset(0, -1.15),
-            child: AnimatedOpacity(
-              duration:
-                  Duration(milliseconds: _showHeader ? 240 : 420),
-              opacity: _showHeader ? 1 : 0,
-              child: AnimatedScale(
-                duration:
-                    Duration(milliseconds: _showHeader ? 320 : 520),
-                curve: Curves.easeInOutCubic,
-                scale: _showHeader ? 1.0 : 0.985,
-                child: Container(
-                  // Dynamic height to account for status bar
-                  height: _headerHeight + MediaQuery.of(context).padding.top,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent, 
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.zero,
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15), 
-                      child: Container(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          color: topBarColor, 
-                          border: Border(
-                            bottom: BorderSide(
-                              color: topBarBorderColor, 
-                              width: 1.0,
+            // Top header (Beige)
+            AnimatedSlide(
+              duration: Duration(milliseconds: _showHeader ? 320 : 520),
+              curve: Curves.easeInOutCubic,
+              offset: _showHeader ? Offset.zero : const Offset(0, -1.15),
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: _showHeader ? 240 : 420),
+                opacity: _showHeader ? 1 : 0,
+                child: AnimatedScale(
+                  duration: Duration(milliseconds: _showHeader ? 320 : 520),
+                  curve: Curves.easeInOutCubic,
+                  scale: _showHeader ? 1.0 : 0.985,
+                  child: Container(
+                    // Dynamic height to account for status bar
+                    height: _headerHeight + MediaQuery.of(context).padding.top,
+                    decoration: BoxDecoration(color: Colors.transparent),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.zero,
+                      child: BackdropFilter(
+                        filter: ui.ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top,
+                            left: 10,
+                            right: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: topBarColor,
+                            border: Border(
+                              bottom: BorderSide(
+                                color: topBarBorderColor,
+                                width: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _HeaderIconPill(
-                                tooltip: "الفهرس",
-                                icon: Icons.notes_rounded, // Hamburger-like icon
-                                primary: AppColors.ayaPrimary,
-                                onTap: () {
-                                  showGeneralDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    barrierLabel: "إغلاق الفهرس",
-                                    barrierColor: Colors.black.withValues(alpha: 0.4),
-                                    transitionDuration: const Duration(milliseconds: 380),
-                                    pageBuilder: (ctx, anim1, anim2) => Align(
-                                      alignment: Alignment.centerRight,
-                                      child: SizedBox(
-                                        width: 340,
-                                        child: Material(
-                                          color: bgColor,
-                                          child: AyaIndexPage(
-                                            isEmbedded: true,
-                                            onOpenLocation: (page, ayahKey) {
-                                              Navigator.of(context, rootNavigator: true).popUntil((route) => route.isFirst);
-                                              context.read<AyahKeyCubit>().changeLastScrolledPage(page);
-                                              context.read<AyahKeyCubit>().changeCurrentAyahKey(ayahKey);
-                                              context.read<AyahToHighlight>().changeAyah(ayahKey);
-                                              _navigateToMushafPage(page - 1);
-                                            },
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _HeaderIconPill(
+                                  tooltip: "الفهرس",
+                                  icon: Icons
+                                      .notes_rounded, // Hamburger-like icon
+                                  primary: AppColors.ayaPrimary,
+                                  onTap: () {
+                                    showGeneralDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      barrierLabel: "إغلاق الفهرس",
+                                      barrierColor: Colors.black.withValues(
+                                        alpha: 0.4,
+                                      ),
+                                      transitionDuration: const Duration(
+                                        milliseconds: 380,
+                                      ),
+                                      pageBuilder: (ctx, anim1, anim2) => Align(
+                                        alignment: Alignment.centerRight,
+                                        child: SizedBox(
+                                          width: 340,
+                                          child: Material(
+                                            color: bgColor,
+                                            child: AyaIndexPage(
+                                              isEmbedded: true,
+                                              onOpenLocation: (page, ayahKey) {
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).popUntil(
+                                                  (route) => route.isFirst,
+                                                );
+                                                context
+                                                    .read<AyahKeyCubit>()
+                                                    .changeLastScrolledPage(
+                                                      page,
+                                                    );
+                                                context
+                                                    .read<AyahKeyCubit>()
+                                                    .changeCurrentAyahKey(
+                                                      ayahKey,
+                                                    );
+                                                context
+                                                    .read<AyahToHighlight>()
+                                                    .changeAyah(ayahKey);
+                                                _navigateToMushafPage(page - 1);
+                                              },
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    transitionBuilder: (ctx, anim1, anim2, child) {
-                                      return SlideTransition(
-                                        position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
-                                            .animate(CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic)),
-                                        child: child,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              _HeaderIconPill(
-                                tooltip: "البحث",
-                                icon: Icons.search_rounded,
-                                primary: AppColors.ayaPrimary,
-                                onTap: () async {
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (_) => const SearchScreen()),
-                                  );
-                                  if (result != null && result is Map) {
-                                    if (_isMushafMode && _mushafPageController.hasClients) {
-                                      final page = result["page"] as int?;
-                                      if (page != null) {
-                                        _navigateToMushafPage(page - 1);
+                                      transitionBuilder:
+                                          (ctx, anim1, anim2, child) {
+                                            return SlideTransition(
+                                              position:
+                                                  Tween<Offset>(
+                                                    begin: const Offset(1, 0),
+                                                    end: Offset.zero,
+                                                  ).animate(
+                                                    CurvedAnimation(
+                                                      parent: anim1,
+                                                      curve:
+                                                          Curves.easeOutCubic,
+                                                    ),
+                                                  ),
+                                              child: child,
+                                            );
+                                          },
+                                    );
+                                  },
+                                ),
+                                _HeaderIconPill(
+                                  tooltip: "البحث",
+                                  icon: Icons.search_rounded,
+                                  primary: AppColors.ayaPrimary,
+                                  onTap: () async {
+                                    final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const SearchScreen(),
+                                      ),
+                                    );
+                                    if (result != null && result is Map) {
+                                      if (_isMushafMode &&
+                                          _mushafPageController.hasClients) {
+                                        final page = result["page"] as int?;
+                                        if (page != null) {
+                                          _navigateToMushafPage(page - 1);
+                                        }
                                       }
                                     }
-                                  }
-                                },
-                              ),
-                              _HeaderIconPill(
-                                tooltip: "طريقة العرض",
-                                icon: _isMushafMode ? Icons.chrome_reader_mode_outlined : Icons.menu_book_rounded,
-                                primary: AppColors.ayaPrimary,
-                                onTap: () {
-                                  setState(() => _isMushafMode = !_isMushafMode);
-                                },
-                              ),
-                              _HeaderIconPill(
-                                tooltip: "الختمة",
-                                icon: Icons.bookmark_border_rounded,
-                                primary: AppColors.ayaPrimary,
-                                onTap: () async => _openKhatmaSheet(),
-                              ),
-                              _buildMoreMenu(themeState.primary, isDark),
-                            ],
+                                  },
+                                ),
+                                _HeaderIconPill(
+                                  tooltip: "طريقة العرض",
+                                  icon: _isMushafMode
+                                      ? Icons.chrome_reader_mode_outlined
+                                      : Icons.menu_book_rounded,
+                                  primary: AppColors.ayaPrimary,
+                                  onTap: () {
+                                    setState(
+                                      () => _isMushafMode = !_isMushafMode,
+                                    );
+                                  },
+                                ),
+                                _HeaderIconPill(
+                                  tooltip: "الختمة",
+                                  icon: Icons.bookmark_border_rounded,
+                                  primary: AppColors.ayaPrimary,
+                                  onTap: () async => _openKhatmaSheet(),
+                                ),
+                                _buildMoreMenu(themeState.primary, isDark),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1803,50 +1945,52 @@ color: _bg(ctx),
                 ),
               ),
             ),
-          ),
 
-          // Bottom mini audio controller (overlay)
-          SafeArea(
-            top: false,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: const SizedBox.shrink(),
-            ),
-          ),
-
-          SafeArea(
-            top: false,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: const SizedBox.shrink(),
-            ),
-          ),
-
-          // Audio Controller UI
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 25,
-            child: AnimatedSlide(
-              duration: Duration(milliseconds: _showHeader ? 320 : 520),
-              curve: Curves.easeInOutCubic,
-              offset: _showHeader ? Offset.zero : const Offset(0, 1.15),
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: _showHeader ? 240 : 420),
-                opacity: _showHeader ? 1 : 0,
-                child: const AudioControllerUi(),
+            // Bottom mini audio controller (overlay)
+            SafeArea(
+              top: false,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: const SizedBox.shrink(),
               ),
             ),
-          ),
+
+            SafeArea(
+              top: false,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: const SizedBox.shrink(),
+              ),
+            ),
+
+            // Audio Controller UI
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 25,
+              child: AnimatedSlide(
+                duration: Duration(milliseconds: _showHeader ? 320 : 520),
+                curve: Curves.easeInOutCubic,
+                offset: _showHeader ? Offset.zero : const Offset(0, 1.15),
+                child: AnimatedOpacity(
+                  duration: Duration(milliseconds: _showHeader ? 240 : 420),
+                  opacity: _showHeader ? 1 : 0,
+                  child: const AudioControllerUi(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
-    ).animate().fade(duration: 500.ms, curve: Curves.easeOut).scale(begin: const Offset(0.98, 0.98), duration: 500.ms, curve: Curves.easeOutCubic);
+    );
   }
 
   Widget _buildMoreMenu(Color primaryColor, bool isDark) {
-    final surfaceColor = isDark ? const Color(0xFF141414) : AppColors.ayaSurface;
-    final textColor = isDark ? Colors.white : AppColors.ayaTextMain;
+    final colorScheme = Theme.of(context).colorScheme;
+    final themeState = context.read<ThemeCubit>().state;
+    final surfaceColor = colorScheme.surface;
+    final textColor = colorScheme.onSurface;
+    final primary = themeState.primary;
 
     return PopupMenuButton<int>(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -1856,19 +2000,35 @@ color: _bg(ctx),
       icon: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.ayaPrimary.withValues(alpha: 0.1),
+          color: primary.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Icon(Icons.more_vert_rounded, color: AppColors.ayaPrimary),
+        child: Icon(Icons.more_vert_rounded, color: primary),
       ),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 0,
           child: Row(
             children: [
-              const Icon(Icons.settings_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.settings_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("الإعدادات", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "الإعدادات",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 7,
+          child: Row(
+            children: [
+              Icon(Icons.auto_awesome_rounded, color: primary, size: 22),
+              const SizedBox(width: 12),
+              Text(
+                "إعدادات المصحف",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1876,9 +2036,12 @@ color: _bg(ctx),
           value: 4,
           child: Row(
             children: [
-              const Icon(Icons.headphones_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.headphones_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("الصوتيات", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "الصوتيات",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1886,9 +2049,12 @@ color: _bg(ctx),
           value: 5,
           child: Row(
             children: [
-              const Icon(Icons.access_time_filled_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.access_time_filled_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("مواقيت الصلاة", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "مواقيت الصلاة",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1896,9 +2062,12 @@ color: _bg(ctx),
           value: 6,
           child: Row(
             children: [
-              const Icon(Icons.explore_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.explore_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("القبلة", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "القبلة",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1906,9 +2075,12 @@ color: _bg(ctx),
           value: 1,
           child: Row(
             children: [
-              const Icon(Icons.menu_book_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.menu_book_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("التفاسير والترجمات", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "التفاسير والترجمات",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1917,9 +2089,12 @@ color: _bg(ctx),
           value: 2,
           child: Row(
             children: [
-              const Icon(Icons.info_outline_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.info_outline_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("عن التطبيق", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "عن التطبيق",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
@@ -1927,41 +2102,73 @@ color: _bg(ctx),
           value: 3,
           child: Row(
             children: [
-              const Icon(Icons.bug_report_rounded, color: AppColors.ayaPrimary, size: 22),
+              Icon(Icons.bug_report_rounded, color: primary, size: 22),
               const SizedBox(width: 12),
-              Text("إرسال ملاحظة", style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
+              Text(
+                "إرسال ملاحظة",
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
             ],
           ),
         ),
       ],
       onSelected: (val) {
         if (val == 0) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SettingsPage()),
+          );
         } else if (val == 1) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const QuranResourcesView()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const QuranResourcesView()),
+          );
         } else if (val == 2) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutAppPage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AboutAppPage()),
+          );
         } else if (val == 3) {
           showGeneralDialog(
             context: context,
             barrierDismissible: true,
             barrierLabel: "إغلاق الملاحظة",
             transitionDuration: const Duration(milliseconds: 320),
-            pageBuilder: (ctx, anim1, anim2) => _WahyFeedbackDialog(primary: primaryColor),
+            pageBuilder: (ctx, anim1, anim2) =>
+                _WahyFeedbackDialog(primary: primaryColor),
             transitionBuilder: (ctx, anim1, anim2, child) {
               return SlideTransition(
-                position: Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
-                    .animate(CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic)),
+                position:
+                    Tween<Offset>(
+                      begin: const Offset(0, 0.4),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: anim1,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    ),
                 child: FadeTransition(opacity: anim1, child: child),
               );
-            }
+            },
           );
         } else if (val == 4) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const AudioPage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AudioPage()),
+          );
         } else if (val == 5) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const PrayerTimePage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const PrayerTimePage()),
+          );
         } else if (val == 6) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const QiblaDirection()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const QiblaDirection()),
+          );
+        } else if (val == 7) {
+          QuranSettingsBottomSheet.show(context);
         }
       },
     );
@@ -1991,15 +2198,16 @@ class _WahySideDrawer extends StatefulWidget {
   State<_WahySideDrawer> createState() => _WahySideDrawerState();
 }
 
-class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProviderStateMixin {
+class _WahySideDrawerState extends State<_WahySideDrawer>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-       vsync: this, 
-       duration: const Duration(milliseconds: 600)
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
     )..forward();
   }
 
@@ -2015,21 +2223,21 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
       builder: (context, c) {
         final double delay = index * 0.08;
         final double curveValue = Curves.easeOutCubic.transform(
-          ((_controller.value - delay) / (1 - delay)).clamp(0.0, 1.0)
+          ((_controller.value - delay) / (1 - delay)).clamp(0.0, 1.0),
         );
         return Transform.translate(
-           offset: Offset(-30 * (1 - curveValue), 0),
-           child: Opacity(
-             opacity: curveValue,
-             child: c,
-           ),
+          offset: Offset(-30 * (1 - curveValue), 0),
+          child: Opacity(opacity: curveValue, child: c),
         );
       },
       child: child,
     );
   }
 
-  Future<void> _closeThen(BuildContext context, Future<void> Function() action) async {
+  Future<void> _closeThen(
+    BuildContext context,
+    Future<void> Function() action,
+  ) async {
     Navigator.pop(context);
     await action();
   }
@@ -2070,11 +2278,19 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
                             child: InkWell(
                               onTap: () {
                                 Navigator.pop(context); // Close drawer
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppPage()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AboutAppPage(),
+                                  ),
+                                );
                               },
                               borderRadius: BorderRadius.circular(12),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                  horizontal: 4,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2094,7 +2310,7 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
                                         fontWeight: FontWeight.w700,
                                         color: widget.primary,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -2105,7 +2321,9 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
                             icon: const Icon(Icons.close_rounded),
                             color: widget.primary,
                             style: IconButton.styleFrom(
-                              backgroundColor: widget.primary.withValues(alpha: 0.1),
+                              backgroundColor: widget.primary.withValues(
+                                alpha: 0.1,
+                              ),
                             ),
                           ),
                         ],
@@ -2116,91 +2334,143 @@ class _WahySideDrawerState extends State<_WahySideDrawer> with SingleTickerProvi
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          _buildAnimItem(i++, Text(
-                            "الرئيسية",
-                            style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontWeight: FontWeight.bold),
-                          )),
+                          _buildAnimItem(
+                            i++,
+                            Text(
+                              "الرئيسية",
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 8),
-                          _buildAnimItem(i++, _WahyDrawerItem(
-                            title: "المصحف المعلم",
-                            subtitle: "تلاوة وتفسير",
-                            icon: Icons.menu_book_rounded,
-                            primary: widget.primary,
-                            onTap: () => Navigator.pop(context), 
-                            cardColor: card,
-                          )),
+                          _buildAnimItem(
+                            i++,
+                            _WahyDrawerItem(
+                              title: "المصحف المعلم",
+                              subtitle: "تلاوة وتفسير",
+                              icon: Icons.menu_book_rounded,
+                              primary: widget.primary,
+                              onTap: () => Navigator.pop(context),
+                              cardColor: card,
+                            ),
+                          ),
                           const SizedBox(height: 10),
-                          _buildAnimItem(i++, Text(
-                            "الخدمات الإسلامية",
-                            style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontWeight: FontWeight.bold),
-                          )),
-                          const SizedBox(height: 8),
-                          _buildAnimItem(i++, Container(
-                            decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              children: [
-                                _WahyDrawerItem(
-                                  title: "مواقيت الصلاة",
-                                  subtitle: "مواعيد وتنبيهات",
-                                  icon: Icons.access_time_filled_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThenPush(context, const PrayerTimePage()),
-                                ),
-                                _WahyDrawerDivider(),
-                                _WahyDrawerItem(
-                                  title: "اتجاه القبلة",
-                                  subtitle: "البوصلة الذكية",
-                                  icon: Icons.explore_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThenPush(context, const QiblaDirection()),
-                                ),
-                                _WahyDrawerDivider(),
-                                _WahyDrawerItem(
-                                  title: "الصوتيات",
-                                  subtitle: "مكتبة القراء",
-                                  icon: Icons.headphones_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThenPush(context, const AudioPage()),
-                                ),
-                              ],
+                          _buildAnimItem(
+                            i++,
+                            Text(
+                              "الخدمات الإسلامية",
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )),
+                          ),
+                          const SizedBox(height: 8),
+                          _buildAnimItem(
+                            i++,
+                            Container(
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  _WahyDrawerItem(
+                                    title: "مواقيت الصلاة",
+                                    subtitle: "مواعيد وتنبيهات",
+                                    icon: Icons.access_time_filled_rounded,
+                                    primary: widget.primary,
+                                    onTap: () => _closeThenPush(
+                                      context,
+                                      const PrayerTimePage(),
+                                    ),
+                                  ),
+                                  _WahyDrawerDivider(),
+                                  _WahyDrawerItem(
+                                    title: "اتجاه القبلة",
+                                    subtitle: "البوصلة الذكية",
+                                    icon: Icons.explore_rounded,
+                                    primary: widget.primary,
+                                    onTap: () => _closeThenPush(
+                                      context,
+                                      const QiblaDirection(),
+                                    ),
+                                  ),
+                                  _WahyDrawerDivider(),
+                                  _WahyDrawerItem(
+                                    title: "الصوتيات",
+                                    subtitle: "مكتبة القراء",
+                                    icon: Icons.headphones_rounded,
+                                    primary: widget.primary,
+                                    onTap: () => _closeThenPush(
+                                      context,
+                                      const AudioPage(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 20),
-                          _buildAnimItem(i++, Text(
-                            "الإدارة السريعة",
-                            style: TextStyle(color: Colors.grey.shade500, fontSize: 12, fontWeight: FontWeight.bold),
-                          )),
-                          const SizedBox(height: 8),
-                          _buildAnimItem(i++, Container(
-                            decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              children: [
-                                _WahyDrawerItem(
-                                  title: "الفهرس والانتقال",
-                                  subtitle: "سورة / آية / صفحة",
-                                  icon: Icons.format_list_bulleted_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThen(context, widget.onOpenIndex),
-                                ),
-                                _WahyDrawerDivider(),
-                                _WahyDrawerItem(
-                                  title: "مساحة الختمة",
-                                  subtitle: "متابعة الحفظ",
-                                  icon: Icons.auto_awesome_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThenPush(context, const SmartKhatmaPage()),
-                                ),
-                                _WahyDrawerDivider(),
-                                _WahyDrawerItem(
-                                  title: "الإعدادات",
-                                  subtitle: "تخصيص التطبيق",
-                                  icon: Icons.settings_rounded,
-                                  primary: widget.primary,
-                                  onTap: () => _closeThenPush(context, const SettingsPage()),
-                                ),
-                              ],
+                          _buildAnimItem(
+                            i++,
+                            Text(
+                              "الإدارة السريعة",
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )),
+                          ),
+                          const SizedBox(height: 8),
+                          _buildAnimItem(
+                            i++,
+                            Container(
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  _WahyDrawerItem(
+                                    title: "الفهرس والانتقال",
+                                    subtitle: "سورة / آية / صفحة",
+                                    icon: Icons.format_list_bulleted_rounded,
+                                    primary: widget.primary,
+                                    onTap: () =>
+                                        _closeThen(context, widget.onOpenIndex),
+                                  ),
+                                  _WahyDrawerDivider(),
+                                  _WahyDrawerItem(
+                                    title: "مساحة الختمة",
+                                    subtitle: "متابعة الحفظ",
+                                    icon: Icons.auto_awesome_rounded,
+                                    primary: widget.primary,
+                                    onTap: () => _closeThenPush(
+                                      context,
+                                      const SmartKhatmaPage(),
+                                    ),
+                                  ),
+                                  _WahyDrawerDivider(),
+                                  _WahyDrawerItem(
+                                    title: "الإعدادات",
+                                    subtitle: "تخصيص التطبيق",
+                                    icon: Icons.settings_rounded,
+                                    primary: widget.primary,
+                                    onTap: () => _closeThenPush(
+                                      context,
+                                      const SettingsPage(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 30),
                         ],
                       ),
@@ -2336,7 +2606,9 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
 
   Future<bool> _sendToTelegram(String text) async {
     try {
-      final url = Uri.parse("https://api.telegram.org/bot$_telegramBotToken/sendMessage");
+      final url = Uri.parse(
+        "https://api.telegram.org/bot$_telegramBotToken/sendMessage",
+      );
       final res = await http.post(
         url,
         body: {
@@ -2354,14 +2626,24 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF1B1B1F) : AppColors.ayaSurface;
-    final borderColor = isDark ? Colors.white.withValues(alpha: 0.1) : AppColors.ayaBorder;
-    final inputBg = isDark ? const Color(0xFF252529) : Colors.white.withValues(alpha: 0.5);
+    final surfaceColor = isDark
+        ? const Color(0xFF1B1B1F)
+        : AppColors.ayaSurface;
+    final borderColor = isDark
+        ? Colors.white.withValues(alpha: 0.1)
+        : AppColors.ayaBorder;
+    final inputBg = isDark
+        ? const Color(0xFF252529)
+        : Colors.white.withValues(alpha: 0.5);
 
     return Animate(
       effects: [
         FadeEffect(duration: 400.ms, curve: Curves.easeOut),
-        ScaleEffect(begin: const Offset(0.98, 0.98), duration: 300.ms, curve: Curves.easeOutBack),
+        ScaleEffect(
+          begin: const Offset(0.98, 0.98),
+          duration: 300.ms,
+          curve: Curves.easeOutBack,
+        ),
       ],
       child: Dialog(
         backgroundColor: Colors.transparent,
@@ -2394,7 +2676,11 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
                     // Minimalist Header
                     Row(
                       children: [
-                        Icon(Icons.chat_bubble_rounded, color: widget.primary, size: 28),
+                        Icon(
+                          Icons.chat_bubble_rounded,
+                          color: widget.primary,
+                          size: 28,
+                        ),
                         const SizedBox(width: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2461,12 +2747,16 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            onPressed: _isSending ? null : () => Navigator.pop(context),
+                            onPressed: _isSending
+                                ? null
+                                : () => Navigator.pop(context),
                             child: Text(
                               "إلغاء",
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
-                                color: isDark ? Colors.white38 : Colors.grey[500],
+                                color: isDark
+                                    ? Colors.white38
+                                    : Colors.grey[500],
                               ),
                             ),
                           ),
@@ -2530,7 +2820,11 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.grey),
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w800,
+            color: Colors.grey,
+          ),
         ),
         const SizedBox(height: 8),
         TextField(
@@ -2540,13 +2834,27 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(fontSize: 13, color: Colors.grey.withValues(alpha: 0.5)),
+            hintStyle: TextStyle(
+              fontSize: 13,
+              color: Colors.grey.withValues(alpha: 0.5),
+            ),
             prefixIcon: Icon(icon, color: widget.primary, size: 20),
             filled: true,
             fillColor: bg,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: widget.primary.withValues(alpha: 0.3))),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(
+                color: widget.primary.withValues(alpha: 0.3),
+              ),
+            ),
             contentPadding: const EdgeInsets.all(16),
           ),
         ),
@@ -2573,7 +2881,8 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
 
     setState(() => _isSending = true);
     try {
-      final canSend = _telegramBotToken.isNotEmpty && _telegramChatId.isNotEmpty;
+      final canSend =
+          _telegramBotToken.isNotEmpty && _telegramChatId.isNotEmpty;
       if (!canSend) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -2587,14 +2896,20 @@ class _WahyFeedbackDialogState extends State<_WahyFeedbackDialog> {
       if (ok && context.mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(backgroundColor: Colors.green, content: Text("تم إرسال رسالتك بنجاح، شكراً لك! 💎")),
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("تم إرسال رسالتك بنجاح، شكراً لك! 💎"),
+          ),
         );
         return;
       }
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(backgroundColor: Colors.red, content: Text("فشل إرسال الرسالة، يرجى المحاولة لاحقاً")),
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text("فشل إرسال الرسالة، يرجى المحاولة لاحقاً"),
+          ),
         );
       }
     } finally {
@@ -2607,17 +2922,18 @@ class _WahyBottomNav extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTap;
 
-  const _WahyBottomNav({
-    required this.selectedIndex,
-    required this.onTap,
-  });
+  const _WahyBottomNav({required this.selectedIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final themeState = context.read<ThemeCubit>().state;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF1B1B1F).withValues(alpha: 0.85) : AppColors.ayaSurface.withValues(alpha: 0.85);
-    final borderColor = isDark ? Colors.white10 : AppColors.ayaBorder.withValues(alpha: 0.5);
+    final surfaceColor = isDark
+        ? const Color(0xFF1B1B1F).withValues(alpha: 0.85)
+        : AppColors.ayaSurface.withValues(alpha: 0.85);
+    final borderColor = isDark
+        ? Colors.white10
+        : AppColors.ayaBorder.withValues(alpha: 0.5);
     final textColor = isDark ? Colors.white : AppColors.ayaTextMain;
     final inactiveColor = isDark ? Colors.white24 : AppColors.ayaBorder;
 
@@ -2626,7 +2942,10 @@ class _WahyBottomNav extends StatelessWidget {
     final ayahKeyCubit = context.watch<AyahKeyCubit>();
     final currentPage = ayahKeyCubit.state.lastScrolledPageNumber ?? 1;
     final totalPages = 604;
-    final double sliderValue = (currentPage.toDouble()).clamp(1.0, totalPages.toDouble());
+    final double sliderValue = (currentPage.toDouble()).clamp(
+      1.0,
+      totalPages.toDouble(),
+    );
 
     String surahName = "";
     String juzName = "";
@@ -2640,8 +2959,8 @@ class _WahyBottomNav extends StatelessWidget {
           surahName = getSurahNameArabic(surah);
           final ayah = int.tryParse(parts[1]);
           if (ayah != null) {
-             final j = qcf.getJuzNumber(surah, ayah);
-             juzName = "الجزء ${localizedNumber(context, j)}";
+            final j = qcf.getJuzNumber(surah, ayah);
+            juzName = "الجزء ${localizedNumber(context, j)}";
           }
         }
       }
@@ -2662,71 +2981,72 @@ class _WahyBottomNav extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: surfaceColor,
-                border: Border(
-                  top: BorderSide(
-                    color: borderColor,
-                    width: 1.0,
-                  ),
-                ),
+                border: Border(top: BorderSide(color: borderColor, width: 1.0)),
               ),
               child: Row(
                 children: [
-                   Expanded(
-                     flex: 2,
-                     child: Text(
-                       surahName,
-                       maxLines: 1,
-                       overflow: TextOverflow.ellipsis,
-                       textAlign: TextAlign.start,
-                       style: TextStyle(
-                         color: textColor,
-                         fontSize: 14,
-                         fontWeight: FontWeight.w700,
-                       ),
-                     ),
-                   ),
-                   Expanded(
-                     flex: 6,
-                     child: SliderTheme(
-                       data: SliderTheme.of(context).copyWith(
-                         activeTrackColor: themeState.primary,
-                         inactiveTrackColor: inactiveColor,
-                         thumbColor: themeState.primary,
-                         overlayColor: themeState.primary.withValues(alpha: 0.1),
-                         trackHeight: 3,
-                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                       ),
-                       child: Slider(
-                         value: sliderValue,
-                         min: 1,
-                         max: totalPages.toDouble(),
-                         onChanged: (val) {
-                           final target = val.toInt();
-                           context.read<AyahKeyCubit>().changeLastScrolledPage(target);
-                           // Rough estimate for ayah key to update top text
-                           final pageSurahs = qcf.getPageData(target);
-                           if (pageSurahs.isNotEmpty) {
-                             final firstSurah = pageSurahs[0];
-                             context.read<AyahKeyCubit>().changeCurrentAyahKey("${firstSurah['surah']}:${firstSurah['start']}");
-                           }
-                         },
-                       ),
-                     ),
-                   ),
-                   Expanded(
-                     flex: 2,
-                     child: Text(
-                       juzName,
-                       maxLines: 1,
-                       overflow: TextOverflow.ellipsis,
-                       textAlign: TextAlign.end,
-                       style: TextStyle(
-                         color: textColor,
-                         fontSize: 14,
-                         fontWeight: FontWeight.w700,
-                       ),
-                     ),
-                   ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      surahName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: themeState.primary,
+                        inactiveTrackColor: inactiveColor,
+                        thumbColor: themeState.primary,
+                        overlayColor: themeState.primary.withValues(alpha: 0.1),
+                        trackHeight: 3,
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 6,
+                        ),
+                      ),
+                      child: Slider(
+                        value: sliderValue,
+                        min: 1,
+                        max: totalPages.toDouble(),
+                        onChanged: (val) {
+                          final target = val.toInt();
+                          context.read<AyahKeyCubit>().changeLastScrolledPage(
+                            target,
+                          );
+                          // Rough estimate for ayah key to update top text
+                          final pageSurahs = qcf.getPageData(target);
+                          if (pageSurahs.isNotEmpty) {
+                            final firstSurah = pageSurahs[0];
+                            context.read<AyahKeyCubit>().changeCurrentAyahKey(
+                              "${firstSurah['surah']}:${firstSurah['start']}",
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      juzName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -2816,15 +3136,14 @@ class _WahyIndexSheetState extends State<_WahyIndexSheet>
     final q = _searchController.text.trim();
     final filtered = q.isEmpty
         ? surahs
-        : surahs
-            .where((s) {
-              final id = s.id;
-              final arabic = getSurahNameArabic(id);
-              final key =
-                  "$id $arabic ${s.pagesRange} ${s.versesCount} ${s.revelationPlace}".toLowerCase();
-              return key.contains(q.toLowerCase());
-            })
-            .toList();
+        : surahs.where((s) {
+            final id = s.id;
+            final arabic = getSurahNameArabic(id);
+            final key =
+                "$id $arabic ${s.pagesRange} ${s.versesCount} ${s.revelationPlace}"
+                    .toLowerCase();
+            return key.contains(q.toLowerCase());
+          }).toList();
 
     if (filtered.isEmpty) {
       return const Center(
@@ -2841,10 +3160,8 @@ class _WahyIndexSheetState extends State<_WahyIndexSheet>
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 110),
       itemCount: filtered.length,
-      separatorBuilder: (_, __) => Divider(
-        height: 10,
-        color: Colors.black.withValues(alpha: 0.06),
-      ),
+      separatorBuilder: (_, __) =>
+          Divider(height: 10, color: Colors.black.withValues(alpha: 0.06)),
       itemBuilder: (context, index) {
         final s = filtered[index];
         final id = s.id;
@@ -2878,8 +3195,9 @@ class _WahyIndexSheetState extends State<_WahyIndexSheet>
                   decoration: BoxDecoration(
                     color: _MushafRootState._bg(context),
                     borderRadius: BorderRadius.circular(12),
-                    border:
-                        Border.all(color: Colors.black.withValues(alpha: 0.06)),
+                    border: Border.all(
+                      color: Colors.black.withValues(alpha: 0.06),
+                    ),
                   ),
                   child: Text(
                     localizedNumber(context, id),
@@ -2962,7 +3280,9 @@ class _WahyIndexSheetState extends State<_WahyIndexSheet>
                 "السور والأربع",
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
-                  color: _MushafRootState._onBg(context).withValues(alpha: 0.42),
+                  color: _MushafRootState._onBg(
+                    context,
+                  ).withValues(alpha: 0.42),
                 ),
               ),
             ],
@@ -2987,17 +3307,21 @@ class _WahyIndexSheetState extends State<_WahyIndexSheet>
               indicator: BoxDecoration(
                 color: themeState.primary.withValues(alpha: 0.10),
                 borderRadius: BorderRadius.circular(16),
-                border:
-                    Border.all(color: themeState.primary.withValues(alpha: 0.35)),
+                border: Border.all(
+                  color: themeState.primary.withValues(alpha: 0.35),
+                ),
               ),
               padding: const EdgeInsets.all(4),
               labelColor: themeState.primary,
-              unselectedLabelColor:
-                  _MushafRootState._onBg(context).withValues(alpha: 0.55),
+              unselectedLabelColor: _MushafRootState._onBg(
+                context,
+              ).withValues(alpha: 0.55),
               indicatorSize: TabBarIndicatorSize.tab,
               dividerColor: Colors.transparent,
               labelStyle: TextStyle(fontWeight: FontWeight.w900),
-              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900),
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w900,
+              ),
               tabs: const [
                 Tab(text: "السور"),
                 Tab(text: "الأربع"),
@@ -3061,7 +3385,12 @@ class _RubListView extends StatelessWidget {
           final surah = int.tryParse(firstKey.split(":").first) ?? 1;
           final verse = int.tryParse(firstKey.split(":").last) ?? 1;
           final page = getPageNumber(firstKey) ?? 1;
-          if (matchesQuery(rubNumber: rubNumber, surah: surah, verse: verse, page: page)) {
+          if (matchesQuery(
+            rubNumber: rubNumber,
+            surah: surah,
+            verse: verse,
+            page: page,
+          )) {
             filtered.add({
               ...m,
               "_firstKey": firstKey,
@@ -3088,10 +3417,8 @@ class _RubListView extends StatelessWidget {
         return ListView.separated(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 110),
           itemCount: filtered.length,
-          separatorBuilder: (_, __) => Divider(
-            height: 10,
-            color: Colors.black.withValues(alpha: 0.06),
-          ),
+          separatorBuilder: (_, __) =>
+              Divider(height: 10, color: Colors.black.withValues(alpha: 0.06)),
           itemBuilder: (context, index) {
             final m = filtered[index];
             final int rubNumber = (m["_rubNumber"] as int?) ?? (index + 1);
@@ -3103,11 +3430,16 @@ class _RubListView extends StatelessWidget {
               onTap: () => onOpenPage(page),
               borderRadius: BorderRadius.circular(16),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFF9F2),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
+                  border: Border.all(
+                    color: Colors.black.withValues(alpha: 0.06),
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -3320,15 +3652,19 @@ class _SearchSheetState extends State<_SearchSheet> {
                       child: FutureBuilder<List<_AyahSearchResult>>(
                         future: _future,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState != ConnectionState.done) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
                             return const Padding(
                               padding: EdgeInsets.only(top: 24),
                               child: Center(
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               ),
                             );
                           }
-                          final results = snapshot.data ?? const <_AyahSearchResult>[];
+                          final results =
+                              snapshot.data ?? const <_AyahSearchResult>[];
                           if (results.isEmpty) {
                             return const Padding(
                               padding: EdgeInsets.only(top: 26),
@@ -3415,7 +3751,10 @@ class MushafView extends StatefulWidget {
 }
 
 class _MushafViewState extends State<MushafView> {
-  static Color _bg(BuildContext ctx) => Theme.of(ctx).brightness == Brightness.dark ? Color(0xFF141414) : Color(0xFFF7F1E6);
+  static Color _bg(BuildContext ctx) =>
+      Theme.of(ctx).brightness == Brightness.dark
+      ? Color(0xFF141414)
+      : Color(0xFFF7F1E6);
   static const _pageHeaderSidePadding = 22.0;
   static const _pageFooterBottomPadding = 10.0;
 
@@ -3425,13 +3764,35 @@ class _MushafViewState extends State<MushafView> {
   Timer? _menuTimer;
   bool _isSheetOpen = false;
 
+  StreamSubscription? _ayahKeySub;
+  PageController? _internalPageController;
+
+  PageController get _pageController =>
+      widget.controller ?? _internalPageController!;
+
+  bool get _ownsController => widget.controller == null;
+
+  void _animateToPage(int pageNumber) {
+    if (!_pageController.hasClients) return;
+    final targetIndex = (pageNumber - 1).clamp(0, 603);
+    final currentIndex = (_pageController.page ?? targetIndex.toDouble()).round();
+    if (currentIndex == targetIndex) return;
+    _pageController.animateToPage(
+      targetIndex,
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
   bool _hasAnyWahyMarker({
     required String ayahKey,
     required Set<String> starred,
     required Set<String> notes,
     required Set<String> bookmarks,
   }) {
-    return starred.contains(ayahKey) || notes.contains(ayahKey) || bookmarks.contains(ayahKey);
+    return starred.contains(ayahKey) ||
+        notes.contains(ayahKey) ||
+        bookmarks.contains(ayahKey);
   }
 
   Future<void> _addNoteForAyahKey(String ayahKey) async {
@@ -3452,7 +3813,7 @@ class _MushafViewState extends State<MushafView> {
             ),
             child: Container(
               decoration: BoxDecoration(
-color: _bg(ctx),
+                color: _bg(ctx),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(22),
                   topRight: Radius.circular(22),
@@ -3545,7 +3906,10 @@ color: _bg(ctx),
     await syncWahyNoteToCollection(ayahKey, text);
   }
 
-  Future<void> _setBookmarkColorForAyahKey(String ayahKey, String colorId) async {
+  Future<void> _setBookmarkColorForAyahKey(
+    String ayahKey,
+    String colorId,
+  ) async {
     final box = Hive.box("user");
     final raw = box.get(_kWahyBookmarks, defaultValue: const []) as List?;
     final list = (raw ?? const [])
@@ -3586,7 +3950,7 @@ color: _bg(ctx),
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-color: _bg(sheet),
+              color: _bg(sheet),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -3621,11 +3985,16 @@ color: _bg(sheet),
                           return ListTile(
                             onTap: () async {
                               Navigator.pop(sheet);
-                              await _setBookmarkColorForAyahKey(ayahKey, entry.key);
+                              await _setBookmarkColorForAyahKey(
+                                ayahKey,
+                                entry.key,
+                              );
                             },
                             title: Text(
                               entry.value.name,
-                              style: const TextStyle(fontWeight: FontWeight.w900),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.bookmark_rounded,
@@ -3723,7 +4092,10 @@ color: _bg(sheet),
   bool _isHizbStart(int surahNumber, int startVerse) {
     final q = _quarterNumberFor(surahNumber, startVerse);
     final hizb = ((q - 1) ~/ 4) + 1;
-    final hizbStartQuarterIndex = ((hizb - 1) * 4).clamp(0, quarters.length - 1);
+    final hizbStartQuarterIndex = ((hizb - 1) * 4).clamp(
+      0,
+      quarters.length - 1,
+    );
     final entry = quarters[hizbStartQuarterIndex];
     final s = (entry["surah"] as int?) ?? -1;
     final a = (entry["ayah"] as int?) ?? -1;
@@ -3733,12 +4105,34 @@ color: _bg(sheet),
   @override
   void initState() {
     super.initState();
+
+    if (_ownsController) {
+      _internalPageController = PageController(
+        initialPage: ((widget.initialPageNumber ?? 1) - 1).clamp(0, 603),
+      );
+    }
+
+    _ayahKeySub = context.read<AyahKeyCubit>().stream.listen((event) {
+      if (!mounted) return;
+      final isPlaying = context.read<PlayerStateCubit>().state.isPlaying;
+      final inside = context.read<AudioUiCubit>().state.isInsideQuranPlayer;
+      if (!isPlaying || !inside) return;
+
+      final parts = event.current.split(":");
+      if (parts.length != 2) return;
+      final surah = int.tryParse(parts[0]);
+      final verse = int.tryParse(parts[1]);
+      if (surah == null || verse == null) return;
+      final page = qcf.getPageNumber(surah, verse);
+      _animateToPage(page);
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       try {
         final page = (widget.initialPageNumber ?? 1).clamp(1, 604);
-        final info = quranPagesInfo[
-            (page - 1).clamp(0, quranPagesInfo.length - 1)];
+        final info =
+            quranPagesInfo[(page - 1).clamp(0, quranPagesInfo.length - 1)];
         final ayahId = info["s"] ?? 1;
         final key = convertAyahNumberToKey(ayahId);
         if (key != null) {
@@ -3778,9 +4172,7 @@ color: _bg(sheet),
     return "$t $verseInBrackets".trim();
   }
 
-  String _formatAyahTextForImage({
-    required String ayahText,
-  }) {
+  String _formatAyahTextForImage({required String ayahText}) {
     var t = ayahText.trimRight();
     t = t.replaceAll(RegExp(r"[\s\u06DD۝]+$"), "");
     t = t.replaceAll(RegExp(r"[\s0-9٠-٩۰-۹]+$"), "");
@@ -3880,7 +4272,10 @@ color: _bg(sheet),
 
               for (int v = from; v <= to; v++) {
                 final t = _getAyahText(shareContext, surahNumber, v);
-                final line = _formatAyahTextWithBrackets(verseNumber: v, ayahText: t);
+                final line = _formatAyahTextWithBrackets(
+                  verseNumber: v,
+                  ayahText: t,
+                );
                 buffer.writeln(line);
                 buffer.writeln();
               }
@@ -3890,9 +4285,7 @@ color: _bg(sheet),
                 finalText = _removeTashkeel(finalText);
               }
 
-              await SharePlus.instance.share(
-                ShareParams(text: finalText),
-              );
+              await SharePlus.instance.share(ShareParams(text: finalText));
             }
 
             return Directionality(
@@ -3925,7 +4318,9 @@ color: _bg(sheet),
                                     width: 44,
                                     height: 4,
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withValues(alpha: 0.18),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.18,
+                                      ),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                   ),
@@ -3947,7 +4342,8 @@ color: _bg(sheet),
                                         children: [
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   "من",
@@ -3959,24 +4355,32 @@ color: _bg(sheet),
                                                 const SizedBox(height: 8),
                                                 DropdownButtonFormField<int>(
                                                   value: from,
-                                                  decoration: const InputDecoration(
-                                                    isDense: true,
-                                                    filled: true,
-                                                    fillColor: Color(0xFFF7F1E6),
-                                                    border: OutlineInputBorder(
-                                                      borderSide: BorderSide.none,
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(12),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                        isDense: true,
+                                                        filled: true,
+                                                        fillColor: Color(
+                                                          0xFFF7F1E6,
+                                                        ),
+                                                        border: OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  12,
+                                                                ),
+                                                              ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
                                                   items: List.generate(
                                                     total,
                                                     (i) => DropdownMenuItem(
                                                       value: i + 1,
                                                       child: Text(
                                                         "${getSurahNameArabic(surahNumber)}: ${_toArabicDigits((i + 1).toString())}",
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                     ),
                                                   ),
@@ -3994,7 +4398,8 @@ color: _bg(sheet),
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   "إلى",
@@ -4006,24 +4411,32 @@ color: _bg(sheet),
                                                 const SizedBox(height: 8),
                                                 DropdownButtonFormField<int>(
                                                   value: to,
-                                                  decoration: const InputDecoration(
-                                                    isDense: true,
-                                                    filled: true,
-                                                    fillColor: Color(0xFFF7F1E6),
-                                                    border: OutlineInputBorder(
-                                                      borderSide: BorderSide.none,
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(12),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                        isDense: true,
+                                                        filled: true,
+                                                        fillColor: Color(
+                                                          0xFFF7F1E6,
+                                                        ),
+                                                        border: OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  12,
+                                                                ),
+                                                              ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
                                                   items: List.generate(
                                                     total,
                                                     (i) => DropdownMenuItem(
                                                       value: i + 1,
                                                       child: Text(
                                                         "${getSurahNameArabic(surahNumber)}: ${_toArabicDigits((i + 1).toString())}",
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                     ),
                                                   ),
@@ -4046,7 +4459,10 @@ color: _bg(sheet),
                                   const SizedBox(height: 12),
                                   section(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 14,
+                                        vertical: 10,
+                                      ),
                                       child: Column(
                                         children: [
                                           RadioListTile<int>(
@@ -4055,7 +4471,9 @@ color: _bg(sheet),
                                             activeColor: green,
                                             title: const Text("مشاركة صورة"),
                                             onChanged: from == to
-                                                ? (v) => setSheetState(() => shareType = v ?? 0)
+                                                ? (v) => setSheetState(
+                                                    () => shareType = v ?? 0,
+                                                  )
                                                 : null,
                                           ),
                                           RadioListTile<int>(
@@ -4063,14 +4481,18 @@ color: _bg(sheet),
                                             groupValue: shareType,
                                             activeColor: green,
                                             title: const Text("مشاركة نص"),
-                                            onChanged: (v) => setSheetState(() => shareType = v ?? 1),
+                                            onChanged: (v) => setSheetState(
+                                              () => shareType = v ?? 1,
+                                            ),
                                           ),
                                           RadioListTile<int>(
                                             value: 2,
                                             groupValue: shareType,
                                             activeColor: green,
                                             title: const Text("نص بدون تشكيل"),
-                                            onChanged: (v) => setSheetState(() => shareType = v ?? 2),
+                                            onChanged: (v) => setSheetState(
+                                              () => shareType = v ?? 2,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -4100,7 +4522,9 @@ color: _bg(sheet),
                               ),
                               onPressed: () async {
                                 await doShare();
-                                if (sheetContext.mounted) Navigator.pop(sheetContext);
+                                if (sheetContext.mounted) {
+                                  Navigator.pop(sheetContext);
+                                }
                               },
                               child: Text(
                                 l10n.shareButton,
@@ -4153,7 +4577,8 @@ color: _bg(sheet),
     if (t.startsWith("Instance of ")) return null;
 
     // Some sources may return JSON/Map string; try to extract a `text` field.
-    if ((t.startsWith("{") && t.endsWith("}")) || (t.startsWith("[") && t.endsWith("]"))) {
+    if ((t.startsWith("{") && t.endsWith("}")) ||
+        (t.startsWith("[") && t.endsWith("]"))) {
       try {
         final decoded = jsonDecode(t);
         if (decoded is Map && decoded["text"] is String) {
@@ -4201,7 +4626,10 @@ color: _bg(sheet),
     return null;
   }
 
-  bool _isDownloadedByFullPath(String fullPath, List<TafsirBookModel> downloaded) {
+  bool _isDownloadedByFullPath(
+    String fullPath,
+    List<TafsirBookModel> downloaded,
+  ) {
     return downloaded.any((b) => b.fullPath == fullPath);
   }
 
@@ -4234,14 +4662,10 @@ color: _bg(sheet),
 
     buffer.writeln(surahName);
     buffer.writeln();
-    buffer.writeln(
-      "${_stripTrailingVerseNumber(ayahText)} ﴿$verseNumber﴾",
-    );
+    buffer.writeln("${_stripTrailingVerseNumber(ayahText)} ﴿$verseNumber﴾");
 
     final cleaned = tafsirs
-        .map(
-          (e) => MapEntry(e.key, _sanitizeTafsirText(e.value)),
-        )
+        .map((e) => MapEntry(e.key, _sanitizeTafsirText(e.value)))
         .where((e) => e.value != null && e.value!.trim().isNotEmpty)
         .toList();
 
@@ -4262,7 +4686,9 @@ color: _bg(sheet),
         SnackBar(
           content: Text(AppLocalizations.of(context).copiedWithTafsir),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -4285,7 +4711,10 @@ color: _bg(sheet),
       if (books.isEmpty) return [];
       final List<MapEntry<String, String?>> out = [];
       for (final b in books) {
-        final t = await QuranTafsirFunction.getResolvedTafsirTextForBook(b, ayahKey);
+        final t = await QuranTafsirFunction.getResolvedTafsirTextForBook(
+          b,
+          ayahKey,
+        );
         out.add(MapEntry(b.name, t));
       }
       return out;
@@ -4303,12 +4732,17 @@ color: _bg(sheet),
       }
       selectedBook ??= (selectedList.isNotEmpty ? selectedList.first : null);
       if (selectedBook == null) return null;
-      return QuranTafsirFunction.getResolvedTafsirTextForBook(selectedBook, ayahKey);
+      return QuranTafsirFunction.getResolvedTafsirTextForBook(
+        selectedBook,
+        ayahKey,
+      );
     }
 
     final selectedBooks = await selectedBooksFuture;
     final selected = (selectedBooks ?? []).toList();
-    final String tafsirTitle = selected.isNotEmpty ? selected.first.name : "التفسير";
+    final String tafsirTitle = selected.isNotEmpty
+        ? selected.first.name
+        : "التفسير";
 
     TafsirBookModel? muyassar = _findTafsirBookByNameContains("الميسر");
     final TafsirBookModel? mukhtasar = _findTafsirBookByNameContains("المختصر");
@@ -4319,27 +4753,39 @@ color: _bg(sheet),
     }
 
     bool muyassarDownloaded =
-        muyassar != null && _isDownloadedByFullPath(muyassar.fullPath, downloadedBooks);
+        muyassar != null &&
+        _isDownloadedByFullPath(muyassar.fullPath, downloadedBooks);
     final bool mukhtasarDownloaded =
-        mukhtasar != null && _isDownloadedByFullPath(mukhtasar.fullPath, downloadedBooks);
+        mukhtasar != null &&
+        _isDownloadedByFullPath(mukhtasar.fullPath, downloadedBooks);
 
     // Extra safety: bundled offline Muyassar might not exist in downloadedBooks list.
     if (muyassar != null &&
-        muyassar.fullPath == DefaultOfflineResources.defaultTafsirMuyassar.fullPath) {
-      final boxName = QuranTafsirFunction.getTafsirBoxName(tafsirBook: muyassar);
+        muyassar.fullPath ==
+            DefaultOfflineResources.defaultTafsirMuyassar.fullPath) {
+      final boxName = QuranTafsirFunction.getTafsirBoxName(
+        tafsirBook: muyassar,
+      );
       final exists = await Hive.boxExists(boxName);
       muyassarDownloaded = muyassarDownloaded || exists;
     }
 
-    final bool selectedMuyassar = selected.any((b) => b.name.contains("الميسر"));
-    final bool selectedMukhtasar = selected.any((b) => b.name.contains("المختصر"));
-    final bool showPickBetweenImageBooks = selectedMuyassar && selectedMukhtasar;
+    final bool selectedMuyassar = selected.any(
+      (b) => b.name.contains("الميسر"),
+    );
+    final bool selectedMukhtasar = selected.any(
+      (b) => b.name.contains("المختصر"),
+    );
+    final bool showPickBetweenImageBooks =
+        selectedMuyassar && selectedMukhtasar;
 
     final bool isAyahDayn = ayahKey == "2:282";
     final bool isVeryLongAyah =
         isAyahDayn || ayahText.replaceAll(RegExp(r"\s+"), "").length > 280;
     final bool allowImageShareWithTafsir =
-        !isVeryLongAyah && (selectedMuyassar || selectedMukhtasar) && (muyassarDownloaded || mukhtasarDownloaded);
+        !isVeryLongAyah &&
+        (selectedMuyassar || selectedMukhtasar) &&
+        (muyassarDownloaded || mukhtasarDownloaded);
 
     await showModalBottomSheet(
       context: context,
@@ -4350,7 +4796,9 @@ color: _bg(sheet),
           textDirection: TextDirection.rtl,
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(ctx).brightness == Brightness.dark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF9F2),
+              color: Theme.of(ctx).brightness == Brightness.dark
+                  ? const Color(0xFF1E1E1E)
+                  : const Color(0xFFFFF9F2),
               borderRadius: BorderRadius.circular(20),
             ),
             margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -4360,7 +4808,9 @@ color: _bg(sheet),
                 ListTile(
                   leading: Icon(Icons.copy_rounded, color: themeState.primary),
                   title: const Text("كنص"),
-                  subtitle: const Text("ينسخ الآية + كل التفاسير المختارة بشكل مرتب"),
+                  subtitle: const Text(
+                    "ينسخ الآية + كل التفاسير المختارة بشكل مرتب",
+                  ),
                   onTap: () async {
                     Navigator.pop(ctx);
                     await _shareLibraryAsText(
@@ -4378,9 +4828,14 @@ color: _bg(sheet),
                   color: Colors.black.withValues(alpha: 0.06),
                 ),
                 ListTile(
-                  leading: Icon(Icons.image_outlined, color: themeState.primary),
+                  leading: Icon(
+                    Icons.image_outlined,
+                    color: themeState.primary,
+                  ),
                   title: const Text("كصورة (بدون تفسير)"),
-                  subtitle: const Text("مشاركة الآية فقط كصورة — مناسب للآيات الطويلة"),
+                  subtitle: const Text(
+                    "مشاركة الآية فقط كصورة — مناسب للآيات الطويلة",
+                  ),
                   onTap: () async {
                     Navigator.pop(ctx);
                     await _shareAsImage(context, ayahKey, ayahText);
@@ -4388,7 +4843,10 @@ color: _bg(sheet),
                 ),
                 if (allowImageShareWithTafsir && showPickBetweenImageBooks) ...[
                   ListTile(
-                    leading: Icon(Icons.image_outlined, color: themeState.primary),
+                    leading: Icon(
+                      Icons.image_outlined,
+                      color: themeState.primary,
+                    ),
                     title: const Text("كصورة - التفسير الميسر"),
                     subtitle: const Text("مشاركة صورة بالتفسير الميسر"),
                     onTap: () async {
@@ -4407,15 +4865,19 @@ color: _bg(sheet),
                         verseNumber: verseNumber,
                         ayahKey: ayahKey,
                         tafsirTitle: "التفسير الميسر",
-                        loadTafsir: () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                          b,
-                          ayahKey,
-                        ),
+                        loadTafsir: () =>
+                            QuranTafsirFunction.getResolvedTafsirTextForBook(
+                              b,
+                              ayahKey,
+                            ),
                       );
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.image_outlined, color: themeState.primary),
+                    leading: Icon(
+                      Icons.image_outlined,
+                      color: themeState.primary,
+                    ),
                     title: const Text("كصورة - التفسير المختصر"),
                     subtitle: const Text("مشاركة صورة بالتفسير المختصر"),
                     onTap: () async {
@@ -4434,18 +4896,24 @@ color: _bg(sheet),
                         verseNumber: verseNumber,
                         ayahKey: ayahKey,
                         tafsirTitle: "التفسير المختصر",
-                        loadTafsir: () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                          b,
-                          ayahKey,
-                        ),
+                        loadTafsir: () =>
+                            QuranTafsirFunction.getResolvedTafsirTextForBook(
+                              b,
+                              ayahKey,
+                            ),
                       );
                     },
                   ),
                 ] else if (allowImageShareWithTafsir)
                   ListTile(
-                    leading: Icon(Icons.image_outlined, color: themeState.primary),
+                    leading: Icon(
+                      Icons.image_outlined,
+                      color: themeState.primary,
+                    ),
                     title: const Text("كصورة"),
-                    subtitle: Text("يصنع صورة بنفس تنسيق المكتبة ($tafsirTitle)"),
+                    subtitle: Text(
+                      "يصنع صورة بنفس تنسيق المكتبة ($tafsirTitle)",
+                    ),
                     onTap: () async {
                       Navigator.pop(ctx);
                       await _shareLibraryAsImage(
@@ -4501,7 +4969,10 @@ color: _bg(sheet),
 
     final String? tafsirText = _sanitizeTafsirText(await loadTafsir());
 
-    final double titleFontSize = (44 - (tafsirTitle.length * 0.35)).clamp(36, 44);
+    final double titleFontSize = (44 - (tafsirTitle.length * 0.35)).clamp(
+      36,
+      44,
+    );
     final TextStyle titleStyle = TextStyle(
       fontSize: titleFontSize,
       fontWeight: FontWeight.w800,
@@ -4519,13 +4990,14 @@ color: _bg(sheet),
         ? "لا يوجد تفسير لهذه الآية في المصدر المحدد."
         : tafsirText.trim();
 
-    final TextPainter tafsirPainter = TextPainter(
-      text: const TextSpan(text: "", style: tafsirStyle),
-      textDirection: TextDirection.rtl,
-      textAlign: TextAlign.right,
-    )
-      ..text = TextSpan(text: tafsirBody, style: tafsirStyle)
-      ..layout(maxWidth: headerWidth - 36);
+    final TextPainter tafsirPainter =
+        TextPainter(
+            text: const TextSpan(text: "", style: tafsirStyle),
+            textDirection: TextDirection.rtl,
+            textAlign: TextAlign.right,
+          )
+          ..text = TextSpan(text: tafsirBody, style: tafsirStyle)
+          ..layout(maxWidth: headerWidth - 36);
 
     final TextPainter titlePainter = TextPainter(
       text: TextSpan(text: tafsirTitle, style: titleStyle),
@@ -4541,21 +5013,24 @@ color: _bg(sheet),
         540 + // كتلة الآية
         14 +
         titlePainter.height +
-        14 +  // فاصل
+        14 + // فاصل
         (tafsirPainter.height + 20) + // صندوق التفسير
         30 + // مسافة سفلية
         120; // هامش إضافي
 
     // تصميم مثل الصورة المرجعية: بانر → آية → فاصل رفيع → عنوان التفسير (نص فقط على البيج) → صندوق التفسير
     final GlobalKey cardKey = GlobalKey();
-    
+
     final Widget card = Material(
       color: Colors.transparent,
       child: RepaintBoundary(
         key: cardKey,
         child: Container(
           width: canvasWidth,
-          padding: const EdgeInsets.symmetric(horizontal: paddingH, vertical: 22),
+          padding: const EdgeInsets.symmetric(
+            horizontal: paddingH,
+            vertical: 22,
+          ),
           decoration: BoxDecoration(
             color: const Color(0xFFF7F1E6),
             borderRadius: BorderRadius.circular(36),
@@ -4626,48 +5101,48 @@ color: _bg(sheet),
                   ),
                 ),
                 const SizedBox(height: 28),
-              // فاصل رفيع بين الآية ومنطقة التفسير
-              Container(
-                width: double.infinity,
-                height: 1.2,
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                color: const Color(0xFF1B1B1B).withValues(alpha: 0.12),
-              ),
-              const SizedBox(height: 14),
-              // اسم كتاب التفسير كنص فقط على خلفية البيج (بدون بار ملون)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: Text(
-                    tafsirTitle,
-                    style: titleStyle,
-                  ),
+                // فاصل رفيع بين الآية ومنطقة التفسير
+                Container(
+                  width: double.infinity,
+                  height: 1.2,
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  color: const Color(0xFF1B1B1B).withValues(alpha: 0.12),
                 ),
-              ),
-              const SizedBox(height: 14),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 18),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFE3D2),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Align(
+                const SizedBox(height: 14),
+                // اسم كتاب التفسير كنص فقط على خلفية البيج (بدون بار ملون)
+                Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    tafsirBody,
-                    textAlign: TextAlign.right,
-                    textDirection: TextDirection.rtl,
-                    style: tafsirStyle,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Text(tafsirTitle, style: titleStyle),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 14),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 26,
+                    vertical: 18,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFE3D2),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      tafsirBody,
+                      textAlign: TextAlign.right,
+                      textDirection: TextDirection.rtl,
+                      style: tafsirStyle,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
-      )
       ),
     );
 
@@ -4682,17 +5157,17 @@ color: _bg(sheet),
       ),
     );
     overlay.insert(overlayEntry);
-    
+
     await Future.delayed(const Duration(milliseconds: 300));
-    
-    final boundary = cardKey.currentContext!
-        .findRenderObject() as RenderRepaintBoundary;
+
+    final boundary =
+        cardKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
-    
+
     overlayEntry.remove();
-    
+
     await SharePlus.instance.share(
       ShareParams(
         files: [XFile.fromData(bytes, mimeType: "image/png")],
@@ -4703,18 +5178,32 @@ color: _bg(sheet),
     );
   }
 
-  Future<void> _shareAsText(BuildContext context, String ayahKey, String ayahText) async {
+  Future<void> _shareAsText(
+    BuildContext context,
+    String ayahKey,
+    String ayahText,
+  ) async {
     final parts = ayahKey.split(":");
     final surahNum = parts.isNotEmpty ? int.tryParse(parts[0]) : null;
     final verseNum = parts.length == 2 ? int.tryParse(parts[1]) : null;
     if (surahNum == null || verseNum == null) {
-      final formatted = _formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText);
-      await SharePlus.instance.share(ShareParams(text: "$ayahKey\n\n$formatted"));
+      final formatted = _formatAyahTextForSharing(
+        ayahKey: ayahKey,
+        ayahText: ayahText,
+      );
+      await SharePlus.instance.share(
+        ShareParams(text: "$ayahKey\n\n$formatted"),
+      );
       return;
     }
-    final formatted = _formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText);
+    final formatted = _formatAyahTextForSharing(
+      ayahKey: ayahKey,
+      ayahText: ayahText,
+    );
     await SharePlus.instance.share(
-      ShareParams(text: "${getSurahNameArabic(surahNum)} - $ayahKey\n\n$formatted"),
+      ShareParams(
+        text: "${getSurahNameArabic(surahNum)} - $ayahKey\n\n$formatted",
+      ),
     );
   }
 
@@ -4727,7 +5216,12 @@ color: _bg(sheet),
     final surahNumber = parts.isNotEmpty ? int.tryParse(parts[0]) : null;
     final verseNumber = parts.length == 2 ? int.tryParse(parts[1]) : null;
     if (surahNumber == null || verseNumber == null) {
-      await SharePlus.instance.share(ShareParams(text: "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}"));
+      await SharePlus.instance.share(
+        ShareParams(
+          text:
+              "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
+        ),
+      );
       return;
     }
 
@@ -4762,7 +5256,7 @@ color: _bg(sheet),
           fontFamily: pageFont,
           package: "qcf_quran",
           fontSize: 75, // كبرنا حجم الآية
-          height: 2.1,  // طول سطر أطول
+          height: 2.1, // طول سطر أطول
           color: qcfTheme.verseTextColor,
         ),
       ),
@@ -4782,7 +5276,10 @@ color: _bg(sheet),
         key: cardKey,
         child: Container(
           width: canvasWidth,
-          padding: const EdgeInsets.symmetric(horizontal: paddingH, vertical: 22),
+          padding: const EdgeInsets.symmetric(
+            horizontal: paddingH,
+            vertical: 22,
+          ),
           decoration: BoxDecoration(
             color: const Color(0xFFF7F1E6),
             borderRadius: BorderRadius.circular(36),
@@ -4864,7 +5361,8 @@ color: _bg(sheet),
     if (overlay == null) {
       await SharePlus.instance.share(
         ShareParams(
-          text: "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
+          text:
+              "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
         ),
       );
       return;
@@ -4886,7 +5384,8 @@ color: _bg(sheet),
       overlayEntry.remove();
       await SharePlus.instance.share(
         ShareParams(
-          text: "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
+          text:
+              "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
         ),
       );
       return;
@@ -4899,7 +5398,8 @@ color: _bg(sheet),
       overlayEntry.remove();
       await SharePlus.instance.share(
         ShareParams(
-          text: "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
+          text:
+              "$ayahKey\n\n${_formatAyahTextForSharing(ayahKey: ayahKey, ayahText: ayahText)}",
         ),
       );
       return;
@@ -4931,7 +5431,8 @@ color: _bg(sheet),
     final total = getVerseCount(surahNumber);
 
     int currentVerse = verseNumber;
-    final Map<String, Future<String?>> tafsirFutureByPath = <String, Future<String?>>{};
+    final Map<String, Future<String?>> tafsirFutureByPath =
+        <String, Future<String?>>{};
 
     List<TafsirBookModel>? cachedSelectedBooks;
 
@@ -4944,16 +5445,27 @@ color: _bg(sheet),
         return StatefulBuilder(
           builder: (sheetContext, setSheetState) {
             final isDark = Theme.of(sheetContext).brightness == Brightness.dark;
-            final bg = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF7F1E6);
-            final card = isDark ? const Color(0xFF2A2A2A) : const Color(0xFFFFF9F2);
+            final bg = isDark
+                ? const Color(0xFF1E1E1E)
+                : const Color(0xFFF7F1E6);
+            final card = isDark
+                ? const Color(0xFF2A2A2A)
+                : const Color(0xFFFFF9F2);
 
-            final downloadedBooks = QuranTafsirFunction.getDownloadedTafsirBooks();
-            final selectedBooksFuture = QuranTafsirFunction.getTafsirSelections();
+            final downloadedBooks =
+                QuranTafsirFunction.getDownloadedTafsirBooks();
+            final selectedBooksFuture =
+                QuranTafsirFunction.getTafsirSelections();
 
             final String ayahKey = "$surahNumber:$currentVerse";
-            final String ayahTextRaw = _getAyahText(sheetContext, surahNumber, currentVerse);
+            final String ayahTextRaw = _getAyahText(
+              sheetContext,
+              surahNumber,
+              currentVerse,
+            );
             final int ayahPageNumber = getPageNumber(ayahKey) ?? 1;
-            final String ayahPageFont = "QCF_P${ayahPageNumber.toString().padLeft(3, '0')}";
+            final String ayahPageFont =
+                "QCF_P${ayahPageNumber.toString().padLeft(3, '0')}";
             final String qcfAyah = getVerseQCF(
               surahNumber,
               currentVerse,
@@ -4970,10 +5482,14 @@ color: _bg(sheet),
                   break;
                 }
               }
-              selectedBook ??=
-                  (selectedList.isNotEmpty ? selectedList.first : null);
+              selectedBook ??= (selectedList.isNotEmpty
+                  ? selectedList.first
+                  : null);
               if (selectedBook == null) return null;
-              return QuranTafsirFunction.getResolvedTafsirTextForBook(selectedBook, ayahKey);
+              return QuranTafsirFunction.getResolvedTafsirTextForBook(
+                selectedBook,
+                ayahKey,
+              );
             }
 
             String? extractSectionHtml(String? html, String title) {
@@ -4987,13 +5503,18 @@ color: _bg(sheet),
               return content?.trim();
             }
 
-            Future<List<MapEntry<String, String?>>> loadAllSelectedTafsirs() async {
+            Future<List<MapEntry<String, String?>>>
+            loadAllSelectedTafsirs() async {
               final selectedBooks = await selectedBooksFuture;
               final books = (selectedBooks ?? []).toList();
               if (books.isEmpty) return [];
               final List<MapEntry<String, String?>> out = [];
               for (final b in books) {
-                final t = await QuranTafsirFunction.getResolvedTafsirTextForBook(b, ayahKey);
+                final t =
+                    await QuranTafsirFunction.getResolvedTafsirTextForBook(
+                      b,
+                      ayahKey,
+                    );
                 out.add(MapEntry(b.name, t));
               }
               return out;
@@ -5002,10 +5523,16 @@ color: _bg(sheet),
             Future<void> openShareOptions() async {
               final selectedBooks = await selectedBooksFuture;
               final selected = (selectedBooks ?? []).toList();
-              final String tafsirTitle = selected.isNotEmpty ? selected.first.name : "التفسير";
+              final String tafsirTitle = selected.isNotEmpty
+                  ? selected.first.name
+                  : "التفسير";
 
-              TafsirBookModel? muyassar = _findTafsirBookByNameContains("الميسر");
-              final TafsirBookModel? mukhtasar = _findTafsirBookByNameContains("المختصر");
+              TafsirBookModel? muyassar = _findTafsirBookByNameContains(
+                "الميسر",
+              );
+              final TafsirBookModel? mukhtasar = _findTafsirBookByNameContains(
+                "المختصر",
+              );
 
               // Ensure we treat the offline bundled Muyassar as the authoritative one.
               if (muyassar != null && muyassar.name.contains("الميسر")) {
@@ -5013,31 +5540,48 @@ color: _bg(sheet),
               }
 
               bool muyassarDownloaded =
-                  muyassar != null && _isDownloadedByFullPath(muyassar.fullPath, downloadedBooks);
+                  muyassar != null &&
+                  _isDownloadedByFullPath(muyassar.fullPath, downloadedBooks);
               final bool mukhtasarDownloaded =
-                  mukhtasar != null && _isDownloadedByFullPath(mukhtasar.fullPath, downloadedBooks);
+                  mukhtasar != null &&
+                  _isDownloadedByFullPath(mukhtasar.fullPath, downloadedBooks);
 
               // Extra safety: bundled offline Muyassar might not exist in downloadedBooks list.
               if (muyassar != null &&
-                  muyassar.fullPath == DefaultOfflineResources.defaultTafsirMuyassar.fullPath) {
-                final boxName = QuranTafsirFunction.getTafsirBoxName(tafsirBook: muyassar);
+                  muyassar.fullPath ==
+                      DefaultOfflineResources.defaultTafsirMuyassar.fullPath) {
+                final boxName = QuranTafsirFunction.getTafsirBoxName(
+                  tafsirBook: muyassar,
+                );
                 final exists = await Hive.boxExists(boxName);
                 muyassarDownloaded = muyassarDownloaded || exists;
               }
 
               final bool showDownloadMuyassar =
-                  muyassar != null && !muyassarDownloaded && muyassar.fullPath != DefaultOfflineResources.defaultTafsirMuyassar.fullPath;
+                  muyassar != null &&
+                  !muyassarDownloaded &&
+                  muyassar.fullPath !=
+                      DefaultOfflineResources.defaultTafsirMuyassar.fullPath;
               // Intentionally no "download mukhtasar" from share sheet (download happens from Resources only).
               const bool showDownloadMukhtasar = false;
 
-              final bool selectedMuyassar = selected.any((b) => b.name.contains("الميسر"));
-              final bool selectedMukhtasar = selected.any((b) => b.name.contains("المختصر"));
-              final bool showPickBetweenImageBooks = selectedMuyassar && selectedMukhtasar;
+              final bool selectedMuyassar = selected.any(
+                (b) => b.name.contains("الميسر"),
+              );
+              final bool selectedMukhtasar = selected.any(
+                (b) => b.name.contains("المختصر"),
+              );
+              final bool showPickBetweenImageBooks =
+                  selectedMuyassar && selectedMukhtasar;
 
               final bool isAyahDayn = ayahKey == "2:282";
-              final bool isVeryLongAyah = isAyahDayn || ayahTextRaw.replaceAll(RegExp(r"\s+"), "").length > 280;
+              final bool isVeryLongAyah =
+                  isAyahDayn ||
+                  ayahTextRaw.replaceAll(RegExp(r"\s+"), "").length > 280;
               final bool allowImageShareWithTafsir =
-                  !isVeryLongAyah && (selectedMuyassar || selectedMukhtasar) && (muyassarDownloaded || mukhtasarDownloaded);
+                  !isVeryLongAyah &&
+                  (selectedMuyassar || selectedMukhtasar) &&
+                  (muyassarDownloaded || mukhtasarDownloaded);
 
               await showModalBottomSheet(
                 context: sheetContext,
@@ -5048,7 +5592,9 @@ color: _bg(sheet),
                     textDirection: TextDirection.rtl,
                     child: Container(
                       decoration: BoxDecoration(
-                                 color: Theme.of(ctx).brightness == Brightness.dark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF9F2),
+                        color: Theme.of(ctx).brightness == Brightness.dark
+                            ? const Color(0xFF1E1E1E)
+                            : const Color(0xFFFFF9F2),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -5056,9 +5602,14 @@ color: _bg(sheet),
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            leading: Icon(Icons.copy_rounded, color: themeState.primary),
+                            leading: Icon(
+                              Icons.copy_rounded,
+                              color: themeState.primary,
+                            ),
                             title: const Text("كنص"),
-                            subtitle: const Text("ينسخ الآية + كل التفاسير المختارة بشكل مرتب"),
+                            subtitle: const Text(
+                              "ينسخ الآية + كل التفاسير المختارة بشكل مرتب",
+                            ),
                             onTap: () async {
                               Navigator.pop(ctx);
                               await _shareLibraryAsText(
@@ -5086,14 +5637,22 @@ color: _bg(sheet),
                                       width: double.infinity,
                                       child: ElevatedButton.icon(
                                         onPressed: () async {
-                                          final TafsirBookModel? book = muyassar;
+                                          final TafsirBookModel? book =
+                                              muyassar;
                                           if (book == null) return;
-                                          await _downloadAndSelectTafsir(sheetContext, book);
+                                          await _downloadAndSelectTafsir(
+                                            sheetContext,
+                                            book,
+                                          );
                                           if (ctx.mounted) Navigator.pop(ctx);
                                           setSheetState(() {});
                                         },
-                                        icon: const Icon(Icons.download_rounded),
-                                        label: const Text("تحميل التفسير الميسر"),
+                                        icon: const Icon(
+                                          Icons.download_rounded,
+                                        ),
+                                        label: const Text(
+                                          "تحميل التفسير الميسر",
+                                        ),
                                       ),
                                     ),
                                 ],
@@ -5101,20 +5660,35 @@ color: _bg(sheet),
                             ),
 
                           ListTile(
-                            leading: Icon(Icons.image_outlined, color: themeState.primary),
+                            leading: Icon(
+                              Icons.image_outlined,
+                              color: themeState.primary,
+                            ),
                             title: const Text("كصورة (بدون تفسير)"),
-                            subtitle: const Text("مشاركة الآية فقط كصورة — مناسب للآيات الطويلة"),
+                            subtitle: const Text(
+                              "مشاركة الآية فقط كصورة — مناسب للآيات الطويلة",
+                            ),
                             onTap: () async {
                               Navigator.pop(ctx);
-                              await _shareAsImage(sheetContext, ayahKey, ayahTextRaw);
+                              await _shareAsImage(
+                                sheetContext,
+                                ayahKey,
+                                ayahTextRaw,
+                              );
                             },
                           ),
 
-                          if (allowImageShareWithTafsir && showPickBetweenImageBooks) ...[
+                          if (allowImageShareWithTafsir &&
+                              showPickBetweenImageBooks) ...[
                             ListTile(
-                              leading: Icon(Icons.image_outlined, color: themeState.primary),
+                              leading: Icon(
+                                Icons.image_outlined,
+                                color: themeState.primary,
+                              ),
                               title: const Text("كصورة - التفسير الميسر"),
-                              subtitle: const Text("مشاركة صورة بالتفسير الميسر"),
+                              subtitle: const Text(
+                                "مشاركة صورة بالتفسير الميسر",
+                              ),
                               onTap: () async {
                                 Navigator.pop(ctx);
                                 final b = selected.firstWhere(
@@ -5127,17 +5701,23 @@ color: _bg(sheet),
                                   verseNumber: currentVerse,
                                   ayahKey: ayahKey,
                                   tafsirTitle: "التفسير الميسر",
-                                  loadTafsir: () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                                    b,
-                                    ayahKey,
-                                  ),
+                                  loadTafsir: () =>
+                                      QuranTafsirFunction.getResolvedTafsirTextForBook(
+                                        b,
+                                        ayahKey,
+                                      ),
                                 );
                               },
                             ),
                             ListTile(
-                              leading: Icon(Icons.image_outlined, color: themeState.primary),
+                              leading: Icon(
+                                Icons.image_outlined,
+                                color: themeState.primary,
+                              ),
                               title: const Text("كصورة - التفسير المختصر"),
-                              subtitle: const Text("مشاركة صورة بالتفسير المختصر"),
+                              subtitle: const Text(
+                                "مشاركة صورة بالتفسير المختصر",
+                              ),
                               onTap: () async {
                                 Navigator.pop(ctx);
                                 final b = selected.firstWhere(
@@ -5150,18 +5730,24 @@ color: _bg(sheet),
                                   verseNumber: currentVerse,
                                   ayahKey: ayahKey,
                                   tafsirTitle: "التفسير المختصر",
-                                  loadTafsir: () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                                    b,
-                                    ayahKey,
-                                  ),
+                                  loadTafsir: () =>
+                                      QuranTafsirFunction.getResolvedTafsirTextForBook(
+                                        b,
+                                        ayahKey,
+                                      ),
                                 );
                               },
                             ),
                           ] else if (allowImageShareWithTafsir)
                             ListTile(
-                              leading: Icon(Icons.image_outlined, color: themeState.primary),
+                              leading: Icon(
+                                Icons.image_outlined,
+                                color: themeState.primary,
+                              ),
                               title: const Text("كصورة"),
-                              subtitle: Text("يصنع صورة بنفس تنسيق المكتبة ($tafsirTitle)"),
+                              subtitle: Text(
+                                "يصنع صورة بنفس تنسيق المكتبة ($tafsirTitle)",
+                              ),
                               onTap: () async {
                                 Navigator.pop(ctx);
                                 await _shareLibraryAsImage(
@@ -5184,435 +5770,613 @@ color: _bg(sheet),
               );
             }
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Container(
-              height: MediaQuery.of(sheetContext).size.height * 0.92,
-              decoration: BoxDecoration(
-                color: bg,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: Container(
+                height: MediaQuery.of(sheetContext).size.height * 0.92,
+                decoration: BoxDecoration(
+                  color: bg,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
                 ),
-              ),
-              child: SafeArea(
-                top: false,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-                      child: Row(
-                        children: [
-                          TextButton(
-                            onPressed: () async {
-                              await Navigator.of(sheetContext, rootNavigator: true).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const QuranResourcesView(initTab: 1),
-                                ),
-                              );
-                              setSheetState(() {});
-                            },
-                            child: Text(
-                              "تحرير",
-                              style: TextStyle(
-                                color: themeState.primary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "المكتبة",
-                            style: TextStyle(
-                              fontSize: 20,
-                              height: 1.2,
-                              fontWeight: FontWeight.w800,
-                              color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white : const Color(0xFF1B1B1B),
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () => Navigator.pop(sheetContext),
-                            icon: const Icon(Icons.close_rounded),
-                            color: themeState.primary,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(height: 1, color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06)),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: SafeArea(
+                  top: false,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+                        child: Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Theme.of(sheetContext).brightness == Brightness.dark ? const Color(0xFF1E1E1E) : const Color(0xFFF1E9DD),
-                                borderRadius: BorderRadius.circular(18),
+                            TextButton(
+                              onPressed: () async {
+                                await Navigator.of(
+                                  sheetContext,
+                                  rootNavigator: true,
+                                ).push(
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        const QuranResourcesView(initTab: 1),
+                                  ),
+                                );
+                                setSheetState(() {});
+                              },
+                              child: Text(
+                                "تحرير",
+                                style: TextStyle(
+                                  color: themeState.primary,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                              child: Column(
-                                children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(text: qcfAyah),
-                                        const TextSpan(text: "\u200A"),
-                                        TextSpan(
-                                          text: getVerseNumberQCF(surahNumber, currentVerse),
-                                          style: TextStyle(
-                                            fontFamily: ayahPageFont,
-                                            package: "qcf_quran",
-                                            height: 1,
-                                            color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white.withValues(alpha: 0.70) : const Color(0xFF1B1B1B).withValues(alpha: 0.70),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "المكتبة",
+                              style: TextStyle(
+                                fontSize: 20,
+                                height: 1.2,
+                                fontWeight: FontWeight.w800,
+                                color:
+                                    Theme.of(sheetContext).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : const Color(0xFF1B1B1B),
+                              ),
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () => Navigator.pop(sheetContext),
+                              icon: const Icon(Icons.close_rounded),
+                              color: themeState.primary,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        color:
+                            Theme.of(sheetContext).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.06)
+                            : Colors.black.withValues(alpha: 0.06),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(sheetContext).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xFF1E1E1E)
+                                      : const Color(0xFFF1E9DD),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(text: qcfAyah),
+                                          const TextSpan(text: "\u200A"),
+                                          TextSpan(
+                                            text: getVerseNumberQCF(
+                                              surahNumber,
+                                              currentVerse,
+                                            ),
+                                            style: TextStyle(
+                                              fontFamily: ayahPageFont,
+                                              package: "qcf_quran",
+                                              height: 1,
+                                              color:
+                                                  Theme.of(
+                                                        sheetContext,
+                                                      ).brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.white.withValues(
+                                                      alpha: 0.70,
+                                                    )
+                                                  : const Color(
+                                                      0xFF1B1B1B,
+                                                    ).withValues(alpha: 0.70),
+                                            ),
                                           ),
+                                        ],
+                                      ),
+                                      locale: const Locale("ar"),
+                                      textScaler: const TextScaler.linear(1),
+                                      textAlign: TextAlign.center,
+                                      textDirection: TextDirection.rtl,
+                                      strutStyle: StrutStyle(
+                                        fontFamily: ayahPageFont,
+                                        package: "qcf_quran",
+                                        fontSize: 18,
+                                        height: 1.40,
+                                        forceStrutHeight: true,
+                                      ),
+                                      style: TextStyle(
+                                        fontFamily: ayahPageFont,
+                                        package: "qcf_quran",
+                                        fontSize: 18,
+                                        height: 1.40,
+                                        color:
+                                            Theme.of(sheetContext).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : const Color(0xFF1B1B1B),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: openShareOptions,
+                                    icon: const Icon(Icons.share_rounded),
+                                    color: themeState.primary,
+                                  ),
+                                  const Spacer(),
+                                  FutureBuilder<List<TafsirBookModel>?>(
+                                    future: selectedBooksFuture,
+                                    builder: (context, snap) {
+                                      final books =
+                                          snap.connectionState ==
+                                              ConnectionState.done
+                                          ? (snap.data ??
+                                                const <TafsirBookModel>[])
+                                          : (cachedSelectedBooks ??
+                                                const <TafsirBookModel>[]);
+
+                                      if (snap.connectionState ==
+                                              ConnectionState.done &&
+                                          snap.data != null) {
+                                        cachedSelectedBooks = snap.data;
+                                      }
+
+                                      final String label;
+                                      if (books.isEmpty) {
+                                        label = "التفسير";
+                                      } else if (books.length == 1) {
+                                        label = books.first.name;
+                                      } else {
+                                        label =
+                                            "${_toArabicDigits(books.length.toString())} تفاسير";
+                                      }
+
+                                      log(
+                                        "[Library] header ayahKey=$ayahKey selectedCount=${books.length}",
+                                        name: "LibrarySheet",
+                                      );
+
+                                      return Text(
+                                        label,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color:
+                                              Theme.of(
+                                                    sheetContext,
+                                                  ).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white.withValues(
+                                                  alpha: 0.60,
+                                                )
+                                              : const Color(
+                                                  0xFF1B1B1B,
+                                                ).withValues(alpha: 0.60),
                                         ),
-                                      ],
-                                    ),
-                                    locale: const Locale("ar"),
-                                    textScaler: const TextScaler.linear(1),
-                                    textAlign: TextAlign.center,
-                                    textDirection: TextDirection.rtl,
-                                    strutStyle: StrutStyle(
-                                      fontFamily: ayahPageFont,
-                                      package: "qcf_quran",
-                                      fontSize: 18,
-                                      height: 1.40,
-                                      forceStrutHeight: true,
-                                    ),
-                                    style: TextStyle(
-                                      fontFamily: ayahPageFont,
-                                      package: "qcf_quran",
-                                      fontSize: 18,
-                                      height: 1.40,
-                                      color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white : const Color(0xFF1B1B1B),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(height: 14),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: openShareOptions,
-                                  icon: const Icon(Icons.share_rounded),
-                                  color: themeState.primary,
-                                ),
-                                const Spacer(),
-                                FutureBuilder<List<TafsirBookModel>?>(
-                                  future: selectedBooksFuture,
-                                  builder: (context, snap) {
-                                    final books =
-                                        snap.connectionState == ConnectionState.done
-                                            ? (snap.data ?? const <TafsirBookModel>[])
-                                            : (cachedSelectedBooks ?? const <TafsirBookModel>[]);
+                              const SizedBox(height: 10),
+                              FutureBuilder<List<TafsirBookModel>?>(
+                                future: selectedBooksFuture,
+                                builder: (context, booksSnap) {
+                                  final books =
+                                      booksSnap.connectionState ==
+                                          ConnectionState.done
+                                      ? (booksSnap.data ??
+                                            const <TafsirBookModel>[])
+                                      : (cachedSelectedBooks ??
+                                            const <TafsirBookModel>[]);
 
-                                    if (snap.connectionState == ConnectionState.done &&
-                                        snap.data != null) {
-                                      cachedSelectedBooks = snap.data;
-                                    }
+                                  if (booksSnap.connectionState ==
+                                          ConnectionState.done &&
+                                      booksSnap.data != null) {
+                                    cachedSelectedBooks = booksSnap.data;
+                                  }
 
-                                    final String label;
-                                    if (books.isEmpty) {
-                                      label = "التفسير";
-                                    } else if (books.length == 1) {
-                                      label = books.first.name;
-                                    } else {
-                                      label =
-                                          "${_toArabicDigits(books.length.toString())} تفاسير";
-                                    }
-
-                                    log(
-                                      "[Library] header ayahKey=$ayahKey selectedCount=${books.length}",
-                                      name: "LibrarySheet",
-                                    );
-
-                                    return Text(
-                                      label,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Theme.of(sheetContext).brightness == Brightness.dark
-                                            ? Colors.white.withValues(alpha: 0.60)
-                                            : const Color(0xFF1B1B1B).withValues(alpha: 0.60),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            FutureBuilder<List<TafsirBookModel>?>(
-                              future: selectedBooksFuture,
-                              builder: (context, booksSnap) {
-                                final books = booksSnap.connectionState == ConnectionState.done
-                                    ? (booksSnap.data ?? const <TafsirBookModel>[])
-                                    : (cachedSelectedBooks ?? const <TafsirBookModel>[]);
-
-                                if (booksSnap.connectionState == ConnectionState.done &&
-                                    booksSnap.data != null) {
-                                  cachedSelectedBooks = booksSnap.data;
-                                }
-
-                                log(
-                                  "[Library] ayahKey=$ayahKey selectedTafsirs=${books.map((e) => e.fullPath).toList()}",
-                                  name: "LibrarySheet",
-                                );
-
-                                if (books.isEmpty) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: card,
-                                      borderRadius: BorderRadius.circular(18),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.05),
-                                          blurRadius: 14,
-                                          offset: const Offset(0, 8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Text(
-                                      "مفيش تفسير مختار حالياً. اضغط تحرير واختار التفاسير اللي عايزها.",
-                                      textAlign: TextAlign.center,
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        height: 1.6,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white : const Color(0xFF1B1B1B),
-                                      ),
-                                    ),
+                                  log(
+                                    "[Library] ayahKey=$ayahKey selectedTafsirs=${books.map((e) => e.fullPath).toList()}",
+                                    name: "LibrarySheet",
                                   );
-                                }
 
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: books.map<Widget>((book) {
-                                    final Future<String?> ayahTafsirFuture =
-                                        tafsirFutureByPath.putIfAbsent(
-                                      "${book.fullPath}|$ayahKey",
-                                      () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                                        book,
-                                        ayahKey,
-                                      ),
-                                    );
-
-                                    final bool isMuyassarBook = book.name.contains("الميسر");
-                                    final Future<List<String?>> mergedFuture;
-                                    if (isMuyassarBook) {
-                                      final Future<String?> introFuture =
-                                          tafsirFutureByPath.putIfAbsent(
-                                        "${book.fullPath}|$surahNumber:1",
-                                        () => QuranTafsirFunction.getResolvedTafsirTextForBook(
-                                          book,
-                                          "$surahNumber:1",
-                                        ),
-                                      );
-                                      mergedFuture = Future.wait([introFuture, ayahTafsirFuture]);
-                                    } else {
-                                      mergedFuture = Future.wait([
-                                        Future<String?>.value(null),
-                                        ayahTafsirFuture,
-                                      ]);
-                                    }
-
+                                  if (books.isEmpty) {
                                     return Container(
-                                      width: double.infinity,
-                                      margin: const EdgeInsets.only(bottom: 12),
                                       padding: const EdgeInsets.all(16),
                                       decoration: BoxDecoration(
                                         color: card,
                                         borderRadius: BorderRadius.circular(18),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withValues(alpha: 0.05),
+                                            color: Colors.black.withValues(
+                                              alpha: 0.05,
+                                            ),
                                             blurRadius: 14,
                                             offset: const Offset(0, 8),
                                           ),
                                         ],
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "${book.name} (العربية)",
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Theme.of(sheetContext).brightness == Brightness.dark
-                                                      ? Colors.white.withValues(alpha: 0.70)
-                                                      : const Color(0xFF1B1B1B).withValues(alpha: 0.70),
+                                      child: Text(
+                                        "مفيش تفسير مختار حالياً. اضغط تحرير واختار التفاسير اللي عايزها.",
+                                        textAlign: TextAlign.center,
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          height: 1.6,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              Theme.of(
+                                                    sheetContext,
+                                                  ).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : const Color(0xFF1B1B1B),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children:
+                                        books.map<Widget>((book) {
+                                          final Future<String?>
+                                          ayahTafsirFuture = tafsirFutureByPath
+                                              .putIfAbsent(
+                                                "${book.fullPath}|$ayahKey",
+                                                () =>
+                                                    QuranTafsirFunction.getResolvedTafsirTextForBook(
+                                                      book,
+                                                      ayahKey,
+                                                    ),
+                                              );
+
+                                          final bool isMuyassarBook = book.name
+                                              .contains("الميسر");
+                                          final Future<List<String?>>
+                                          mergedFuture;
+                                          if (isMuyassarBook) {
+                                            final Future<String?> introFuture =
+                                                tafsirFutureByPath.putIfAbsent(
+                                                  "${book.fullPath}|$surahNumber:1",
+                                                  () =>
+                                                      QuranTafsirFunction.getResolvedTafsirTextForBook(
+                                                        book,
+                                                        "$surahNumber:1",
+                                                      ),
+                                                );
+                                            mergedFuture = Future.wait([
+                                              introFuture,
+                                              ayahTafsirFuture,
+                                            ]);
+                                          } else {
+                                            mergedFuture = Future.wait([
+                                              Future<String?>.value(null),
+                                              ayahTafsirFuture,
+                                            ]);
+                                          }
+
+                                          return Container(
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                              bottom: 12,
+                                            ),
+                                            padding: const EdgeInsets.all(16),
+                                            decoration: BoxDecoration(
+                                              color: card,
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.05),
+                                                  blurRadius: 14,
+                                                  offset: const Offset(0, 8),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 10),
-                                          FutureBuilder<List<String?>>(
-                                            future: mergedFuture,
-                                            builder: (context, mergedSnap) {
-                                              if (mergedSnap.connectionState != ConnectionState.done) {
+                                              ],
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "${book.name} (العربية)",
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                        color:
+                                                            Theme.of(
+                                                                  sheetContext,
+                                                                ).brightness ==
+                                                                Brightness.dark
+                                                            ? Colors.white
+                                                                  .withValues(
+                                                                    alpha: 0.70,
+                                                                  )
+                                                            : const Color(
+                                                                0xFF1B1B1B,
+                                                              ).withValues(
+                                                                alpha: 0.70,
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10),
+                                                FutureBuilder<List<String?>>(
+                                                  future: mergedFuture,
+                                                  builder: (context, mergedSnap) {
+                                                    if (mergedSnap
+                                                            .connectionState !=
+                                                        ConnectionState.done) {
+                                                      return const SizedBox.shrink();
+                                                    }
+                                                    final introRaw =
+                                                        mergedSnap.data?.first
+                                                            ?.trim() ??
+                                                        "";
+                                                    final ayahRaw =
+                                                        mergedSnap.data?.last
+                                                            ?.trim() ??
+                                                        "";
+
+                                                    final String shown;
+                                                    if (isMuyassarBook) {
+                                                      final naming =
+                                                          extractSectionHtml(
+                                                            introRaw,
+                                                            "تسمية السورة",
+                                                          ) ??
+                                                          "";
+                                                      final objectives =
+                                                          extractSectionHtml(
+                                                            introRaw,
+                                                            "من مقاصد السورة",
+                                                          ) ??
+                                                          "";
+
+                                                      final buffer =
+                                                          StringBuffer();
+                                                      if (naming
+                                                          .trim()
+                                                          .isNotEmpty) {
+                                                        buffer.writeln(
+                                                          "تسمية السورة:\n${_stripHtml(naming)}\n",
+                                                        );
+                                                      }
+                                                      if (objectives
+                                                          .trim()
+                                                          .isNotEmpty) {
+                                                        buffer.writeln(
+                                                          "من مقاصد السورة:\n${_stripHtml(objectives)}\n",
+                                                        );
+                                                      }
+                                                      if (ayahRaw
+                                                          .trim()
+                                                          .isNotEmpty) {
+                                                        buffer.writeln(
+                                                          _stripHtml(ayahRaw),
+                                                        );
+                                                      }
+                                                      shown = buffer
+                                                          .toString()
+                                                          .trim();
+                                                    } else {
+                                                      shown = _stripHtml(
+                                                        ayahRaw,
+                                                      ).trim();
+                                                    }
+
+                                                    if (shown.isEmpty) {
+                                                      return const Text(
+                                                        "لا يوجد تفسير لهذه الآية.",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        textDirection:
+                                                            TextDirection.rtl,
+                                                      );
+                                                    }
+
+                                                    return Text(
+                                                      shown,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        height: 1.7,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            Theme.of(
+                                                                  sheetContext,
+                                                                ).brightness ==
+                                                                Brightness.dark
+                                                            ? Colors.white
+                                                            : const Color(
+                                                                0xFF1B1B1B,
+                                                              ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }).toList()..add(
+                                          FutureBuilder<String?>(
+                                            future:
+                                                QuranIrabFunction.getIrabText(
+                                                  ayahKey,
+                                                ),
+                                            builder: (context, irabSnap) {
+                                              if (irabSnap.connectionState !=
+                                                      ConnectionState.done ||
+                                                  irabSnap.data == null ||
+                                                  irabSnap.data!
+                                                      .trim()
+                                                      .isEmpty) {
                                                 return const SizedBox.shrink();
                                               }
-                                              final introRaw = mergedSnap.data?.first?.trim() ?? "";
-                                              final ayahRaw = mergedSnap.data?.last?.trim() ?? "";
-
-                                              final String shown;
-                                              if (isMuyassarBook) {
-                                                final naming = extractSectionHtml(introRaw, "تسمية السورة") ?? "";
-                                                final objectives =
-                                                    extractSectionHtml(introRaw, "من مقاصد السورة") ?? "";
-
-                                                final buffer = StringBuffer();
-                                                if (naming.trim().isNotEmpty) {
-                                                  buffer.writeln(
-                                                    "تسمية السورة:\n${_stripHtml(naming)}\n",
-                                                  );
-                                                }
-                                                if (objectives.trim().isNotEmpty) {
-                                                  buffer.writeln(
-                                                    "من مقاصد السورة:\n${_stripHtml(objectives)}\n",
-                                                  );
-                                                }
-                                                if (ayahRaw.trim().isNotEmpty) {
-                                                  buffer.writeln(_stripHtml(ayahRaw));
-                                                }
-                                                shown = buffer.toString().trim();
-                                              } else {
-                                                shown = _stripHtml(ayahRaw).trim();
-                                              }
-
-                                              if (shown.isEmpty) {
-                                                return const Text(
-                                                  "لا يوجد تفسير لهذه الآية.",
-                                                  textAlign: TextAlign.center,
-                                                  textDirection: TextDirection.rtl,
-                                                );
-                                              }
-
-                                              return Text(
-                                                shown,
-                                                textDirection: TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  height: 1.7,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white : const Color(0xFF1B1B1B),
+                                              return Container(
+                                                width: double.infinity,
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 12,
+                                                ),
+                                                padding: const EdgeInsets.all(
+                                                  16,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: card,
+                                                  borderRadius:
+                                                      BorderRadius.circular(18),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black
+                                                          .withValues(
+                                                            alpha: 0.05,
+                                                          ),
+                                                      blurRadius: 14,
+                                                      offset: const Offset(
+                                                        0,
+                                                        8,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "إعراب القرآن الكريم",
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w800,
+                                                            color:
+                                                                Theme.of(
+                                                                      sheetContext,
+                                                                    ).brightness ==
+                                                                    Brightness
+                                                                        .dark
+                                                                ? Colors.white
+                                                                      .withValues(
+                                                                        alpha:
+                                                                            0.70,
+                                                                      )
+                                                                : const Color(
+                                                                    0xFF1B1B1B,
+                                                                  ).withValues(
+                                                                    alpha: 0.70,
+                                                                  ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      _stripHtml(
+                                                        irabSnap.data!,
+                                                      ),
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        height: 1.7,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            Theme.of(
+                                                                  sheetContext,
+                                                                ).brightness ==
+                                                                Brightness.dark
+                                                            ? Colors.white
+                                                            : const Color(
+                                                                0xFF1B1B1B,
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             },
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList()..add(
-                                    FutureBuilder<String?>(
-                                      future: QuranIrabFunction.getIrabText(ayahKey),
-                                      builder: (context, irabSnap) {
-                                        if (irabSnap.connectionState != ConnectionState.done ||
-                                            irabSnap.data == null ||
-                                            irabSnap.data!.trim().isEmpty) {
-                                          return const SizedBox.shrink();
-                                        }
-                                        return Container(
-                                          width: double.infinity,
-                                          margin: const EdgeInsets.only(bottom: 12),
-                                          padding: const EdgeInsets.all(16),
-                                          decoration: BoxDecoration(
-                                            color: card,
-                                            borderRadius: BorderRadius.circular(18),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withValues(alpha: 0.05),
-                                                blurRadius: 14,
-                                                offset: const Offset(0, 8),
-                                              ),
-                                            ],
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "إعراب القرآن الكريم",
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w800,
-                                                      color: Theme.of(sheetContext).brightness == Brightness.dark
-                                                          ? Colors.white.withValues(alpha: 0.70)
-                                                          : const Color(0xFF1B1B1B).withValues(alpha: 0.70),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Text(
-                                                _stripHtml(irabSnap.data!),
-                                                textDirection: TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  height: 1.7,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Theme.of(sheetContext).brightness == Brightness.dark ? Colors.white : const Color(0xFF1B1B1B),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  ),
-                                );
-                              },
-                            )
+                                        ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.black.withValues(alpha: 0.06),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: currentVerse > 1
+                                  ? () => setSheetState(() => currentVerse -= 1)
+                                  : null,
+                              icon: const Icon(Icons.arrow_back_rounded),
+                              color: themeState.primary,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${getSurahNameArabic(surahNumber)}: ${_toArabicDigits(currentVerse.toString())}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  height: 1.2,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF1B1B1B),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: currentVerse < total
+                                  ? () => setSheetState(() => currentVerse += 1)
+                                  : null,
+                              icon: const Icon(Icons.arrow_forward_rounded),
+                              color: themeState.primary,
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                    Container(height: 1, color: Colors.black.withValues(alpha: 0.06)),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: currentVerse > 1
-                                ? () => setSheetState(() => currentVerse -= 1)
-                                : null,
-                            icon: const Icon(Icons.arrow_back_rounded),
-                            color: themeState.primary,
-                          ),
-                          Expanded(
-                            child: Text(
-                              "${getSurahNameArabic(surahNumber)}: ${_toArabicDigits(currentVerse.toString())}",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                height: 1.2,
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFF1B1B1B),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: currentVerse < total
-                                ? () => setSheetState(() => currentVerse += 1)
-                                : null,
-                            icon: const Icon(Icons.arrow_forward_rounded),
-                            color: themeState.primary,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ));
+            );
           },
         );
       },
@@ -5717,8 +6481,12 @@ color: _bg(sheet),
             return StatefulBuilder(
               builder: (ctx, setState) {
                 final isDark = Theme.of(ctx).brightness == Brightness.dark;
-                final bg = isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF7F1E6);
-                final card = isDark ? const Color(0xFF2A2A2A) : const Color(0xFFFFF9F2);
+                final bg = isDark
+                    ? const Color(0xFF1E1E1E)
+                    : const Color(0xFFF7F1E6);
+                final card = isDark
+                    ? const Color(0xFF2A2A2A)
+                    : const Color(0xFFFFF9F2);
 
                 return Directionality(
                   textDirection: TextDirection.rtl,
@@ -5755,7 +6523,9 @@ color: _bg(sheet),
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
-                                  color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                  color: isDark
+                                      ? Colors.white
+                                      : const Color(0xFF1B1B1B),
                                 ),
                               ),
                               const SizedBox(height: 12),
@@ -5767,7 +6537,9 @@ color: _bg(sheet),
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.05),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.05,
+                                      ),
                                       blurRadius: 14,
                                       offset: const Offset(0, 6),
                                     ),
@@ -5777,27 +6549,36 @@ color: _bg(sheet),
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "من",
                                             style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : const Color(0xFF1B1B1B),
                                             ),
                                           ),
                                           const SizedBox(height: 8),
                                           DropdownButtonFormField<int>(
                                             value: from,
-                                            dropdownColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF7F1E6),
+                                            dropdownColor: isDark
+                                                ? const Color(0xFF2A2A2A)
+                                                : const Color(0xFFF7F1E6),
                                             style: TextStyle(
-                                              color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : const Color(0xFF1B1B1B),
                                               fontSize: 14,
                                             ),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               filled: true,
-                                              fillColor: isDark ? const Color(0xFF333333) : const Color(0xFFF7F1E6),
+                                              fillColor: isDark
+                                                  ? const Color(0xFF333333)
+                                                  : const Color(0xFFF7F1E6),
                                               border: const OutlineInputBorder(
                                                 borderSide: BorderSide.none,
                                                 borderRadius: BorderRadius.all(
@@ -5811,7 +6592,8 @@ color: _bg(sheet),
                                                 value: i + 1,
                                                 child: Text(
                                                   "${getSurahNameArabic(surah)}: ${_toArabicDigits((i + 1).toString())}",
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
@@ -5829,27 +6611,36 @@ color: _bg(sheet),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "إلى",
                                             style: TextStyle(
                                               fontWeight: FontWeight.w800,
-                                              color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : const Color(0xFF1B1B1B),
                                             ),
                                           ),
                                           const SizedBox(height: 8),
                                           DropdownButtonFormField<int>(
                                             value: to,
-                                            dropdownColor: isDark ? const Color(0xFF2A2A2A) : const Color(0xFFF7F1E6),
+                                            dropdownColor: isDark
+                                                ? const Color(0xFF2A2A2A)
+                                                : const Color(0xFFF7F1E6),
                                             style: TextStyle(
-                                              color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : const Color(0xFF1B1B1B),
                                               fontSize: 14,
                                             ),
                                             decoration: InputDecoration(
                                               isDense: true,
                                               filled: true,
-                                              fillColor: isDark ? const Color(0xFF333333) : const Color(0xFFF7F1E6),
+                                              fillColor: isDark
+                                                  ? const Color(0xFF333333)
+                                                  : const Color(0xFFF7F1E6),
                                               border: const OutlineInputBorder(
                                                 borderSide: BorderSide.none,
                                                 borderRadius: BorderRadius.all(
@@ -5863,7 +6654,8 @@ color: _bg(sheet),
                                                 value: i + 1,
                                                 child: Text(
                                                   "${getSurahNameArabic(surah)}: ${_toArabicDigits((i + 1).toString())}",
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
@@ -5897,7 +6689,9 @@ color: _bg(sheet),
                                   ),
                                   onPressed: () async {
                                     Navigator.pop(ctx);
-                                    final reciter = sheetContext.read<SegmentedQuranReciterCubit>().state;
+                                    final reciter = sheetContext
+                                        .read<SegmentedQuranReciterCubit>()
+                                        .state;
                                     await AudioPlayerManager.playMultipleAyahAsPlaylist(
                                       startAyahKey: "$surah:$from",
                                       endAyahKey: "$surah:$to",
@@ -5910,7 +6704,9 @@ color: _bg(sheet),
                                   icon: const Icon(Icons.play_arrow_rounded),
                                   label: const Text(
                                     "تشغيل",
-                                    style: TextStyle(fontWeight: FontWeight.w900),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -5940,7 +6736,10 @@ color: _bg(sheet),
     required int verse,
   }) async {
     final themeState = context.read<ThemeCubit>().state;
-    final currentScriptType = context.read<QuranViewCubit>().state.quranScriptType;
+    final currentScriptType = context
+        .read<QuranViewCubit>()
+        .state
+        .quranScriptType;
 
     String sanitizeToken(String token) {
       return token
@@ -5955,21 +6754,21 @@ color: _bg(sheet),
       QuranScriptType.tajweed,
       surah.toString(),
       verse.toString(),
-    )
-        .map(sanitizeToken)
-        .where((w) => w.isNotEmpty)
-        .toList();
+    ).map(sanitizeToken).where((w) => w.isNotEmpty).toList();
 
     if (words.isEmpty) {
       final userBox = Hive.box("user");
       final bool isProcessed =
           userBox.get("writeQuranScript", defaultValue: false) == true;
       final String? version = userBox.get("writeQuranScriptVersion");
-      final bool scriptBoxExists =
-          await Hive.boxExists("script_${QuranScriptType.tajweed.name}");
+      final bool scriptBoxExists = await Hive.boxExists(
+        "script_${QuranScriptType.tajweed.name}",
+      );
 
       final bool needsWrite =
-          !isProcessed || version != QuranScriptFunction.quranScriptVersion || !scriptBoxExists;
+          !isProcessed ||
+          version != QuranScriptFunction.quranScriptVersion ||
+          !scriptBoxExists;
 
       if (needsWrite) {
         if (!context.mounted) return;
@@ -6018,10 +6817,7 @@ color: _bg(sheet),
           QuranScriptType.tajweed,
           surah.toString(),
           verse.toString(),
-        )
-            .map(sanitizeToken)
-            .where((w) => w.isNotEmpty)
-            .toList();
+        ).map(sanitizeToken).where((w) => w.isNotEmpty).toList();
       }
     }
 
@@ -6030,13 +6826,13 @@ color: _bg(sheet),
         currentScriptType,
         surah.toString(),
         verse.toString(),
-      )
-          .map(sanitizeToken)
-          .where((w) => w.isNotEmpty)
-          .toList();
+      ).map(sanitizeToken).where((w) => w.isNotEmpty).toList();
     }
 
-    final wordKeys = List.generate(words.length, (i) => "$surah:$verse:${i + 1}");
+    final wordKeys = List.generate(
+      words.length,
+      (i) => "$surah:$verse:${i + 1}",
+    );
 
     await showModalBottomSheet(
       context: context,
@@ -6065,7 +6861,9 @@ color: _bg(sheet),
                 margin: const EdgeInsets.fromLTRB(16, 10, 16, 16),
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF1E1E1E) : const Color(0xFFFFF9F2),
+                  color: isDark
+                      ? const Color(0xFF1E1E1E)
+                      : const Color(0xFFFFF9F2),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -6124,13 +6922,17 @@ color: _bg(sheet),
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w800,
-                                color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                color: isDark
+                                    ? Colors.white
+                                    : const Color(0xFF1B1B1B),
                               ),
                             ),
                             const SizedBox(height: 10),
                             Container(
                               height: 1,
-                              color: isDark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.06),
+                              color: isDark
+                                  ? Colors.white.withValues(alpha: 0.1)
+                                  : Colors.black.withValues(alpha: 0.06),
                             ),
                             const SizedBox(height: 12),
 
@@ -6163,17 +6965,25 @@ color: _bg(sheet),
                               runSpacing: 10,
                               alignment: WrapAlignment.center,
                               children: List.generate(words.length, (i) {
-                                final k = i < wordKeys.length ? wordKeys[i] : null;
-                                return BlocBuilder<WordPlayingStateCubit, String?>(
+                                final k = i < wordKeys.length
+                                    ? wordKeys[i]
+                                    : null;
+                                return BlocBuilder<
+                                  WordPlayingStateCubit,
+                                  String?
+                                >(
                                   builder: (context, playingKey) {
                                     final isPlayingWord =
                                         k != null && playingKey == k;
                                     final isHighlighted =
                                         ayahModeActive && i == highlightedIndex;
-                                    final isActive = isPlayingWord || isHighlighted;
+                                    final isActive =
+                                        isPlayingWord || isHighlighted;
 
                                     return AnimatedContainer(
-                                      duration: const Duration(milliseconds: 180),
+                                      duration: const Duration(
+                                        milliseconds: 180,
+                                      ),
                                       curve: Curves.easeOutCubic,
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 12,
@@ -6181,13 +6991,21 @@ color: _bg(sheet),
                                       ),
                                       decoration: BoxDecoration(
                                         color: isActive
-                                            ? themeState.primary.withValues(alpha: 0.08)
-                                            : (isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF7F1E6)),
+                                            ? themeState.primary.withValues(
+                                                alpha: 0.08,
+                                              )
+                                            : (isDark
+                                                  ? const Color(0xFF2C2C2C)
+                                                  : const Color(0xFFF7F1E6)),
                                         borderRadius: BorderRadius.circular(14),
                                         border: Border.all(
                                           color: isActive
-                                              ? themeState.primary.withValues(alpha: 0.38)
-                                              : themeState.primary.withValues(alpha: 0.18),
+                                              ? themeState.primary.withValues(
+                                                  alpha: 0.38,
+                                                )
+                                              : themeState.primary.withValues(
+                                                  alpha: 0.18,
+                                                ),
                                         ),
                                       ),
                                       child: Column(
@@ -6198,26 +7016,30 @@ color: _bg(sheet),
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w800,
-                                              color: isDark ? Colors.white : const Color(0xFF1B1B1B),
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : const Color(0xFF1B1B1B),
                                               height: 1.25,
                                             ),
                                           ),
                                           const SizedBox(height: 8),
                                           OutlinedButton.icon(
                                             style: OutlinedButton.styleFrom(
-                                              foregroundColor: themeState.primary,
+                                              foregroundColor:
+                                                  themeState.primary,
                                               backgroundColor: isPlayingWord
                                                   ? themeState.primary
-                                                      .withValues(alpha: 0.06)
+                                                        .withValues(alpha: 0.06)
                                                   : null,
                                               side: BorderSide(
                                                 color: themeState.primary
                                                     .withValues(alpha: 0.25),
                                               ),
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                                vertical: 8,
-                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 8,
+                                                  ),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
@@ -6231,11 +7053,14 @@ color: _bg(sheet),
                                                       highlightedIndex = -1;
                                                     });
                                                     stopAyahHighlight();
-                                                    AudioPlayerManager.playWord(k);
+                                                    AudioPlayerManager.playWord(
+                                                      k,
+                                                    );
                                                   },
                                             icon: AnimatedSwitcher(
-                                              duration:
-                                                  const Duration(milliseconds: 160),
+                                              duration: const Duration(
+                                                milliseconds: 160,
+                                              ),
                                               child: Icon(
                                                 isPlayingWord
                                                     ? Icons.graphic_eq_rounded
@@ -6276,6 +7101,12 @@ color: _bg(sheet),
   @override
   void dispose() {
     _cancelMenuTimer();
+    _ayahKeySub?.cancel();
+    _ayahKeySub = null;
+    if (_ownsController) {
+      _internalPageController?.dispose();
+      _internalPageController = null;
+    }
     super.dispose();
   }
 
@@ -6284,11 +7115,98 @@ color: _bg(sheet),
     debugPrint("[Mushaf] build");
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final ThemeState themeState = context.read<ThemeCubit>().state;
+    final qSettings = context.watch<QuranSettingsCubit>().state;
+
+    final bool isThemeCompatibleWithMode =
+        isDark
+            ? (qSettings.theme == QuranTheme.oled ||
+                qSettings.theme == QuranTheme.nightBlue ||
+                qSettings.theme == QuranTheme.custom ||
+                qSettings.theme == QuranTheme.graphite ||
+                qSettings.theme == QuranTheme.midnightPurple)
+            : (qSettings.theme == QuranTheme.sepia ||
+                qSettings.theme == QuranTheme.cream ||
+                qSettings.theme == QuranTheme.paperWhite ||
+                qSettings.theme == QuranTheme.sand);
+
+    if (qSettings.isInitialized && !isThemeCompatibleWithMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+        context.read<QuranSettingsCubit>().updateTheme(
+          isDark ? QuranTheme.nightBlue : QuranTheme.cream,
+        );
+      });
+    }
+
+    QcfThemeData baseThemeForScaffold() {
+      switch (qSettings.theme) {
+        case QuranTheme.oled:
+          return QcfThemeData.oled();
+        case QuranTheme.graphite:
+          return QcfThemeData.graphite();
+        case QuranTheme.midnightPurple:
+          return QcfThemeData.midnightPurple();
+        case QuranTheme.sepia:
+          return QcfThemeData.sepia();
+        case QuranTheme.cream:
+          return QcfThemeData.cream();
+        case QuranTheme.paperWhite:
+          return QcfThemeData.paperWhite();
+        case QuranTheme.sand:
+          return QcfThemeData.sand();
+        case QuranTheme.nightBlue:
+          return QcfThemeData.nightBlue();
+        case QuranTheme.custom:
+          return QcfThemeData.dark();
+      }
+    }
+
+    final bg = baseThemeForScaffold().pageBackgroundColor;
+    final bgBrightness = ThemeData.estimateBrightnessForColor(bg);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: bg,
+        statusBarIconBrightness:
+            bgBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
+        systemNavigationBarColor: bg,
+        systemNavigationBarIconBrightness:
+            bgBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
+        systemNavigationBarContrastEnforced: false,
+        systemStatusBarContrastEnforced: false,
+      ),
+    );
+
+    Widget withSystemBarBackground(Widget child) {
+      final padding = MediaQuery.of(context).padding;
+      if (padding.top == 0 && padding.bottom == 0) return child;
+      return Stack(
+        children: [
+          child,
+          if (padding.top > 0)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: padding.top,
+              child: ColoredBox(color: bg),
+            ),
+          if (padding.bottom > 0)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: padding.bottom,
+              child: ColoredBox(color: bg),
+            ),
+        ],
+      );
+    }
 
     const starredHiveKey = "wahy_starred";
 
     final userBox = Hive.box("user");
-    final rawBookmarks = userBox.get(_kWahyBookmarks, defaultValue: const []) as List?;
+    final rawBookmarks =
+        userBox.get(_kWahyBookmarks, defaultValue: const []) as List?;
     final bookmarksList = (rawBookmarks ?? const [])
         .map((e) => Map<String, dynamic>.from(e as Map))
         .toList();
@@ -6304,285 +7222,435 @@ color: _bg(sheet),
         .where((k) => k.isNotEmpty)
         .toSet();
 
-    final rawStarred = userBox.get(starredHiveKey, defaultValue: const []) as List?;
+    final rawStarred =
+        userBox.get(starredHiveKey, defaultValue: const []) as List?;
     final starredKeys = List<String>.from(rawStarred ?? const []).toSet();
 
-    final body = BlocBuilder<AyahToHighlight, String?>(
-      buildWhen: (p, c) => p != c,
-      builder: (context, highlightedAyahKey) {
-        final verseNumberColor = isDark ? const Color(0xFFE0E0E0) : const Color(0xFF1B1B1B);
-        final verseNumberHeight = QcfThemeData.sepia().verseNumberHeight;
-        final qcfTheme = QcfThemeData.sepia().copyWith(
-          pageBackgroundColor: isDark ? Color(0xFF0B0B0F) : _bg(context),
-          headerBackgroundColor: const Color(0xFFEFE3D2),
-          headerTextColor: const Color(0xFF1B1B1B),
-          verseTextColor:
-              isDark ? const Color(0xFFE0E0E0) : const Color(0xFF1B1B1B),
-          verseNumberColor:
-              isDark ? const Color(0xFFE0E0E0) : const Color(0xFF1B1B1B),
-          verseNumberBuilder: (surah, verse, verseNumber) {
-            final key = "$surah:$verse";
-            final hasMarker = _hasAnyWahyMarker(
-              ayahKey: key,
-              starred: starredKeys,
-              notes: notesKeys,
-              bookmarks: bookmarkKeys,
-            );
+    final body = MultiBlocListener(
+      listeners: [
+        BlocListener<PlayerPositionCubit, AudioPlayerPositionModel>(
+          listener: (context, state) {
+            if (!context.read<AudioUiCubit>().state.isInsideQuranPlayer) return;
 
-            final pageNumber = qcf.getPageNumber(surah, verse);
-            final pageFont = "QCF_P${pageNumber.toString().padLeft(3, '0')}";
+            final ayahKey = context.read<AyahKeyCubit>().state.current;
 
-            final base = TextSpan(
-              text: verseNumber,
-              style: TextStyle(
-                fontFamily: pageFont,
-                package: "qcf_quran",
-                color: verseNumberColor,
-                height: verseNumberHeight / (widget.hOverride ?? 0.86),
-              ),
-            );
-
-            if (!hasMarker) return base;
-
-            Color dotColor;
-            if (starredKeys.contains(key)) {
-              dotColor = const Color(0xFFF4B400);
-            } else if (bookmarkKeys.contains(key)) {
-              dotColor = themeState.primary;
-            } else {
-              dotColor = const Color(0xFF2962FF);
+            final segments = SegmentedResourcesManager.getAyahSegments(ayahKey) ?? [];
+            if (segments.isEmpty) {
+              if (context.read<WordPlayingStateCubit>().state != null) {
+                context.read<WordPlayingStateCubit>().changeState(null);
+              }
+              return;
             }
 
-            return TextSpan(
-              children: [
-                base,
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 2),
-                    child: Container(
-                      width: 5,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: dotColor,
-                        borderRadius: BorderRadius.circular(99),
+            final currentMs = state.currentDuration?.inMilliseconds ?? 0;
+            int? activeWordIndex;
+            for (final seg in segments) {
+              // segment format: [wordIndex, startMs, endMs]
+              if (currentMs >= seg[1] && currentMs <= seg[2]) {
+                activeWordIndex = seg[0] as int;
+                break;
+              }
+            }
+
+            if (activeWordIndex != null) {
+              // Word index from segmented JSON is 1-indexed. QcfPage is 0-indexed.
+              final wordKey = "$ayahKey:${activeWordIndex - 1}";
+              if (context.read<WordPlayingStateCubit>().state != wordKey) {
+                context.read<WordPlayingStateCubit>().changeState(wordKey);
+              }
+            } else {
+              if (context.read<WordPlayingStateCubit>().state != null) {
+                context.read<WordPlayingStateCubit>().changeState(null);
+              }
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<QuranSettingsCubit, QuranSettingsState>(
+        builder: (context, qSettings) {
+        // Map unified QuranTheme enum → QcfThemeData factory
+        QcfThemeData buildBaseTheme() {
+          switch (qSettings.theme) {
+            case QuranTheme.oled:
+              return QcfThemeData.oled();
+            case QuranTheme.graphite:
+              return QcfThemeData.graphite();
+            case QuranTheme.midnightPurple:
+              return QcfThemeData.midnightPurple();
+            case QuranTheme.sepia:
+              return QcfThemeData.sepia();
+            case QuranTheme.cream:
+              return QcfThemeData.cream();
+            case QuranTheme.paperWhite:
+              return QcfThemeData.paperWhite();
+            case QuranTheme.sand:
+              return QcfThemeData.sand();
+            case QuranTheme.nightBlue:
+              return QcfThemeData.nightBlue();
+            case QuranTheme.custom:
+              return QcfThemeData.dark();
+          }
+        }
+
+        final bool qDark =
+            qSettings.theme == QuranTheme.oled ||
+            qSettings.theme == QuranTheme.nightBlue ||
+            qSettings.theme == QuranTheme.custom;
+
+        return BlocBuilder<AyahToHighlight, String?>(
+          buildWhen: (p, c) => p != c,
+          builder: (context, highlightedAyahKey) {
+            return BlocBuilder<WordPlayingStateCubit, String?>(
+              builder: (context, highlightedWordKey) {
+            final baseTheme = buildBaseTheme();
+            final pageBg = baseTheme.pageBackgroundColor;
+            final pageBgBrightness = ThemeData.estimateBrightnessForColor(pageBg);
+            final bool pageBgIsDark = pageBgBrightness == Brightness.dark;
+            final verseNumberColor =
+                pageBgIsDark ? Colors.white70 : const Color(0xFF1B1B1B);
+            final verseNumberHeight = baseTheme.verseNumberHeight;
+            final qcfTheme = baseTheme.copyWith(
+              pageBackgroundColor: baseTheme.pageBackgroundColor,
+              headerBackgroundColor: Colors.transparent,
+              headerTextColor: Colors.black,
+              verseTextColor: baseTheme.verseTextColor,
+              verseNumberColor: verseNumberColor,
+              verseNumberBuilder: (surah, verse, verseNumber) {
+                final key = "$surah:$verse";
+                final hasMarker = _hasAnyWahyMarker(
+                  ayahKey: key,
+                  starred: starredKeys,
+                  notes: notesKeys,
+                  bookmarks: bookmarkKeys,
+                );
+
+                final pageNumber = qcf.getPageNumber(surah, verse);
+                final pageFont =
+                    "QCF_P${pageNumber.toString().padLeft(3, '0')}";
+
+                final base = TextSpan(
+                  text: verseNumber,
+                  style: TextStyle(
+                    fontFamily: pageFont,
+                    package: "qcf_quran",
+                    color: verseNumberColor,
+                    height: verseNumberHeight / (widget.hOverride ?? 0.86),
+                  ),
+                );
+
+                if (!hasMarker) return base;
+
+                Color dotColor;
+                if (starredKeys.contains(key)) {
+                  dotColor = const Color(0xFFF4B400);
+                } else if (bookmarkKeys.contains(key)) {
+                  dotColor = themeState.primary;
+                } else {
+                  dotColor = const Color(0xFF2962FF);
+                }
+
+                return TextSpan(
+                  children: [
+                    base,
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 2),
+                        child: Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: dotColor,
+                            borderRadius: BorderRadius.circular(99),
+                          ),
+                        ),
                       ),
                     ),
+                  ],
+                );
+              },
+            );
+
+            return MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1)),
+              child: Container(
+                color: baseTheme.pageBackgroundColor,
+                child: PageviewQuran(
+                  controller: _pageController,
+                  initialPageNumber: (widget.initialPageNumber ?? 1).clamp(
+                    1,
+                    604,
                   ),
+                  sp: widget.spOverride ?? 0.86,
+                  h: widget.hOverride ?? 0.86,
+                  fontSize: qSettings.fontSize,
+                  physics: const ClampingScrollPhysics(),
+                  showTajweed: qSettings.tajweedEnabled,
+                  tajweedWordsBuilder: (surah, verse) {
+                    return QuranScriptFunction.getWordListOfAyah(
+                      QuranScriptType.tajweed,
+                      surah.toString(),
+                      verse.toString(),
+                    );
+                  },
+                  highlightsBuilder: (surah, verse) {
+                    final key = "$surah:$verse";
+
+                    // Support Ayah-level Highlighting
+                    if (key == highlightedAyahKey) {
+                      // Support Word-level Highlighting
+                      if (highlightedWordKey != null && highlightedWordKey.startsWith(key)) {
+                        try {
+                          final wordIndex = int.parse(highlightedWordKey.split(":").last);
+                          return [
+                            HighlightRange(
+                              wordIndex: wordIndex,
+                              color: qSettings.highlightColor.withValues(alpha: 0.35),
+                            )
+                          ];
+                        } catch (_) {}
+                      }
+                    }
+                    return [];
+                  },
+                  theme: qcfTheme.copyWith(
+                    headerScale: 1.08,
+                    headerWidthSmall: 410,
+                    headerWidthLarge: 290,
+                    firstPagesTopSpacerFactor: 0.0,
+                    pageTopOverlayBuilder: (pageNumber, surahNumber, startVerse) {
+                      final juzNumber = getJuzNumber(surahNumber, startVerse);
+                      return Transform.translate(
+                        offset: const Offset(0, -2),
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              _pageHeaderSidePadding,
+                              8, // Significantly reduced from 25 to 8 to raise it to the top
+                              _pageHeaderSidePadding,
+                              0,
+                            ),
+                            child: DefaultTextStyle(
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: "Inter",
+                                color: pageBgIsDark
+                                    ? Colors.white.withValues(alpha: 0.90)
+                                    : const Color(0xFF111111)
+                                        .withValues(alpha: 0.88),
+                              ),
+                              child: Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          getSurahNameArabic(surahNumber),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "الجزء ${_arabicOrdinalLocal(context, juzNumber)}",
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    pageBottomOverlayBuilder:
+                        (pageNumber, surahNumber, startVerse) {
+                          final pageLabel = localizedNumber(
+                            context,
+                            pageNumber,
+                          );
+                          final hizbNumber = _hizbNumberFor(
+                            surahNumber,
+                            startVerse,
+                          );
+                          final hizbLabel =
+                              "الحزب ${localizedNumber(context, hizbNumber)}";
+                          final showHizb = _isHizbStart(
+                            surahNumber,
+                            startVerse,
+                          );
+
+                          return IgnorePointer(
+                            ignoring: true,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: _pageFooterBottomPadding,
+                              ),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (showHizb) ...[
+                                        Text(
+                                          hizbLabel,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                            color: pageBgIsDark
+                                                ? Colors.white.withValues(
+                                                    alpha: 0.82,
+                                                  )
+                                                : const Color(0xFF111111)
+                                                    .withValues(alpha: 0.78),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                      ],
+                                      Text(
+                                        pageLabel,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w800,
+                                          color: pageBgIsDark
+                                              ? Colors.white.withValues(
+                                                  alpha: 0.90,
+                                                )
+                                              : const Color(0xFF111111)
+                                                  .withValues(alpha: 0.88),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                  ),
+                  verseBackgroundColor: (surah, verse) {
+                    final key = "$surah:$verse";
+                    if (highlightedAyahKey != key) return null;
+                    return qSettings.highlightColor.withValues(
+                      alpha: pageBgIsDark ? 0.26 : 0.22,
+                    );
+                  },
+                  onTapDown: (surah, verse, details) {
+                    final key = "$surah:$verse";
+                    context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
+                    context.read<AyahToHighlight>().changeAyah(key);
+                  },
+                  onTap: (surah, verse) {
+                    context.read<AyahToHighlight>().changeAyah(null);
+                    widget.onToggleHeader?.call();
+                  },
+                  onLongPressDown: (surah, verse, details) {
+                    _cancelMenuTimer();
+                    final ayahKey = "$surah:$verse";
+                    context.read<AyahKeyCubit>().changeCurrentAyahKey(ayahKey);
+                    context.read<AyahToHighlight>().changeAyah(ayahKey);
+                  },
+                  onLongPress: (surah, verse) {
+                    _cancelMenuTimer();
+                    HapticFeedback.selectionClick();
+                    _showOptionsSheetForAyah(
+                      context: context,
+                      surah: surah,
+                      verse: verse,
+                    );
+                  },
+                  onLongPressUp: (surah, verse) {
+                    _cancelMenuTimer();
+                    context.read<AyahToHighlight>().changeAyah(null);
+                  },
+                  onLongPressCancel: (surah, verse) {
+                    _cancelMenuTimer();
+                    context.read<AyahToHighlight>().changeAyah(null);
+                  },
+                  onDoubleTap: (surah, verse) async {
+                    final ayahKey = "$surah:$verse";
+                    context.read<AyahKeyCubit>().changeCurrentAyahKey(ayahKey);
+
+                    final wordsKey = List.generate(
+                      QuranScriptFunction.getWordListOfAyah(
+                        context.read<QuranViewCubit>().state.quranScriptType,
+                        surah.toString(),
+                        verse.toString(),
+                      ).length,
+                      (i) => "$surah:$verse:${i + 1}",
+                    );
+
+                    if (wordsKey.isEmpty) return;
+
+                    showPopupWordFunction(
+                      context: context,
+                      wordKeys: wordsKey,
+                      initWordIndex: 0,
+                      wordByWordList:
+                          await WordByWordFunction.getAyahWordByWordData(
+                            ayahKey,
+                          ) ??
+                          [],
+                    );
+                  },
+                  onPageChanged: (page) {
+                    _cancelMenuTimer();
+                    context.read<AyahKeyCubit>().changeLastScrolledPage(page);
+
+                    final info =
+                        quranPagesInfo[(page - 1).clamp(
+                          0,
+                          quranPagesInfo.length - 1,
+                        )];
+                    final ayahId = info["s"] ?? 1;
+                    final key = convertAyahNumberToKey(ayahId);
+                    if (key != null) {
+                      context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
+                    }
+                  },
                 ),
-              ],
+              ),
             );
           },
         );
-
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: const TextScaler.linear(1),
-            padding: MediaQuery.of(context).padding.copyWith(top: 0),
-          ),
-          child: Container(
-            color: isDark ? Color(0xFF0B0B0F) : _bg(context),
-            child: PageviewQuran(
-              controller: widget.controller,
-              initialPageNumber: (widget.initialPageNumber ?? 1).clamp(1, 604),
-              sp: widget.spOverride ?? 1.0,
-              h: widget.hOverride ?? 1.0,
-              physics: const ClampingScrollPhysics(),
-              theme: qcfTheme.copyWith(
-                headerScale: 0.985,
-                firstPagesTopSpacerFactor: 0.10,
-                pageTopOverlayBuilder: (pageNumber, surahNumber, startVerse) {
-                  final juzNumber = getJuzNumber(surahNumber, startVerse);
-                  return Transform.translate(
-                    offset: Offset.zero,
-                    child: IgnorePointer(
-                      ignoring: true,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          _pageHeaderSidePadding,
-                          10,
-                          _pageHeaderSidePadding,
-                          0,
-                        ),
-                        child: DefaultTextStyle(
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: "Inter",
-                            color: isDark ? Colors.white.withValues(alpha: 0.7) : const Color(0xFF1B1B1B)
-                                .withValues(alpha: 0.6),
-                          ),
-                          child: Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      getSurahNameArabic(surahNumber),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "الجزء ${_arabicOrdinalLocal(context, juzNumber)}",
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                pageBottomOverlayBuilder: (pageNumber, surahNumber, startVerse) {
-                  final pageLabel = localizedNumber(context, pageNumber);
-                  final hizbNumber = _hizbNumberFor(surahNumber, startVerse);
-                  final hizbLabel =
-                      "الحزب ${localizedNumber(context, hizbNumber)}";
-                  final showHizb = _isHizbStart(surahNumber, startVerse);
-
-                  return SafeArea(
-                    top: false,
-                    child: IgnorePointer(
-                      ignoring: true,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: _pageFooterBottomPadding,
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (showHizb) ...[
-                                  Text(
-                                    hizbLabel,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: isDark ? Colors.white54 : const Color(0xFF1B1B1B)
-                                          .withValues(alpha: 0.54),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                ],
-                                Text(
-                                  pageLabel,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                    color: isDark ? Colors.white70 : const Color(0xFF1B1B1B)
-                                        .withValues(alpha: 0.7),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              verseBackgroundColor: (surah, verse) {
-                final key = "$surah:$verse";
-                if (highlightedAyahKey != key) return null;
-                final isDk = Theme.of(context).brightness == Brightness.dark;
-                // Warm amber glow in dark mode, beige in light
-                return isDk
-                    ? const Color(0xFF3A2E1A).withValues(alpha: 0.85)
-                    : const Color(0xFFEFE3D2).withValues(alpha: 0.78);
-              },
-              onTapDown: (surah, verse, details) {
-                final key = "$surah:$verse";
-                context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
-                context.read<AyahToHighlight>().changeAyah(key);
-              },
-              onTap: (surah, verse) {
-                context.read<AyahToHighlight>().changeAyah(null);
-                widget.onToggleHeader?.call();
-              },
-              onLongPressDown: (surah, verse, details) {
-                _cancelMenuTimer();
-                final ayahKey = "$surah:$verse";
-                context.read<AyahKeyCubit>().changeCurrentAyahKey(ayahKey);
-                context.read<AyahToHighlight>().changeAyah(ayahKey);
-              },
-              onLongPress: (surah, verse) {
-                _cancelMenuTimer();
-                HapticFeedback.selectionClick();
-                _showOptionsSheetForAyah(
-                  context: context,
-                  surah: surah,
-                  verse: verse,
-                );
-              },
-              onLongPressUp: (surah, verse) {
-                _cancelMenuTimer();
-                context.read<AyahToHighlight>().changeAyah(null);
-              },
-              onLongPressCancel: (surah, verse) {
-                _cancelMenuTimer();
-                context.read<AyahToHighlight>().changeAyah(null);
-              },
-              onDoubleTap: (surah, verse) async {
-                final ayahKey = "$surah:$verse";
-                context.read<AyahKeyCubit>().changeCurrentAyahKey(ayahKey);
-
-                final wordsKey = List.generate(
-                  QuranScriptFunction.getWordListOfAyah(
-                    context.read<QuranViewCubit>().state.quranScriptType,
-                    surah.toString(),
-                    verse.toString(),
-                  ).length,
-                  (i) => "$surah:$verse:${i + 1}",
-                );
-
-                if (wordsKey.isEmpty) return;
-
-                showPopupWordFunction(
-                  context: context,
-                  wordKeys: wordsKey,
-                  initWordIndex: 0,
-                  wordByWordList:
-                      await WordByWordFunction.getAyahWordByWordData(ayahKey) ??
-                      [],
-                );
-              },
-              onPageChanged: (page) {
-                _cancelMenuTimer();
-                context.read<AyahKeyCubit>().changeLastScrolledPage(page);
-
-                final info = quranPagesInfo[
-                    (page - 1).clamp(0, quranPagesInfo.length - 1)];
-                final ayahId = info["s"] ?? 1;
-                final key = convertAyahNumberToKey(ayahId);
-                if (key != null) {
-                  context.read<AyahKeyCubit>().changeCurrentAyahKey(key);
-                }
-              },
-            ),
-          ),
-        );
       },
     );
+  },
+),
+);
 
-    if (!widget.useDefaultAppBar) return body;
+    final decoratedBody = withSystemBarBackground(body);
+
+    if (!widget.useDefaultAppBar) return decoratedBody;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0B0B0F) : Colors.white,
+      backgroundColor: bg,
       appBar: AppBar(
-        backgroundColor: isDark ? const Color(0xFF0B0B0F) : Colors.white,
+        backgroundColor: bg,
+        surfaceTintColor: bg,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: bg,
+          statusBarIconBrightness:
+              bgBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
+          systemNavigationBarColor: bg,
+          systemNavigationBarIconBrightness:
+              bgBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
+          systemNavigationBarContrastEnforced: false,
+          systemStatusBarContrastEnforced: false,
+        ),
         elevation: 0,
         iconTheme: IconThemeData(color: themeState.primary),
         title: Text(
@@ -6593,8 +7661,7 @@ color: _bg(sheet),
           ),
         ),
       ),
-      body: body,
+      body: decoratedBody,
     );
   }
-
 }

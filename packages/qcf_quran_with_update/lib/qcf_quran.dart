@@ -1,17 +1,22 @@
-/// qcf_quran — High-fidelity Quran Mushaf rendering using bundled QCF fonts.
-///
-/// This package exposes:
-///
-/// - Rendering widgets:
-///   - `QcfVerse` to render a single ayah with per-page QCF ligatures
-///   - `PageviewQuran` to render a swipeable mushaf (604 pages, RTL)
-/// - Data helpers: page, surah, juz mappings and Quran text
-/// - Utility functions: arabic numerals, normalization, simple search
-///
+// qcf_quran — High-fidelity Quran Mushaf rendering using bundled QCF fonts.
+//
+// This package exposes:
+//
+// - Rendering widgets:
+//   - `QcfVerse` to render a single ayah with per-page QCF ligatures
+//   - `PageviewQuran` to render a swipeable mushaf (604 pages, RTL)
+// - Data helpers: page, surah, juz mappings and Quran text
+// - Utility functions: arabic numerals, normalization, simple search
+//
+import 'package:flutter/foundation.dart';
 import 'src/data/page_data.dart';
 import 'src/data/juzs.dart';
 import 'src/data/suwar.dart';
 import 'src/data/quran_text.dart';
+export 'src/highlight_range.dart';
+export 'src/tajweed_rules.dart';
+export 'src/tajweed_text_parser.dart';
+export 'src/tajweed_verse.dart';
 export 'src/qcf_verse.dart';
 export 'src/qcf_verses.dart';
 export 'src/data/page_font_size.dart';
@@ -202,12 +207,19 @@ String getVerseQCF(
   String verse = "";
   for (var i in quranText) {
     if (i['surah_number'] == surahNumber && i['verse_number'] == verseNumber) {
-      verse = (verseEndSymbol
-          ? i['qcfData'].toString()
-          : i['qcfData'].toString().substring(
-              0,
-              i['qcfData'].toString().length - 1,
-            ));
+      final String qcfData = i['qcfData'].toString();
+      if (verseEndSymbol) {
+        verse = qcfData;
+      } else {
+        // If qcfData ends with '\n', the last two chars are [glyph, '\n'].
+        // Strip both so the returned string is the verse text only (no glyph, no newline).
+        // Otherwise just strip the single glyph at the end.
+        final bool endsWithNewline = qcfData.endsWith('\n');
+        verse = qcfData.substring(
+          0,
+          qcfData.length - (endsWithNewline ? 2 : 1),
+        );
+      }
       break;
     }
   }
@@ -224,21 +236,26 @@ String getVerseNumberQCF(
   int verseNumber, {
   bool verseEndSymbol = true,
 }) {
-  String lastCharacter = "";
+  String glyph = "";
   for (var i in quranText) {
     if (i['surah_number'] == surahNumber && i['verse_number'] == verseNumber) {
-      lastCharacter = i['qcfData'].toString().substring(
-        i['qcfData'].toString().length - 1,
-      );
+      final String qcfData = i['qcfData'].toString();
+      // If qcfData ends with '\n', the glyph is the second-to-last character.
+      // Otherwise the glyph is the last character.
+      final bool endsWithNewline = qcfData.endsWith('\n');
+      glyph =
+          endsWithNewline
+              ? qcfData.substring(qcfData.length - 2, qcfData.length - 1)
+              : qcfData.substring(qcfData.length - 1);
       break;
     }
   }
 
-  if (lastCharacter == "") {
+  if (glyph == "") {
     throw "No verse found with given surahNumber and verseNumber.\n\n";
   }
 
-  return lastCharacter;
+  return glyph;
 }
 
 Map searchWords(String words) {
@@ -254,11 +271,12 @@ Map searchWords(String words) {
     if (i['text_normal'].toString().toLowerCase().contains(
       words.toLowerCase(),
     )) {
-      if (result.length < 50)
+      if (result.length < 50) {
         result.add({
           "suraNumber": i["surah_number"],
           "verseNumber": i["verse_number"],
         });
+      }
 
       // print(i['content']);
       // result.add({"surah": i["surah_number"], "verse": i["verse_number"]});
@@ -268,11 +286,12 @@ Map searchWords(String words) {
   if (result.isEmpty) {
     for (var i in quranText) {
       if (i['content'].toString().toLowerCase().contains(words.toLowerCase())) {
-        if (result.length < 50)
+        if (result.length < 50) {
           result.add({
             "suraNumber": i["surah_number"],
             "verseNumber": i["verse_number"],
           });
+        }
 
         // print(i['content']);
         // result.add({"surah": i["surah_number"], "verse": i["verse_number"]});
@@ -281,6 +300,19 @@ Map searchWords(String words) {
   }
 
   return {"occurences": result.length, "result": result};
+}
+
+/// A top-level function needed for [compute], which executes search in a background isolate.
+Map _searchWordsIsolate(String words) {
+  return searchWords(words);
+}
+
+/// Asynchronously searches for [words] across the entire Quran text,
+/// running the heavy iteration in a background isolate using [compute].
+///
+/// Returns a [Map] containing `{"occurences": int, "result": List<Map>}`.
+Future<Map> searchWordsAsync(String words) async {
+  return await compute(_searchWordsIsolate, words);
 }
 
 /// Converts Quran text to a normalized form suitable for search/comparison.

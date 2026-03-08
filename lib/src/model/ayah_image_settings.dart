@@ -7,10 +7,10 @@ class AyahImageSettings {
 
   /// نسبة أبعاد الصورة
   final AyahImageAspectRatio aspectRatio;
-  
+
   /// حجم الخط
   final AyahImageFontSize fontSize;
-  
+
   /// نوع الخط
   final AyahImageFontType fontType;
 
@@ -19,25 +19,25 @@ class AyahImageSettings {
 
   /// جودة التصدير (للصورة المصدّرة)
   final AyahImageExportQuality exportQuality;
-  
+
   /// إعدادات العلامة المائية
   final WatermarkSettings watermark;
-  
+
   /// إظهار التفسير
   final bool showTafsir;
-  
+
   /// إظهار الترجمة
   final bool showTranslation;
-  
+
   /// إظهار الحواشي
   final bool showFootnotes;
-  
+
   /// إظهار رقم الآية
   final bool showAyahNumber;
-  
+
   /// إظهار اسم السورة
   final bool showSurahName;
-  
+
   /// نمط الإطار
   final AyahImageFrameStyle frameStyle;
 
@@ -197,14 +197,9 @@ class AyahImageSettings {
       showSurahMeaning: showSurahMeaning ?? this.showSurahMeaning,
     );
   }
-
 }
 
-enum AyahImageHeaderAlign {
-  center,
-  right,
-  left,
-}
+enum AyahImageHeaderAlign { center, right, left }
 
 extension AyahImageHeaderAlignExt on AyahImageHeaderAlign {
   String getDisplayName() {
@@ -230,11 +225,7 @@ extension AyahImageHeaderAlignExt on AyahImageHeaderAlign {
   }
 }
 
-enum AyahImageTextAlign {
-  center,
-  right,
-  justify,
-}
+enum AyahImageTextAlign { center, right, justify }
 
 extension AyahImageTextAlignExt on AyahImageTextAlign {
   String getDisplayName() {
@@ -259,12 +250,9 @@ extension AyahImageTextAlignExt on AyahImageTextAlign {
     }
   }
 }
+
 /// جودة تصدير الصورة (تؤثر على pixelRatio أثناء الالتقاط)
-enum AyahImageExportQuality {
-  standard,
-  hd,
-  ultra,
-}
+enum AyahImageExportQuality { standard, hd, ultra }
 
 extension AyahImageExportQualityExt on AyahImageExportQuality {
   String getDisplayName() {
@@ -292,12 +280,12 @@ extension AyahImageExportQualityExt on AyahImageExportQuality {
 
 /// خيارات الخلفية
 enum AyahImageBackground {
-  light,           // أبيض/كريمي
-  dark,            // داكن
-  gradientGold,    // تدرج ذهبي
-  gradientGreen,   // تدرج أخضر
-  gradientBlue,    // تدرج أزرق
-  transparent,     // شفاف
+  light, // أبيض/كريمي
+  dark, // داكن
+  gradientGold, // تدرج ذهبي
+  gradientGreen, // تدرج أخضر
+  gradientBlue, // تدرج أزرق
+  transparent, // شفاف
 }
 
 /// مقاسات جاهزة لنسبة أبعاد الصورة
@@ -338,34 +326,30 @@ extension AyahImageAspectRatioExt on AyahImageAspectRatio {
 
 /// أحجام الخط
 enum AyahImageFontSize {
-  small,   // 18
-  medium,  // 24
-  large,   // 32
-  xlarge,  // 40
+  small, // 18
+  medium, // 24
+  large, // 32
+  xlarge, // 40
 }
 
 /// أنواع الخطوط
 enum AyahImageFontType {
-  uthmanic,  // خط عثماني
-  amiri,     // أميري
-  noto,      // Noto Naskh
+  uthmanic, // خط عثماني
+  amiri, // أميري
+  noto, // Noto Naskh
   scheherazade, // شهرزاد
 }
 
 /// أنماط الإطار
 enum AyahImageFrameStyle {
-  none,       // بدون إطار
-  simple,     // إطار بسيط
-  decorated,  // إطار مزخرف
-  islamic,    // إطار إسلامي
+  none, // بدون إطار
+  simple, // إطار بسيط
+  decorated, // إطار مزخرف
+  islamic, // إطار إسلامي
 }
 
 /// أنماط الهيدر (عنوان السورة) في صورة المشاركة
-enum AyahImageHeaderStyle {
-  none,
-  simple,
-  banner,
-}
+enum AyahImageHeaderStyle { none, simple, banner }
 
 extension AyahImageHeaderStyleExt on AyahImageHeaderStyle {
   String getDisplayName() {
@@ -384,13 +368,13 @@ extension AyahImageHeaderStyleExt on AyahImageHeaderStyle {
 class WatermarkSettings {
   /// إظهار العلامة المائية
   final bool enabled;
-  
+
   /// نص العلامة المائية (فارغ = اسم التطبيق الافتراضي)
   final String? customText;
-  
+
   /// موضع العلامة المائية
   final WatermarkPosition position;
-  
+
   /// شفافية العلامة المائية
   final double opacity;
 
@@ -417,13 +401,7 @@ class WatermarkSettings {
 }
 
 /// موضع العلامة المائية
-enum WatermarkPosition {
-  topLeft,
-  topRight,
-  bottomLeft,
-  bottomRight,
-  center,
-}
+enum WatermarkPosition { topLeft, topRight, bottomLeft, bottomRight, center }
 
 /// Extension methods للحصول على قيم فعلية
 extension AyahImageBackgroundExt on AyahImageBackground {

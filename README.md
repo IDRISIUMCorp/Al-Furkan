@@ -2,14 +2,6 @@
 
 # 📖 Al-Furkan — الفُرقان
 
-Al-Furkan is an open source Quran mobile app built with Flutter. It supports: – Quran reading
-– Recitation audio
-– Prayer times
-– Bookmarks
-– Dark/light theme
-
-Al-Furkan is a modern, open-source Quran application built using Flutter and BLoC architecture.
-
 <p align="center">
   <img src="assets/img/Quran_Logo_v3.png" width="120" style="border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 20px;" /><br>
   <b>تطبيق قرآني متكامل صُمم بأحدث التقنيات مع واجهة استخدام حديثة</b>
@@ -77,37 +69,41 @@ Al-Furkan is a modern, open-source Quran application built using Flutter and BLo
 | **flutter_animate** | المحرك المسؤول عن حيوية الحركة وانتقالات الواجهة السلسة. |
 
 ---
-## 🚀 التثبيت وطريقة التشغيل (Installation & Setup)
 
-لتشغيل تطبيق "الفُرقان" على جهازك أو المساهمة في تطويره، يرجى اتباع الخطوات التالية:
+## 🧩 مشاكل معروفة (Known Issues) — محتاجة مساهمة من المطورين
 
-### المتطلبات الأساسية (Prerequisites)
-* بيئة عمل [Flutter](https://docs.flutter.dev/get-started/install) (الإصدار 3.x أو أحدث).
-* محرر أكواد مثل VS Code أو Android Studio.
+المشروع شغال ومستقر في الاستخدام اليومي، لكن فيه شوية نقاط لسه محتاجة ضبط نهائي. لو إنت مطور وبتقرأ الريبو، دي أماكن بداية ممتازة للإصلاح:
 
-### الخطوات (Steps)
+### 1) أبعاد/مقياس آيات المصحف على الشاشات الكبيرة (Tablet / Large Screens)
+في وضع **المصحف (QCF)** ممكن تلاحظ إن **عرض/ارتفاع السطور** مش ثابت 100% على بعض الشاشات الكبيرة (خصوصًا تابلت) — ساعات بتحس الآيات “محشورة” أو “متمددة”.
 
-1. **استنساخ المشروع (Clone the repository):**
-```bash
-git clone https://github.com/IDRISIUMCorp/al-furkan-quran-flutter-app.git
-```
+- **مكان الكود المسؤول**:
+  - `packages/qcf_quran_with_update/lib/src/qcf_page.dart`
+  - تحديدًا حسابات `baselineWidth` / `fontScale` / `verseHeight` + `FittedBox(BoxFit.fitWidth)`
+- **المطلوب**:
+  - توحيد معادلة الـ scaling بحيث تكون النتيجة متوازنة (أعرض مش أطول) على أحجام 7" / 8" / 10" / 12".
+  - يفضّل إضافة جدول معايرة (breakpoints) حسب `shortestSide` بدل معاملات ثابتة.
 
- * الدخول لمجلد المشروع (Navigate to the project directory):
-```bash
-cd al-furkan-quran-flutter-app
-```
+### 2) دقة القبلة (Qibla) — اختلافات حسب الحساسات/الأجهزة
+ميزة القبلة بتعتمد على `flutter_compass` + حساب زاوية الكعبة من `lat/lon`. على بعض الأجهزة (خصوصًا بدون gyro/rotation vector أو بوجود مغناطيسية عالية) الدقة بتختلف.
 
- * تحميل المكاتب والاعتماديات (Install dependencies):
-```bash
-flutter pub get
-```
+- **مكان الكود المسؤول**:
+  - `lib/src/screen/qibla/qibla_direction.dart`
+  - `lib/src/screen/qibla/ar_qibla_screen.dart`
+  - حساب الاتجاه: `calculateQiblaAngle(...)`
+- **المطلوب**:
+  - تحسين فلترة/تنعيم الـ heading (Kalman / low-pass أفضل) + التعامل مع `null`/sensor limitations.
+  - إضافة خيار manual calibration + تنبيه للمستخدم لو الحساسات غير مدعومة.
 
- * تشغيل التطبيق (Run the app):
-   قم بتوصيل هاتفك أو تشغيل المحاكي (Emulator)، ثم نفذ الأمر التالي:
-```bash
-flutter run
-```
-> ملاحظة للمطورين: التطبيق يعتمد على قواعد بيانات محلية (hive_ce) ولا يتطلب أي إعدادات معقدة للخوادم أو مفاتيح API خارجية للعمل المبدئي. كل شيء جاهز للعمل بمجرد التشغيل!
+### 3) البحث (Search) — تحسينات تجربة لوحة المفاتيح (IME) على بعض أجهزة أندرويد
+في بعض الأجهزة، الـ IME بيحصل له jank لو تم عمل rebuilds كتير أثناء الكتابة.
+
+- **مكان الكود المسؤول**:
+  - `lib/src/screen/search/search_screen.dart`
+- **ملاحظات**:
+  - الأفضل تجنب `setState` على الـ TextField أثناء الكتابة (استخدام `ValueNotifier`/debounce).
+  - لو ظهر أي رجوع للمشكلة على جهاز معين، يفضّل توثيق موديل الجهاز + إصدار أندرويد.
+
 ---
 
 ## 🤝 شكر وتقدير (Acknowledgments)

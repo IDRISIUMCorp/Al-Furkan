@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qcf_quran/qcf_quran.dart';
 
 class HeaderWidget extends StatelessWidget {
   final int suraNumber;
-  
+
   /// Optional theme configuration for customizing header appearance.
   /// If null, uses default theme values.
   final QcfThemeData? theme;
-  
-  const HeaderWidget({
-    super.key, 
-    required this.suraNumber,
-    this.theme,
-  });
+
+  const HeaderWidget({super.key, required this.suraNumber, this.theme});
 
   @override
   Widget build(BuildContext context) {
-    bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     final effectiveTheme = theme ?? const QcfThemeData();
-    
+
     // If custom header builder is provided, use it
     if (effectiveTheme.customHeaderBuilder != null) {
       return effectiveTheme.customHeaderBuilder!(suraNumber);
     }
-    
+
     return InkWell(
       borderRadius: BorderRadius.circular(effectiveTheme.headerBorderRadius),
       child: Container(
-        decoration: BoxDecoration(
-          color: effectiveTheme.headerBackgroundColor,
-        ),
+        decoration: BoxDecoration(color: effectiveTheme.headerBackgroundColor),
         width: double.infinity,
         child: Stack(
           alignment: Alignment.center,
           children: [
             Image(
-              image: const AssetImage("assets/mainframe.png", package: 'qcf_quran'),
-              width: (isPortrait
+              image: const AssetImage(
+                "assets/mainframe.png",
+                package: 'qcf_quran',
+              ),
+              width:
+                  (isPortrait
                       ? (getScreenType(context) == ScreenType.large
-                          ? effectiveTheme.headerWidthLarge
-                          : effectiveTheme.headerWidthSmall)
-                      : (MediaQuery.of(context).size.width * 0.6).clamp(0.0, 700.0)) *
+                          ? effectiveTheme.headerWidthLarge.w
+                          : effectiveTheme.headerWidthSmall.w)
+                      : (MediaQuery.of(context).size.width * 0.6).clamp(
+                        0.0,
+                        700.0.w,
+                      )) *
                   effectiveTheme.headerScale,
             ),
             RichText(
@@ -50,11 +53,15 @@ class HeaderWidget extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: "arsura",
                   package: 'qcf_quran',
-                  fontSize: isPortrait
-                      ? (getScreenType(context) == ScreenType.large
-                          ? effectiveTheme.headerFontSizeLarge
-                          : effectiveTheme.headerFontSizeSmall)
-                      : (MediaQuery.of(context).size.width * 0.04).clamp(0.0, 50.0),
+                  fontSize:
+                      isPortrait
+                          ? (getScreenType(context) == ScreenType.large
+                              ? effectiveTheme.headerFontSizeLarge.sp
+                              : effectiveTheme.headerFontSizeSmall.sp)
+                          : (MediaQuery.of(context).size.width * 0.04).clamp(
+                            0.0,
+                            50.0.sp,
+                          ),
                   color: effectiveTheme.headerTextColor,
                 ),
               ),

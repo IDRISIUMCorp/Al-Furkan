@@ -37,15 +37,15 @@ class _ChangeReciterState extends State<ChangeReciter> {
   @override
   void initState() {
     if (widget.isWordByWord == true) {
-      recitersListCurrent =
-          recitationsInfoList
-              .map((e) => ReciterInfoModel.fromMap(e))
-              .toList()
-              .where((element) => element.segmentsUrl != null)
-              .toList();
+      recitersListCurrent = recitationsInfoList
+          .map((e) => ReciterInfoModel.fromMap(e))
+          .toList()
+          .where((element) => element.segmentsUrl != null)
+          .toList();
     } else {
-      recitersListCurrent =
-          recitationsInfoList.map((e) => ReciterInfoModel.fromMap(e)).toList();
+      recitersListCurrent = recitationsInfoList
+          .map((e) => ReciterInfoModel.fromMap(e))
+          .toList();
     }
     super.initState();
   }
@@ -60,7 +60,9 @@ class _ChangeReciterState extends State<ChangeReciter> {
           height: 50,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF2A2A2A) : themeState.primaryShade100,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF2A2A2A)
+                : themeState.primaryShade100,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(roundedRadius),
               topRight: Radius.circular(roundedRadius),
@@ -99,14 +101,14 @@ class _ChangeReciterState extends State<ChangeReciter> {
               return Container(
                 margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color:
-                      selectedReciter.link == reciterInfoModel.link
-                          ? (Theme.of(context).brightness == Brightness.dark ? themeState.primary.withValues(alpha: 0.15) : themeState.primaryShade100)
-                          : null,
-                  border:
-                      selectedReciter.link == reciterInfoModel.link
-                          ? Border.all(color: themeState.primary)
-                          : null,
+                  color: selectedReciter.link == reciterInfoModel.link
+                      ? (Theme.of(context).brightness == Brightness.dark
+                            ? themeState.primary.withValues(alpha: 0.15)
+                            : themeState.primaryShade100)
+                      : null,
+                  border: selectedReciter.link == reciterInfoModel.link
+                      ? Border.all(color: themeState.primary)
+                      : null,
                   borderRadius: BorderRadius.circular(roundedRadius),
                 ),
                 child: GestureDetector(
@@ -122,38 +124,38 @@ class _ChangeReciterState extends State<ChangeReciter> {
                         height: 85,
                         width: 65,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF2A2A2A) : themeState.primaryShade100,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF2A2A2A)
+                              : themeState.primaryShade100,
                           borderRadius: BorderRadius.circular(roundedRadius),
                         ),
-                        child:
-                            reciterInfoModel.img != null
-                                ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                    roundedRadius,
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: reciterInfoModel.img!,
-                                    errorWidget:
-                                        (context, url, error) => const Icon(
-                                          FluentIcons.person_24_filled,
-                                          size: 36,
-                                          color: Colors.grey,
+                        child: reciterInfoModel.img != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  roundedRadius,
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: reciterInfoModel.img!,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
+                                        FluentIcons.person_24_filled,
+                                        size: 36,
+                                        color: Colors.grey,
+                                      ),
+                                  progressIndicatorBuilder:
+                                      (context, url, progress) => Center(
+                                        child: CircularProgressIndicator(
+                                          value: progress.progress,
+                                          backgroundColor: context
+                                              .read<ThemeCubit>()
+                                              .state
+                                              .primaryShade100,
                                         ),
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) => Center(
-                                          child: CircularProgressIndicator(
-                                            value: progress.progress,
-                                            backgroundColor:
-                                                context
-                                                    .read<ThemeCubit>()
-                                                    .state
-                                                    .primaryShade100,
-                                          ),
-                                        ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                                : null,
+                                      ),
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : null,
                       ),
                       const Gap(10),
                       Column(

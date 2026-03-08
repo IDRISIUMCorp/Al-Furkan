@@ -8,11 +8,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: QcfVerses(
-              surahNumber: 1,
-              firstVerse: 1,
-              lastVerse: 1,
-            ),
+            body: QcfVerses(surahNumber: 1, firstVerse: 1, lastVerse: 1),
           ),
         ),
       );
@@ -20,15 +16,13 @@ void main() {
       expect(find.byType(RichText), findsOneWidget);
     });
 
-    testWidgets('renders multiple verses correctly', (WidgetTester tester) async {
+    testWidgets('renders multiple verses correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: QcfVerses(
-              surahNumber: 1,
-              firstVerse: 1,
-              lastVerse: 7,
-            ),
+            body: QcfVerses(surahNumber: 1, firstVerse: 1, lastVerse: 7),
           ),
         ),
       );
@@ -53,7 +47,9 @@ void main() {
       expect(find.byType(RichText), findsOneWidget);
     });
 
-    testWidgets('hides verse numbers when showVerseNumbers is false', (WidgetTester tester) async {
+    testWidgets('hides verse numbers when showVerseNumbers is false', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -70,7 +66,9 @@ void main() {
       expect(find.byType(RichText), findsOneWidget);
     });
 
-    testWidgets('applies custom verse number formatter', (WidgetTester tester) async {
+    testWidgets('applies custom verse number formatter', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -78,7 +76,7 @@ void main() {
               surahNumber: 1,
               firstVerse: 1,
               lastVerse: 7,
-              verseNumberFormatter: (num) => '($num)',
+              verseNumberFormatter: (v) => '($v)',
             ),
           ),
         ),
@@ -87,16 +85,14 @@ void main() {
       expect(find.byType(RichText), findsOneWidget);
     });
 
-    testWidgets('handles verses spanning multiple pages', (WidgetTester tester) async {
+    testWidgets('handles verses spanning multiple pages', (
+      WidgetTester tester,
+    ) async {
       // Al-Baqarah verses 1-10 span pages 2-3
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: QcfVerses(
-              surahNumber: 2,
-              firstVerse: 1,
-              lastVerse: 10,
-            ),
+            body: QcfVerses(surahNumber: 2, firstVerse: 1, lastVerse: 10),
           ),
         ),
       );
@@ -124,31 +120,19 @@ void main() {
 
     test('validates surah number range', () {
       expect(
-        () => QcfVerses(
-          surahNumber: 0,
-          firstVerse: 1,
-          lastVerse: 1,
-        ),
+        () => QcfVerses(surahNumber: 0, firstVerse: 1, lastVerse: 1),
         throwsAssertionError,
       );
 
       expect(
-        () => QcfVerses(
-          surahNumber: 115,
-          firstVerse: 1,
-          lastVerse: 1,
-        ),
+        () => QcfVerses(surahNumber: 115, firstVerse: 1, lastVerse: 1),
         throwsAssertionError,
       );
     });
 
     test('validates verse range', () {
       expect(
-        () => QcfVerses(
-          surahNumber: 1,
-          firstVerse: 5,
-          lastVerse: 3,
-        ),
+        () => QcfVerses(surahNumber: 1, firstVerse: 5, lastVerse: 3),
         throwsAssertionError,
       );
     });

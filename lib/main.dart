@@ -11,7 +11,7 @@ import "package:al_quran_v3/src/screen/quran_bootstrap/quran_bootstrap_page.dart
 import "package:al_quran_v3/src/screen/audio/download_screen/cubit/audio_download_cubit.dart";
 import "package:al_quran_v3/src/screen/prayer_time/cubit/prayer_time_state.dart";
 import "package:al_quran_v3/src/screen/quran_script_view/cubit/ayah_to_highlight.dart";
-import "package:flex_color_scheme/flex_color_scheme.dart";
+import "package:al_quran_v3/src/theme/app_theme.dart";
 import "package:al_quran_v3/src/utils/quran_resources/quran_script_function.dart";
 import "package:al_quran_v3/src/utils/quran_resources/default_offline_resources.dart";
 import "package:al_quran_v3/src/utils/quran_resources/quran_tafsir_function.dart";
@@ -37,18 +37,19 @@ import "package:al_quran_v3/src/widget/history/cubit/quran_history_cubit.dart";
 import "package:al_quran_v3/src/widget/quran_script/model/script_info.dart";
 import "package:al_quran_v3/src/widget/quran_script_words/cubit/word_playing_state_cubit.dart";
 import "package:al_quran_v3/src/screen/quran_reader/cubit/reader_ui_cubit.dart";
+import "package:al_quran_v3/src/core/unified_quran_settings/cubit/quran_settings_cubit.dart";
 import "dart:ui";
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hive_ce_flutter/hive_flutter.dart";
 import "package:just_audio_background/just_audio_background.dart";
 import "package:just_audio_media_kit/just_audio_media_kit.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import "package:flutter/services.dart";
 
 import "src/screen/location_handler/model/location_data_qibla_data_state.dart";
 
@@ -58,14 +59,28 @@ platform_services.PlatformOwn platformOwn = platform_services.getPlatform();
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  // ── Fullscreen immersive mode — يخفي شريط الحالة وأزرار التحكم تماماً ──
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
   platform_services.initializePlatform();
+
+  GoogleFonts.config.allowRuntimeFetching = false;
+
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   await KhatmaNotificationService.instance.init();
 
+  applicationDataPath = await platform_services.getApplicationDataPath();
+
+  if (platformOwn == platform_services.PlatformOwn.isWindows ||
+      platformOwn == platform_services.PlatformOwn.isLinux) {
+    Hive.init("${applicationDataPath!}/db");
+  } else {
+    await Hive.initFlutter();
+  }
+
+  await Hive.openBox("user");
+  await Hive.openBox("pinned");
+  await Hive.openBox("notes");
+
+  // Init Awesome Notification right after Hive so its restore logic works
   if (platformOwn != platform_services.PlatformOwn.isLinux &&
       platformOwn != platform_services.PlatformOwn.isWindows) {
     platform_services.initAwesomeNotification();
@@ -85,18 +100,6 @@ Future<void> main() async {
       log("Unable To Config JustAudioMediaKit with error: $e");
     }
   }
-  applicationDataPath = await platform_services.getApplicationDataPath();
-
-  if (platformOwn == platform_services.PlatformOwn.isWindows ||
-      platformOwn == platform_services.PlatformOwn.isLinux) {
-    Hive.init("${applicationDataPath!}/db");
-  } else {
-    await Hive.initFlutter();
-  }
-
-  await Hive.openBox("user");
-  await Hive.openBox("pinned");
-  await Hive.openBox("notes");
 
   final prefs = await SharedPreferences.getInstance();
   const firstRunKey = "idrisium_first_run_defaults_applied";
@@ -165,75 +168,9 @@ TextTheme getTextTheme(Locale locale, bool isDarkMode) {
   final textTheme = isDarkMode
       ? ThemeData.dark().textTheme
       : ThemeData.light().textTheme;
-  TextTheme baseTextTheme;
-  switch (locale.languageCode) {
-    case "ar":
-    case "fa":
-    case "ug": // Uighur
-      baseTextTheme = GoogleFonts.notoSansArabicTextTheme(textTheme);
-      break;
-    case "ur":
-      baseTextTheme = GoogleFonts.notoNastaliqUrduTextTheme(textTheme);
-      break;
-    case "bn":
-    case "as": // Assamese
-      baseTextTheme = GoogleFonts.notoSansBengaliTextTheme(textTheme);
-      break;
-    case "hi":
-    case "mr": // Marathi
-    case "ne": // Nepali
-      baseTextTheme = GoogleFonts.notoSansDevanagariTextTheme(textTheme);
-      break;
-    case "ja":
-      baseTextTheme = GoogleFonts.notoSansJpTextTheme(textTheme);
-      break;
-    case "ko":
-      baseTextTheme = GoogleFonts.notoSansKrTextTheme(textTheme);
-      break;
-    case "zh":
-      baseTextTheme = GoogleFonts.notoSansScTextTheme(textTheme);
-      break;
-    case "ta": // Tamil
-      baseTextTheme = GoogleFonts.notoSansTamilTextTheme(textTheme);
-      break;
-    case "te": // Telugu
-      baseTextTheme = GoogleFonts.notoSansTeluguTextTheme(textTheme);
-      break;
-    case "kn": // Kannada
-      baseTextTheme = GoogleFonts.notoSansKannadaTextTheme(textTheme);
-      break;
-    case "ml": // Malayalam
-      baseTextTheme = GoogleFonts.notoSansMalayalamTextTheme(textTheme);
-      break;
-    case "gu": // Gujarati
-      baseTextTheme = GoogleFonts.notoSansGujaratiTextTheme(textTheme);
-      break;
-    case "si": // Sinhala
-      baseTextTheme = GoogleFonts.notoSansSinhalaTextTheme(textTheme);
-      break;
-    case "th": // Thai
-      baseTextTheme = GoogleFonts.notoSansThaiTextTheme(textTheme);
-      break;
-    case "km": // Khmer
-      baseTextTheme = GoogleFonts.notoSansKhmerTextTheme(textTheme);
-      break;
-    case "he": // Hebrew
-      baseTextTheme = GoogleFonts.notoSansHebrewTextTheme(textTheme);
-      break;
-    case "am": // Amharic
-      baseTextTheme = GoogleFonts.notoSansEthiopicTextTheme(textTheme);
-      break;
-    case "dv": // Divehi
-      baseTextTheme = GoogleFonts.notoSansThaanaTextTheme(textTheme);
-      break;
-    case "zgh": // Amazigh
-      baseTextTheme = GoogleFonts.notoSansTifinaghTextTheme(textTheme);
-      break;
-    default:
-      baseTextTheme = GoogleFonts.notoSansBengaliTextTheme(textTheme);
-  }
-
-  return baseTextTheme;
+  // Avoid GoogleFonts dynamic loaders (can crash offline).
+  // Use base Material text theme and set a bundled fallback family.
+  return textTheme.apply(fontFamily: "NotoSans");
 }
 
 class MyApp extends StatelessWidget {
@@ -292,6 +229,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AudioDownloadCubit()),
           BlocProvider(create: (context) => AyahToHighlight(null)),
           BlocProvider(create: (context) => ReaderUICubit()),
+          BlocProvider(create: (context) => QuranSettingsCubit()),
         ],
 
         child: BlocBuilder<LanguageCubit, MyAppLocalization>(
@@ -302,7 +240,7 @@ class MyApp extends StatelessWidget {
                   designSize: const Size(360, 690),
                   minTextAdapt: true,
                   splitScreenMode: true,
-                  builder: (context, child) {
+                  builder: (_, child) {
                     return MaterialApp(
                       navigatorKey: navigatorKey,
                       debugShowCheckedModeBanner: false,
@@ -315,22 +253,11 @@ class MyApp extends StatelessWidget {
                       ],
                       supportedLocales: AppLocalizations.supportedLocales,
                       onGenerateTitle: (context) => "الفُرقان",
-                      theme: FlexThemeData.light(
-                        scheme: themeState.flexScheme,
-                        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-                        blendLevel: 10,
-                        useMaterial3: true,
-                      ).copyWith(
+                      theme: AppTheme.lightTheme(themeState.flexScheme).copyWith(
                         pageTransitionsTheme: pageTransitionsTheme,
                         textTheme: getTextTheme(languageState.locale, false),
                       ),
-                      darkTheme: FlexThemeData.dark(
-                        scheme: themeState.flexScheme,
-                        surfaceMode: FlexSurfaceMode.highScaffoldLevelSurface,
-                        blendLevel: 12,
-                        useMaterial3: true,
-                        darkIsTrueBlack: true, // OLED/Apple level black
-                      ).copyWith(
+                      darkTheme: AppTheme.darkTheme(themeState.flexScheme).copyWith(
                         pageTransitionsTheme: pageTransitionsTheme,
                         textTheme: getTextTheme(languageState.locale, true),
                       ),
@@ -411,9 +338,9 @@ class _UsageTimeTrackerState extends State<_UsageTimeTracker>
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-        PointerDeviceKind.trackpad,
-        PointerDeviceKind.stylus,
-      };
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+    PointerDeviceKind.stylus,
+  };
 }

@@ -12,10 +12,9 @@ class SegmentedQuranReciterCubit extends Cubit<ReciterInfoModel> {
         (() {
           ReciterInfoModel? fromHive;
           try {
-            final raw = Hive.box("user").get(
-              "last_selected_reciter",
-              defaultValue: null,
-            );
+            final raw = Hive.box(
+              "user",
+            ).get("last_selected_reciter", defaultValue: null);
             if (raw != null) {
               fromHive = ReciterInfoModel.fromMap(
                 Map<String, dynamic>.from(raw),

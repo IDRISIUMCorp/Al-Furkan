@@ -75,9 +75,13 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
 
   // ─── Color helpers ──────────────────────────────────────────
   Color get _glassColor => Theme.of(context).cardColor.withValues(alpha: 0.5);
-  Color get _glassBorder => Theme.of(context).dividerColor.withValues(alpha: 0.1);
-  Color get _textPrimary => Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
-  Color get _textSecondary => Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.6) ?? Colors.grey;
+  Color get _glassBorder =>
+      Theme.of(context).dividerColor.withValues(alpha: 0.1);
+  Color get _textPrimary =>
+      Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
+  Color get _textSecondary =>
+      Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.6) ??
+      Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,10 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
                               duration: const Duration(milliseconds: 400),
                               child: _showPlaylist
                                   ? _buildPlaylistView(
-                                      ayahKeyState, themeState, currentIndex)
+                                      ayahKeyState,
+                                      themeState,
+                                      currentIndex,
+                                    )
                                   : _buildPlayerView(
                                       themeState,
                                       ayahKeyState,
@@ -136,38 +143,38 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
   // ════════════════════════════════════════════════════════════════
   Widget _buildEmptyState(ThemeState themeState) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(32),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: themeState.primary.withValues(alpha: 0.05),
-            ),
-            child: Icon(
-              FluentIcons.headphones_48_regular,
-              size: 72,
-              color: themeState.primary.withValues(alpha: 0.4),
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: themeState.primary.withValues(alpha: 0.05),
+                ),
+                child: Icon(
+                  FluentIcons.headphones_48_regular,
+                  size: 72,
+                  color: themeState.primary.withValues(alpha: 0.4),
+                ),
+              ),
+              const Gap(28),
+              Text(
+                "ابدأ الاستماع الآن",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: _textPrimary,
+                ),
+              ),
+              const Gap(12),
+              Text(
+                "اختر سورة من المصحف لبدء التلاوة",
+                style: TextStyle(fontSize: 15, color: _textSecondary),
+              ),
+            ],
           ),
-          const Gap(28),
-          Text(
-            "ابدأ الاستماع الآن",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-              color: _textPrimary,
-            ),
-          ),
-          const Gap(12),
-          Text(
-            "اختر سورة من المصحف لبدء التلاوة",
-            style: TextStyle(fontSize: 15, color: _textSecondary),
-          ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(duration: 700.ms)
         .scale(begin: const Offset(0.85, 0.85), curve: Curves.easeOutBack);
@@ -266,21 +273,31 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
               child: IntrinsicHeight(
                 child: Column(
                   children: [
-          const Spacer(flex: 1),
-          // ── Album Art ──
-          _buildAlbumArt(themeState, ayahKeyState, currentIndex),
-          const Gap(24),
-          // ── Surah Info ──
-          _buildSurahInfo(ayahKeyState, themeState),
-          const Gap(20),
-          // ── Ayah Display (glassmorphic card) ──
-          _buildAyahDisplay(ayahKeyState, themeState, surahNum, ayahNum),
-          const Spacer(flex: 2),
-          // ── Progress Bar ──
-          _buildProgressBar(themeState),
-          const Gap(16),
-          // ── Controls ──
-          _buildControls(currentIndex, ayahKeyState, l10n, themeState),
+                    const Spacer(flex: 1),
+                    // ── Album Art ──
+                    _buildAlbumArt(themeState, ayahKeyState, currentIndex),
+                    const Gap(24),
+                    // ── Surah Info ──
+                    _buildSurahInfo(ayahKeyState, themeState),
+                    const Gap(20),
+                    // ── Ayah Display (glassmorphic card) ──
+                    _buildAyahDisplay(
+                      ayahKeyState,
+                      themeState,
+                      surahNum,
+                      ayahNum,
+                    ),
+                    const Spacer(flex: 2),
+                    // ── Progress Bar ──
+                    _buildProgressBar(themeState),
+                    const Gap(16),
+                    // ── Controls ──
+                    _buildControls(
+                      currentIndex,
+                      ayahKeyState,
+                      l10n,
+                      themeState,
+                    ),
                     const Gap(16),
                   ],
                 ),
@@ -304,105 +321,107 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
     return BlocBuilder<AudioTabReciterCubit, ReciterInfoModel>(
       builder: (context, reciter) {
         return GestureDetector(
-          onTap: () => _changeReciter(reciter, ayahKeyState, currentIndex),
-          child: AnimatedBuilder(
-            animation: _breatheController,
-            builder: (context, child) {
-              final scale = 1.0 + (_breatheController.value * 0.015);
-              return Transform.scale(scale: scale, child: child);
-            },
-            child: Container(
-              height: size,
-              width: size,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                boxShadow: [
-                  BoxShadow(
-                    color: themeState.primary.withValues(alpha: 0.2),
-                    blurRadius: 50,
-                    spreadRadius: 8,
-                  ),
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 40,
-                    offset: const Offset(0, 20),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    // Image
-                    reciter.img != null
-                        ? CachedNetworkImage(
-                            imageUrl: reciter.img!,
-                            fit: BoxFit.cover,
-                            errorWidget: (_, __, ___) =>
-                                _buildDefaultReciterImage(themeState),
-                          )
-                        : _buildDefaultReciterImage(themeState),
-                    // Gradient overlay at bottom
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: 80,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withValues(alpha: 0.5),
-                            ],
-                          ),
-                        ),
+              onTap: () => _changeReciter(reciter, ayahKeyState, currentIndex),
+              child: AnimatedBuilder(
+                animation: _breatheController,
+                builder: (context, child) {
+                  final scale = 1.0 + (_breatheController.value * 0.015);
+                  return Transform.scale(scale: scale, child: child);
+                },
+                child: Container(
+                  height: size,
+                  width: size,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    boxShadow: [
+                      BoxShadow(
+                        color: themeState.primary.withValues(alpha: 0.2),
+                        blurRadius: 50,
+                        spreadRadius: 8,
                       ),
-                    ),
-                    // Change reciter badge
-                    Positioned(
-                      bottom: 16,
-                      right: 16,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.15),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FluentIcons.mic_sparkle_24_filled,
-                              color: Colors.white.withValues(alpha: 0.9),
-                              size: 14,
-                            ),
-                            const Gap(6),
-                            Text(
-                              "تغيير القارئ",
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.9),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 40,
+                        offset: const Offset(0, 20),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        // Image
+                        reciter.img != null
+                            ? CachedNetworkImage(
+                                imageUrl: reciter.img!,
+                                fit: BoxFit.cover,
+                                errorWidget: (_, __, ___) =>
+                                    _buildDefaultReciterImage(themeState),
+                              )
+                            : _buildDefaultReciterImage(themeState),
+                        // Gradient overlay at bottom
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: 80,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withValues(alpha: 0.5),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        // Change reciter badge
+                        Positioned(
+                          bottom: 16,
+                          right: 16,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.15),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  FluentIcons.mic_sparkle_24_filled,
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  size: 14,
+                                ),
+                                const Gap(6),
+                                Text(
+                                  "تغيير القارئ",
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
+            )
             .animate()
             .fadeIn(duration: 800.ms)
             .scaleXY(begin: 0.8, end: 1.0, curve: Curves.easeOutBack);
@@ -426,7 +445,10 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
   // ════════════════════════════════════════════════════════════════
   //  SURAH INFO
   // ════════════════════════════════════════════════════════════════
-  Widget _buildSurahInfo(AyahKeyManagement ayahKeyState, ThemeState themeState) {
+  Widget _buildSurahInfo(
+    AyahKeyManagement ayahKeyState,
+    ThemeState themeState,
+  ) {
     final surahNum = ayahKeyState.current.split(":")[0].toInt();
     return GestureDetector(
       onTap: () => _jumpToAyah(ayahKeyState),
@@ -529,16 +551,18 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
               textDirection: TextDirection.rtl,
               child: Builder(
                 builder: (context) {
-                  final QuranScriptType scriptType =
-                      context.read<QuranViewCubit>().state.quranScriptType;
-                      
+                  final QuranScriptType scriptType = context
+                      .read<QuranViewCubit>()
+                      .state
+                      .quranScriptType;
+
                   List<String> words = QuranScriptFunction.getWordListOfAyah(
                     scriptType,
                     surahNum.toString(),
                     ayahNum.toString(),
                   ).map((e) => e.toString()).toList();
                   QuranScriptType activeScriptType = scriptType;
-                  
+
                   // Fallback to Uthmani if needed
                   if (words.isEmpty) {
                     activeScriptType = QuranScriptType.uthmani;
@@ -551,21 +575,26 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
 
                   bool isQcfFallback = false;
                   String qcfFontFamily = "QPC_Hafs";
-                  
+
                   // Ultimate Fallback to QCF
                   if (words.isEmpty) {
                     isQcfFallback = true;
                     final ayahKey = "$surahNum:$ayahNum";
                     final pageNumber = getPageNumber(ayahKey) ?? 1;
-                    qcfFontFamily = "QCF_P${pageNumber.toString().padLeft(3, '0')}";
-                    
+                    qcfFontFamily =
+                        "QCF_P${pageNumber.toString().padLeft(3, '0')}";
+
                     String qcfText = qcf.getVerseQCF(
                       surahNum,
                       ayahNum,
                       verseEndSymbol: false,
                     );
-                    
-                    words = qcfText.trim().split(" ").where((w) => w.isNotEmpty).toList();
+
+                    words = qcfText
+                        .trim()
+                        .split(" ")
+                        .where((w) => w.isNotEmpty)
+                        .toList();
                   }
 
                   if (words.isEmpty) return const SizedBox.shrink();
@@ -584,14 +613,16 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
                               index == (words.length - 1) && word.length < 3;
                           String currentWordKey =
                               "$surahNum:$ayahNum:${index + 1}";
-                          bool isHighlight =
-                              playingWordState == currentWordKey;
+                          bool isHighlight = playingWordState == currentWordKey;
 
-                          String fontFamily = isQcfFallback 
-                              ? qcfFontFamily 
-                              : (isLastWord 
-                                  ? "QPC_Hafs" 
-                                  : (activeScriptType == QuranScriptType.uthmani ? "QPC_Hafs" : "AlQuranNeov5x1"));
+                          String fontFamily = isQcfFallback
+                              ? qcfFontFamily
+                              : (isLastWord
+                                    ? "QPC_Hafs"
+                                    : (activeScriptType ==
+                                              QuranScriptType.uthmani
+                                          ? "QPC_Hafs"
+                                          : "AlQuranNeov5x1"));
 
                           return AnimatedDefaultTextStyle(
                             duration: const Duration(milliseconds: 300),
@@ -607,10 +638,11 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
                               shadows: isHighlight
                                   ? [
                                       Shadow(
-                                        color: themeState.primary
-                                            .withValues(alpha: 0.4),
+                                        color: themeState.primary.withValues(
+                                          alpha: 0.4,
+                                        ),
                                         blurRadius: 16,
-                                      )
+                                      ),
                                     ]
                                   : [],
                             ),
@@ -637,7 +669,8 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
             // Translation
             FutureBuilder(
               future: QuranTranslationFunction.getTranslation(
-                  ayahKeyState.current),
+                ayahKeyState.current,
+              ),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const SizedBox.shrink();
@@ -705,44 +738,44 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
     ThemeState themeState,
   ) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        // Previous
-        _ControlButton(
-          icon: FluentIcons.previous_24_filled,
-          size: 28,
-          color: _textPrimary,
-          enabled: currentIndex > 0,
-          onTap: () => _seekPrevious(ayahKeyState, currentIndex),
-        ),
-        // Rewind 5s
-        _ControlButton(
-          icon: Icons.replay_5_rounded,
-          size: 30,
-          color: _textPrimary,
-          enabled: AudioPlayerManager.audioPlayer.audioSource != null,
-          onTap: _rewind5,
-        ),
-        // MAIN PLAY
-        _buildMainPlayButton(themeState, ayahKeyState, currentIndex, l10n),
-        // Forward 5s
-        _ControlButton(
-          icon: Icons.forward_5_rounded,
-          size: 30,
-          color: _textPrimary,
-          enabled: AudioPlayerManager.audioPlayer.audioSource != null,
-          onTap: _forward5,
-        ),
-        // Next
-        _ControlButton(
-          icon: FluentIcons.next_24_filled,
-          size: 28,
-          color: _textPrimary,
-          enabled: currentIndex < (ayahKeyState.ayahList.length - 1),
-          onTap: () => _seekNext(ayahKeyState, currentIndex),
-        ),
-      ],
-    )
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Previous
+            _ControlButton(
+              icon: FluentIcons.previous_24_filled,
+              size: 28,
+              color: _textPrimary,
+              enabled: currentIndex > 0,
+              onTap: () => _seekPrevious(ayahKeyState, currentIndex),
+            ),
+            // Rewind 5s
+            _ControlButton(
+              icon: Icons.replay_5_rounded,
+              size: 30,
+              color: _textPrimary,
+              enabled: AudioPlayerManager.audioPlayer.audioSource != null,
+              onTap: _rewind5,
+            ),
+            // MAIN PLAY
+            _buildMainPlayButton(themeState, ayahKeyState, currentIndex, l10n),
+            // Forward 5s
+            _ControlButton(
+              icon: Icons.forward_5_rounded,
+              size: 30,
+              color: _textPrimary,
+              enabled: AudioPlayerManager.audioPlayer.audioSource != null,
+              onTap: _forward5,
+            ),
+            // Next
+            _ControlButton(
+              icon: FluentIcons.next_24_filled,
+              size: 28,
+              color: _textPrimary,
+              enabled: currentIndex < (ayahKeyState.ayahList.length - 1),
+              onTap: () => _seekNext(ayahKeyState, currentIndex),
+            ),
+          ],
+        )
         .animate()
         .fadeIn(duration: 600.ms, delay: 600.ms)
         .slideY(begin: 0.25, end: 0);
@@ -846,31 +879,38 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 0,
+            ),
             leading: SizedBox(
-               width: 32,
-               height: 32,
-               child: Center(
-                  child: isActive
-                     ? Icon(Icons.play_arrow_rounded,
-                          color: themeState.primary, size: 24)
-                     : Text(
-                          "${index + 1}",
-                          style: TextStyle(
-                            color: _textSecondary.withValues(alpha: 0.6),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
+              width: 32,
+              height: 32,
+              child: Center(
+                child: isActive
+                    ? Icon(
+                        Icons.play_arrow_rounded,
+                        color: themeState.primary,
+                        size: 24,
+                      )
+                    : Text(
+                        "${index + 1}",
+                        style: TextStyle(
+                          color: _textSecondary.withValues(alpha: 0.6),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
                         ),
-               ),
+                      ),
+              ),
             ),
             title: Text(
               "${getSurahNameArabic(surahNum)} ─ الآية $ayahNum",
               style: TextStyle(
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                 fontSize: 15,
-                color: isActive ? themeState.primary : _textPrimary.withValues(alpha: 0.9),
+                color: isActive
+                    ? themeState.primary
+                    : _textPrimary.withValues(alpha: 0.9),
               ),
             ),
             onTap: () {
@@ -879,14 +919,15 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
                   startAyahKey: ayahKeyState.ayahList.first,
                   endAyahKey: ayahKeyState.ayahList.last,
                   isInsideQuran: true,
-                  reciterInfoModel:
-                      context.read<AudioTabReciterCubit>().state,
+                  reciterInfoModel: context.read<AudioTabReciterCubit>().state,
                   instantPlay: true,
                   initialIndex: index,
                 );
               } else {
-                AudioPlayerManager.audioPlayer
-                    .seek(Duration.zero, index: index);
+                AudioPlayerManager.audioPlayer.seek(
+                  Duration.zero,
+                  index: index,
+                );
               }
             },
           ),
@@ -903,25 +944,20 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
     AyahKeyManagement ayahKeyState,
     int currentIndex,
   ) {
-    popupChangeReciter(
-      context,
-      reciter,
-      (ReciterInfoModel newReciter) async {
-        context.read<AudioTabReciterCubit>().changeReciter(newReciter);
-        if (ayahKeyState.ayahList.isNotEmpty) {
-          AudioPlayerManager.playMultipleAyahAsPlaylist(
-            startAyahKey: ayahKeyState.ayahList.first,
-            endAyahKey: ayahKeyState.ayahList.last,
-            isInsideQuran: false,
-            reciterInfoModel: newReciter,
-            initialIndex: currentIndex,
-            instantPlay: AudioPlayerManager.audioPlayer.playing,
-          );
-        }
-        Navigator.pop(context);
-      },
-      isWordByWord: false,
-    );
+    popupChangeReciter(context, reciter, (ReciterInfoModel newReciter) async {
+      context.read<AudioTabReciterCubit>().changeReciter(newReciter);
+      if (ayahKeyState.ayahList.isNotEmpty) {
+        AudioPlayerManager.playMultipleAyahAsPlaylist(
+          startAyahKey: ayahKeyState.ayahList.first,
+          endAyahKey: ayahKeyState.ayahList.last,
+          isInsideQuran: false,
+          reciterInfoModel: newReciter,
+          initialIndex: currentIndex,
+          instantPlay: AudioPlayerManager.audioPlayer.playing,
+        );
+      }
+      Navigator.pop(context);
+    }, isWordByWord: false);
   }
 
   void _jumpToAyah(AyahKeyManagement ayahKeyState) async {
@@ -933,8 +969,9 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
       isAudioPlayer: true,
       onPlaySelected: (ayahKey) {
         String startAyahKey = "${ayahKey.split(":")[0]}:1";
-        String endAyahKey =
-            getEndAyahKeyFromSurahNumber(int.parse(ayahKey.split(":")[0]));
+        String endAyahKey = getEndAyahKeyFromSurahNumber(
+          int.parse(ayahKey.split(":")[0]),
+        );
         int toStartIndex = ayahKey.split(":")[1].toInt() - 1;
         AudioPlayerManager.playMultipleAyahAsPlaylist(
           startAyahKey: startAyahKey,
@@ -942,8 +979,7 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
           isInsideQuran: false,
           instantPlay: true,
           initialIndex: toStartIndex,
-          reciterInfoModel:
-              context.read<AudioTabReciterCubit>().state,
+          reciterInfoModel: context.read<AudioTabReciterCubit>().state,
         );
       },
     );
@@ -955,12 +991,14 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
       if (keys.isEmpty) return;
       if (keys.length == 1) {
         String surahNum = keys.first.split(":")[0];
-        keys = List<String>.from(getListOfAyahKey(
-          startAyahKey: "$surahNum:1",
-          endAyahKey: getEndAyahKeyFromSurahNumber(int.parse(surahNum)),
-        )..removeWhere((e) => e.runtimeType != String));
+        keys = List<String>.from(
+          getListOfAyahKey(
+            startAyahKey: "$surahNum:1",
+            endAyahKey: getEndAyahKeyFromSurahNumber(int.parse(surahNum)),
+          )..removeWhere((e) => e.runtimeType != String),
+        );
       }
-      
+
       AudioPlayerManager.playMultipleAyahAsPlaylist(
         startAyahKey: keys.first,
         endAyahKey: keys.last,
@@ -971,11 +1009,11 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
       );
       return;
     }
-    
+
     if (!AudioPlayerManager.isListening) {
       AudioPlayerManager.startListeningAudioPlayerState();
     }
-    
+
     AudioPlayerManager.audioPlayer.playing
         ? AudioPlayerManager.audioPlayer.pause()
         : AudioPlayerManager.audioPlayer.play();
@@ -988,8 +1026,7 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
           startAyahKey: ayahKeyState.ayahList.first,
           endAyahKey: ayahKeyState.ayahList.last,
           isInsideQuran: false, // Changed from true
-          reciterInfoModel:
-              context.read<AudioTabReciterCubit>().state,
+          reciterInfoModel: context.read<AudioTabReciterCubit>().state,
           instantPlay: true,
           initialIndex: currentIndex - 1,
         );
@@ -1006,8 +1043,7 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
           startAyahKey: ayahKeyState.ayahList.first,
           endAyahKey: ayahKeyState.ayahList.last,
           isInsideQuran: false, // Changed from true
-          reciterInfoModel:
-              context.read<AudioTabReciterCubit>().state,
+          reciterInfoModel: context.read<AudioTabReciterCubit>().state,
           instantPlay: true,
           initialIndex: currentIndex + 1,
         );
@@ -1018,17 +1054,17 @@ class _AudioPageState extends State<AudioPage> with TickerProviderStateMixin {
   }
 
   void _rewind5() {
-    Duration pos = AudioPlayerManager.audioPlayer.position -
-        const Duration(seconds: 5);
-    AudioPlayerManager.audioPlayer
-        .seek(pos < Duration.zero ? Duration.zero : pos);
+    Duration pos =
+        AudioPlayerManager.audioPlayer.position - const Duration(seconds: 5);
+    AudioPlayerManager.audioPlayer.seek(
+      pos < Duration.zero ? Duration.zero : pos,
+    );
   }
 
   void _forward5() {
-    Duration total =
-        AudioPlayerManager.audioPlayer.duration ?? Duration.zero;
-    Duration pos = AudioPlayerManager.audioPlayer.position +
-        const Duration(seconds: 5);
+    Duration total = AudioPlayerManager.audioPlayer.duration ?? Duration.zero;
+    Duration pos =
+        AudioPlayerManager.audioPlayer.position + const Duration(seconds: 5);
     AudioPlayerManager.audioPlayer.seek(pos > total ? total : pos);
   }
 }

@@ -17,10 +17,9 @@ class AyahKeyCubit extends Cubit<AyahKeyManagement> {
           current: Hive.box(
             "user",
           ).get("last_ayah_current", defaultValue: "1:1"),
-          lastScrolledPageNumber: Hive.box("user").get(
-            "last_scrolled_page",
-            defaultValue: null,
-          ),
+          lastScrolledPageNumber: Hive.box(
+            "user",
+          ).get("last_scrolled_page", defaultValue: null),
         ),
       );
 

@@ -40,12 +40,11 @@ class SegmentsInfoModel {
         ayahNumber: json["ayah_number"],
         audioUrl: json["audio_url"],
         duration: json["duration"],
-        segments:
-            json["segments"] == null
-                ? []
-                : List<List<int>>.from(
-                  json["segments"]!.map((x) => List<int>.from(x.map((x) => x))),
-                ),
+        segments: json["segments"] == null
+            ? []
+            : List<List<int>>.from(
+                json["segments"]!.map((x) => List<int>.from(x.map((x) => x))),
+              ),
       );
 
   Map<String, dynamic> toMap() => {
@@ -53,11 +52,10 @@ class SegmentsInfoModel {
     "ayah_number": ayahNumber,
     "audio_url": audioUrl,
     "duration": duration,
-    "segments":
-        segments == null
-            ? []
-            : List<dynamic>.from(
-              segments!.map((x) => List<dynamic>.from(x.map((x) => x))),
-            ),
+    "segments": segments == null
+        ? []
+        : List<dynamic>.from(
+            segments!.map((x) => List<dynamic>.from(x.map((x) => x))),
+          ),
   };
 }

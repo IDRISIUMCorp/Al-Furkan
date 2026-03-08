@@ -4,6 +4,9 @@ import "package:al_quran_v3/l10n/app_localizations.dart";
 import "package:al_quran_v3/src/screen/audio/settings/audio_settings.dart";
 import "package:al_quran_v3/src/screen/quran_script_view/settings/quran_script_settings.dart";
 import "package:al_quran_v3/src/screen/settings/theme_settings.dart";
+import "package:al_quran_v3/src/screen/settings/theme_preview_sheet.dart";
+import "package:al_quran_v3/src/screen/settings/notification_settings_page.dart";
+import "package:al_quran_v3/src/core/unified_quran_settings/quran_settings_bottom_sheet.dart";
 import "package:al_quran_v3/src/widget/theme/theme_icon_button.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -60,6 +63,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   Divider(color: themeState.primaryShade300),
                   const ThemeSettings(),
+                  const Gap(8),
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: TextButton.icon(
+                      onPressed: () => ThemePreviewSheet.show(context),
+                      icon: Icon(
+                        Icons.palette_outlined,
+                        color: themeState.primary,
+                        size: 18,
+                      ),
+                      label: Text(
+                        "معاينة جميع السمات",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: themeState.primary,
+                        ),
+                      ),
+                    ),
+                  ),
                   const Gap(20),
                   Text(
                     appLocalizations.quranStyle,
@@ -71,6 +93,34 @@ class _SettingsPageState extends State<SettingsPage> {
                   Divider(color: themeState.primaryShade300),
                   const Gap(5),
                   const QuranScriptSettings(),
+                  const Gap(12),
+                  ListTile(
+                    onTap: () => QuranSettingsBottomSheet.show(context),
+                    leading: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: themeState.primary.withValues(alpha: 0.10),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.auto_awesome_rounded,
+                        color: themeState.primary,
+                      ),
+                    ),
+                    title: const Text(
+                      "إعدادات المصحف",
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    subtitle: const Text(
+                      "حجم الخط • ثيم المصحف • تجويد • تظليل",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_left_rounded,
+                      color: themeState.primary,
+                    ),
+                  ),
                   const Gap(30),
                   Text(
                     appLocalizations.audioSettings,
@@ -82,6 +132,50 @@ class _SettingsPageState extends State<SettingsPage> {
                   Divider(color: themeState.primaryShade300),
                   const Gap(5),
                   const AudioSettings(),
+                  const Gap(30),
+                  Text(
+                    "الإشعارات",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Divider(color: themeState.primaryShade300),
+                  const Gap(5),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const NotificationSettingsPage(),
+                        ),
+                      );
+                    },
+                    leading: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: themeState.primary.withValues(alpha: 0.10),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.notifications_rounded,
+                        color: themeState.primary,
+                      ),
+                    ),
+                    title: const Text(
+                      "إدارة الإشعارات",
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    subtitle: const Text(
+                      "ختمة • آية اليوم • أذكار",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_left_rounded,
+                      color: themeState.primary,
+                    ),
+                  ),
                   const Gap(30),
                 ],
               ),

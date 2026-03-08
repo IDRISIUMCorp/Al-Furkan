@@ -6,26 +6,15 @@ import "package:flutter/material.dart";
 import "package:path_provider/path_provider.dart";
 import "package:window_manager/window_manager.dart";
 
-// import "package:awesome_notifications/awesome_notifications.dart";
+import "package:al_quran_v3/src/core/notifications/wahy_notification_service.dart";
 
 void hideLoadingIndicator() {
   // no-op
 }
 
 Future<void> initAwesomeNotification() async {
-  // Future enhancement: Implement notifications functionality here also for "Alarm"
-  // await AwesomeNotifications().initialize(null, [
-  //   NotificationChannel(
-  //     channelKey: "prayer_reminder",
-  //     channelName: "Prayer Reminder",
-  //     channelDescription: "This channel is for prayer reminder",
-  //     playSound: true,
-  //     onlyAlertOnce: true,
-  //     groupAlertBehavior: GroupAlertBehavior.Children,
-  //     importance: NotificationImportance.High,
-  //     defaultPrivacy: NotificationPrivacy.Public,
-  //   ),
-  // ], debug: false);
+  await WahyNotificationService.instance.init();
+  await WahyNotificationService.instance.restoreScheduledNotifications();
 }
 
 Future<void> initializePlatform() async {

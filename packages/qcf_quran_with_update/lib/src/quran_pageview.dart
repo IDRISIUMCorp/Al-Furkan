@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:qcf_quran/qcf_quran.dart';
 
@@ -6,6 +8,7 @@ import 'package:qcf_quran/qcf_quran.dart';
 /// - Uses `pageData` to determine surah/verse ranges for each page.
 /// - Renders each verse with `QcfVerse`, which applies the correct per-page font.
 /// - Supports RTL page order via `reverse: true` and `Directionality.rtl`.
+/// - Supports **Auto-Scroll** mode for hands-free reading.
 class PageviewQuran extends StatefulWidget {
   /// 1-based initial page number (1..604)
   final int initialPageNumber;
@@ -53,6 +56,15 @@ class PageviewQuran extends StatefulWidget {
     LongPressStartDetails details,
   )?
   onLongPressDown;
+  
+  /// Whether to render the page using Tajweed colored text.
+  final bool showTajweed;
+
+  /// Callback to get Tajweed words list for a specific verse.
+  final List<String> Function(int surahNumber, int verseNumber)? tajweedWordsBuilder;
+
+  /// Callback to get highlights for a specific verse.
+  final List<HighlightRange> Function(int surahNumber, int verseNumber)? highlightsBuilder;
 
   /// Callback when a verse is tapped.
   final void Function(int surahNumber, int verseNumber)? onTap;
@@ -66,6 +78,15 @@ class PageviewQuran extends StatefulWidget {
 
   /// Custom scroll physics for the PageView (e.g., BouncingScrollPhysics, ClampingScrollPhysics).
   final ScrollPhysics? physics;
+
+  /// Whether auto-scroll is initially enabled.
+  final bool autoScrollEnabled;
+
+  /// Duration between each automatic page turn. Defaults to 30 seconds.
+  final Duration autoScrollInterval;
+
+  /// Called when auto-scroll state changes (started / stopped).
+  final ValueChanged<bool>? onAutoScrollChanged;
 
   const PageviewQuran({
     super.key,
@@ -87,18 +108,64 @@ class PageviewQuran extends StatefulWidget {
     this.onDoubleTap,
     this.onTapDown,
     this.physics,
+    this.autoScrollEnabled = false,
+    this.autoScrollInterval = const Duration(seconds: 30),
+    this.onAutoScrollChanged,
+    this.showTajweed = false,
+    this.tajweedWordsBuilder,
+    this.highlightsBuilder,
   }) : assert(initialPageNumber >= 1 && initialPageNumber <= totalPagesCount);
 
   @override
-  State<PageviewQuran> createState() => _PageviewQuranState();
+  State<PageviewQuran> createState() => PageviewQuranState();
 }
 
-class _PageviewQuranState extends State<PageviewQuran> {
+class PageviewQuranState extends State<PageviewQuran> {
   PageController? _internalController;
 
   PageController get _controller => widget.controller ?? _internalController!;
 
   bool get _ownsController => widget.controller == null;
+
+  // ── Auto-Scroll ──
+  Timer? _autoScrollTimer;
+  bool _autoScrollActive = false;
+
+  /// Programmatic API to toggle auto-scroll from outside.
+  void toggleAutoScroll() {
+    _autoScrollActive ? _stopAutoScroll() : _startAutoScroll();
+  }
+
+  /// Whether auto-scroll is currently running.
+  bool get isAutoScrollActive => _autoScrollActive;
+
+  void _startAutoScroll() {
+    if (_autoScrollActive) return;
+    setState(() => _autoScrollActive = true);
+    widget.onAutoScrollChanged?.call(true);
+    _autoScrollTimer = Timer.periodic(widget.autoScrollInterval, (_) {
+      if (!_controller.hasClients) return;
+      final currentPage = _controller.page?.round() ?? 0;
+      if (currentPage >= totalPagesCount - 1) {
+        _stopAutoScroll();
+        return;
+      }
+      _controller.animateToPage(
+        currentPage + 1,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOutCubic,
+      );
+    });
+  }
+
+  void _stopAutoScroll() {
+    _autoScrollTimer?.cancel();
+    _autoScrollTimer = null;
+    if (_autoScrollActive) {
+      setState(() => _autoScrollActive = false);
+      widget.onAutoScrollChanged?.call(false);
+    }
+  }
 
   @override
   void initState() {
@@ -108,10 +175,22 @@ class _PageviewQuranState extends State<PageviewQuran> {
         initialPage: widget.initialPageNumber - 1,
       );
     }
+    if (widget.autoScrollEnabled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _startAutoScroll());
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant PageviewQuran oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.autoScrollEnabled != oldWidget.autoScrollEnabled) {
+      widget.autoScrollEnabled ? _startAutoScroll() : _stopAutoScroll();
+    }
   }
 
   @override
   void dispose() {
+    _stopAutoScroll();
     if (_ownsController) {
       _internalController?.dispose();
     }
@@ -130,8 +209,8 @@ class _PageviewQuranState extends State<PageviewQuran> {
           controller: _controller,
           reverse: false, // right-to-left paging order
           itemCount: totalPagesCount,
-          onPageChanged: (index) =>
-              widget.onPageChanged?.call(index + 1), // 1-based
+          onPageChanged:
+              (index) => widget.onPageChanged?.call(index + 1), // 1-based
           itemBuilder: (context, index) {
             final pageNumber = index + 1; // 1-based page
             return QcfPage(
@@ -149,6 +228,9 @@ class _PageviewQuranState extends State<PageviewQuran> {
               sp: widget.sp,
               h: widget.h,
               theme: effectiveTheme,
+              showTajweed: widget.showTajweed,
+              tajweedWordsBuilder: widget.tajweedWordsBuilder,
+              highlightsBuilder: widget.highlightsBuilder,
             );
           },
         ),

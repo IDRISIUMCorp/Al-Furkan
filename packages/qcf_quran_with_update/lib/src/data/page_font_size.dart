@@ -1,61 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Dynamic font size helper for Quran pages.
-/// Uses ScreenUtil `.sp` for automatic screen adaptation.
-/// Values adjusted for our designSize(360) vs reference library designWidth(392.7).
-double getFontSize(int pageNumber, BuildContext context) {
-  final media = MediaQuery.of(context);
-  final isPortrait = media.orientation == Orientation.portrait;
-  final shortestSide = media.size.shortestSide;
+/// Calculates the optimal font size for QCF fonts based on the available width.
+/// The [maxWidth] should come from a LayoutBuilder or similar constrained context.
+double getFontSize(int pageNumber, double maxWidth) {
+  // Base scale factor assuming 400 logical pixels width as a baseline for the default sizes
+  double scaleFactor = maxWidth / 400.0;
 
-  // ── 1. Landscape mode ──
-  if (!isPortrait) {
-    return 31.sp;
-  }
+  double pageBaseSize = 23.1; // default
 
-  // ── 2. Tablets & large screens (shortestSide > 600) ──
-  if (shortestSide > 600) {
-    return 13.5.sp;
-  }
-
-  // ── 3. Very small screens (width < 360) ──
-  final screenWidth = media.size.width;
-  if (screenWidth < 360) {
-    return 17.5.sp;
-  }
-
-  // ── 4. First two pages (Fatihah & start of Baqarah) ──
   if (pageNumber == 1 || pageNumber == 2) {
-    return 22.sp;
+    pageBaseSize = 25;
+  } else if (pageNumber == 145 || pageNumber == 585) {
+    pageBaseSize = 22.7;
+  } else if (pageNumber == 532 ||
+      pageNumber == 533 ||
+      pageNumber == 523 ||
+      pageNumber == 577) {
+    pageBaseSize = 22.5;
+  } else if (pageNumber == 116 || pageNumber == 156) {
+    pageBaseSize = 23.4;
+  } else if ([
+    56,
+    57,
+    368,
+    269,
+    372,
+    376,
+    409,
+    435,
+    444,
+    448,
+    527,
+    535,
+    565,
+    566,
+    569,
+    574,
+    578,
+    581,
+    584,
+    587,
+    589,
+    590,
+    592,
+    593,
+    50,
+    568,
+  ].contains(pageNumber)) {
+    pageBaseSize = 23;
+  } else if (pageNumber == 34) {
+    pageBaseSize = 23;
+  } else if (pageNumber == 70) {
+    pageBaseSize = 23.5;
+  } else if (pageNumber == 51 || pageNumber == 501) {
+    pageBaseSize = 23.7;
+  } else if ([576, 567, 577, 371, 446, 447, 581, 575].contains(pageNumber)) {
+    pageBaseSize = 22.8;
   }
 
-  // ── 5. Per-page overrides ──
-  if (pageNumber == 145 || pageNumber == 585) return 20.2.sp;
-  if ([532, 533, 523, 577].contains(pageNumber)) return 20.sp;
-  if (pageNumber == 116 || pageNumber == 156) return 20.8.sp;
-
-  const size23Pages = [
-    56, 57, 368, 269, 372, 376, 409, 435, 444, 448, 527, 535,
-    565, 566, 569, 574, 575, 578, 581, 584, 587, 589, 590, 592, 593, 50, 568, 34,
-  ];
-  if (size23Pages.contains(pageNumber)) return 20.4.sp;
-
-  if (pageNumber == 70) return 20.8.sp;
-  if (pageNumber == 51 || pageNumber == 501) return 21.sp;
-
-  const size228Pages = [576, 567, 371, 446, 447];
-  if (size228Pages.contains(pageNumber)) return 20.3.sp;
-
-  // ── 6. Default ──
-  return 20.5.sp;
+  // Calculate scaled size and clamp it to reasonable bounds (10 to 150)
+  return (pageBaseSize * scaleFactor).clamp(10.0, 150.0);
 }
 
+// Deprecated: Kept for backwards compatibility but not used in core qcf widgets anymore.
 enum ScreenType { small, medium, large }
 
 ScreenType getScreenType(BuildContext context) {
-  final double screenWidth = MediaQuery.sizeOf(context).width;
-
+  final double screenWidth = MediaQuery.of(context).size.width;
   if (screenWidth < 360) {
     return ScreenType.small;
   } else if (screenWidth >= 360 && screenWidth < 600) {
@@ -64,4 +75,3 @@ ScreenType getScreenType(BuildContext context) {
     return ScreenType.large;
   }
 }
-

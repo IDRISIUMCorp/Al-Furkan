@@ -6,15 +6,14 @@ import "package:al_quran_v3/src/core/audio/model/audio_player_position_model.dar
 import "package:al_quran_v3/src/core/audio/model/recitation_info_model.dart";
 import "package:al_quran_v3/src/utils/quran_resources/quran_script_function.dart";
 import "package:al_quran_v3/src/widget/quran_script/model/script_info.dart";
-import "package:al_quran_v3/src/widget/quran_script/script_view/tajweed_view/tajweed_text_preser.dart";
 import "package:al_quran_v3/src/screen/collections/collection_page.dart";
 import "package:al_quran_v3/src/screen/collections/models/note_collection_model.dart";
 import "package:al_quran_v3/src/screen/collections/models/pinned_collection_model.dart";
-import "package:dartx/dartx.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:fluentui_system_icons/fluentui_system_icons.dart";
 import "package:hive_ce_flutter/hive_flutter.dart";
+import "package:qcf_quran/qcf_quran.dart";
 
 import "../../../../theme/controller/theme_cubit.dart";
 import "../../../../theme/controller/theme_state.dart";
@@ -113,7 +112,10 @@ class TajweedPageRenderer extends StatelessWidget {
                           children:
                               List.generate(words.length, (index) {
                                 final span = parseTajweedWord(
+                                  wordWithTajweed: words[index],
                                   wordIndex: index,
+                                  isLight: !isDark,
+                                  enableTajweed: true, // TODO: Toggle this later
                                   baseStyle: TextStyle(
                                     fontSize: baseTextStyle?.fontSize ?? 24,
                                     fontFamily:
@@ -127,11 +129,8 @@ class TajweedPageRenderer extends StatelessWidget {
                                             ? themeState.primaryShade300
                                             : null,
                                   ),
-                                  surahNumber: ayahKey.split(":").first.toInt(),
-                                  ayahNumber: ayahKey.split(":").last.toInt(),
-                                  skipWordTap: false,
-                                  words: List<String>.from(words),
-                                  context: context,
+                                  highlights: (highlightingWord == "$ayahKey:${index + 1}" && enableWordByWordHighlight == true) ? [HighlightRange(wordIndex: index, color: themeState.primaryShade300)] : null,
+                                  onTap: () {},
                                 );
 
                                 final bool isLast = index == (words.length - 1);

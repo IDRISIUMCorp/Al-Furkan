@@ -32,7 +32,10 @@ class Responsive {
   }
 
   /// Get safe bottom sheet height (never exceeds 90% of screen)
-  static double safeSheetHeight(BuildContext context, {double fraction = 0.86}) {
+  static double safeSheetHeight(
+    BuildContext context, {
+    double fraction = 0.86,
+  }) {
     final height = MediaQuery.of(context).size.height;
     return (height * fraction).clamp(300.0, height * 0.95);
   }
@@ -60,7 +63,8 @@ class Responsive {
 /// A responsive wrapper that rebuilds with screen metrics.
 /// Use for content that must adapt to orientation/size changes.
 class ResponsiveBuilder extends StatelessWidget {
-  final Widget Function(BuildContext context, BoxConstraints constraints) builder;
+  final Widget Function(BuildContext context, BoxConstraints constraints)
+  builder;
 
   const ResponsiveBuilder({super.key, required this.builder});
 
